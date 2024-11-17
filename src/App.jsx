@@ -1,14 +1,19 @@
-// import "./index.css";
+import Card from "./component/Card.jsx";
+import "./index.css";
 
 // import Header from "./Header";
 
 function App() {
-  // const [count, setCount] = useState(0);
-
   return (
-    <div className="flex w-screen items-center justify-center h-screen bg-blue-500">
-      <h1 className="text-4xl font-bold text-white">Hello, Tailwind CSS!</h1>
-    </div>
+    <>
+      <h1 className="text-3xl bg-green-300 p-3 rounded-md">
+        Vite With TailwindCSS
+      </h1>
+      <Card userName="Sarah Dayan"></Card>
+      <Card userName="Json" post="Data Enginner"></Card>
+      <Card userName="Jack" post="BoCon"></Card>
+      <Card></Card>
+    </>
   );
 }
 
