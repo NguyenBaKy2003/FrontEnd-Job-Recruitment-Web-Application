@@ -14,8 +14,8 @@ import Layout from "./Layout";
 
 // import User from "./component/User/User";
 import Company from "./component/Company/Company";
-import GetStart from "./component/GetStart/GetStart";
-import Login from "./component/Login/Login";
+import SignUp from "./component/DangKy/SignUp";
+import GetStart from "./component/Login/Login";
 import Support from "./component/Support/Support";
 
 const router = createBrowserRouter(
@@ -27,7 +27,7 @@ const router = createBrowserRouter(
       <Route path="/company" element={<Company></Company>}></Route>
       <Route path="/support" element={<Support></Support>}></Route>
 
-      <Route path="/login" element={<Login></Login>}></Route>
+      <Route path="/signup" element={<SignUp></SignUp>}></Route>
       <Route path="/getstarted" element={<GetStart></GetStart>}></Route>
     </Route>
   )
