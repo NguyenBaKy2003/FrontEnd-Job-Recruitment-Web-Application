@@ -18,13 +18,13 @@ function Header() {
             <Link
               to="/login"
               className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">
-              Log In
+              Đăng Ký
             </Link>
             <Link
               to="/getstarted"
               className="text-white
-              bg-orange-700  hover:bg-orange-800 focus:ring-4 focus:ring-organe-300  font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none  ">
-              Get started
+              bg-orange-500  hover:bg-orange-600 focus:ring-4 focus:ring-organe-300  font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none  ">
+              Đăng Nhập
             </Link>
           </div>
           <div
@@ -40,7 +40,7 @@ function Header() {
                   lg:hover:bg-transparent
                   lg:border-0 hover:text-orange-700`
                   }>
-                  Home
+                  Trang Chủ
                 </NavLink>
               </li>
               <li>
@@ -52,7 +52,19 @@ function Header() {
                   lg:hover:bg-transparent
                   lg:border-0 hover:text-orange-700`
                   }>
-                  About
+                  Tìm Việc
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/company"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Công Ty
                 </NavLink>
               </li>
               <li>
@@ -64,31 +76,20 @@ function Header() {
                   lg:hover:bg-transparent
                   lg:border-0 hover:text-orange-700`
                   }>
-                  Contact
+                  Liên Hệ
                 </NavLink>
               </li>
+
               <li>
                 <NavLink
-                  to="/github"
+                  to="/support"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
                   ${isActive ? "text-orange-700" : "text-gray-7000"}
                   lg:hover:bg-transparent
                   lg:border-0 hover:text-orange-700`
                   }>
-                  Github
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/user"
-                  className={({ isActive }) =>
-                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
-                  }>
-                  User
+                  Trợ Giúp
                 </NavLink>
               </li>
             </ul>
