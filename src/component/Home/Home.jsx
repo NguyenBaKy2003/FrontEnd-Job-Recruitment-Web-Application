@@ -49,7 +49,7 @@ function Home() {
         </div>
 
         {/* Search Bar */}
-        <div className="relative  mt-8 mx-auto max-w-4xl my-6 px-4 sm:px-6 lg:px-8">
+        <div className="relative  mt-6 mb-12 mx-auto max-w-4xl  px-4 sm:px-6 lg:px-8">
           <div className="bg-white shadow-lg rounded-md flex">
             <input
               type="text"
