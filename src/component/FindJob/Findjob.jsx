@@ -49,7 +49,7 @@ function Findjob() {
   ];
   return (
     <div className=" py-0 bg-white">
-      <div className="  content-baseline py-16 m-auto px-3 text-gray-600  md:px-16 xl:px-80  bg-orange-300 ">
+      <div className="  content-baseline py-16 m-auto px-3 text-gray-600  md:px-16 xl:px-64  bg-orange-300 ">
         <h1 className=" text-3xl text-black/100 mb-5 font-medium ">Tìm Kiếm</h1>
         <form action="" className="flex  flex-col gap-6">
           <div className="w-full rounded-xl flex">

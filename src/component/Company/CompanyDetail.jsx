@@ -46,8 +46,8 @@ const CompanyDetail = () => {
       <p className="mt-4">{company.description}</p>
       <h2 className="text-2xl font-semibold mt-6">Open Positions</h2>
       <ul className="list-disc pl-5">
-        {company.jobs.map((job, index) => (
-          <li key={index} className="mt-1">
+        {company.jobs.map((job) => (
+          <li key={job.id} className="mt-1">
             {job}
           </li>
         ))}

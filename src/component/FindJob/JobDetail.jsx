@@ -73,8 +73,8 @@ const JobDetail = () => {
       <div className="mt-6">
         <h2 className="text-2xl font-semibold">Tags</h2>
         <ul className="list-disc pl-5">
-          {job.tags.map((tag, index) => (
-            <li key={index} className="mt-1">
+          {job.tags.map((tag) => (
+            <li key={tag.id} className="mt-1">
               {tag}
             </li>
           ))}
