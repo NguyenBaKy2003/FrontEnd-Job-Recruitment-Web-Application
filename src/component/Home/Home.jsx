@@ -21,7 +21,7 @@ const companies = [
     name: "Công ty Tiki",
     location: "Đà Nẵng, Việt Nam",
     jobs: "20 công việc",
-    logo: "https://via.placeholder.com/150",
+    logo: "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
   },
 ];
 
