@@ -18,15 +18,22 @@ import Login from "./component/Login/Login";
 import SignUp from "./component/SignUp/SignUp";
 import Support from "./component/Support/Support";
 import Contact from "./component/Contact/Contact";
+import CompanyDetail from "./component/Company/CompanyDetail";
+import JobDetail from "./component/FindJob/JobDetail";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Layout></Layout>}>
       <Route path="home" element={<Home></Home>}></Route>
       <Route path="/findjob" element={<FindJob></FindJob>}></Route>
+      <Route path="/findjob/:jobId" element={<JobDetail></JobDetail>}></Route>
       <Route path="/contact" element={<Contact></Contact>}></Route>
 
       <Route path="/company" element={<Company></Company>}></Route>
+      <Route
+        path="/company/:companyId"
+        element={<CompanyDetail></CompanyDetail>}></Route>
+
       <Route path="/support" element={<Support></Support>}></Route>
       <Route path="/signup" element={<SignUp></SignUp>}></Route>
       <Route path="/login" element={<Login></Login>}></Route>

@@ -1,5 +1,6 @@
 // import React from "react";
 
+import { Link } from "react-router-dom";
 import Company from "../Home/Company";
 function CompanyAll() {
   const companies = [
@@ -32,7 +33,9 @@ function CompanyAll() {
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {companies.map((company) => (
-          <Company key={company.id} {...company} />
+          <Link key={company.id} to={`/company/${company.id}`}>
+            <Company {...company} />
+          </Link>
         ))}
       </div>
     </div>
