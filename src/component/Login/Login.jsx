@@ -38,7 +38,7 @@ function Login() {
         </form>
         <p className="text-center text-gray-600 mt-4">
           Chưa có tài khoản?{" "}
-          <Link to="/login" className="text-orange-500 hover:underline">
+          <Link to="/signup" className="text-orange-500 hover:underline">
             Đăng ký ngay
           </Link>
         </p>
