@@ -2,13 +2,17 @@
 import { Link } from "react-router-dom";
 function SignUp() {
   return (
-    <>
-      <div className="">
-        <div className=""></div>
-        <div className=""></div>
+    // <>
+    <div className="flex flex-col lg:flex-row min-h-screen">
+      <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-50">
+        <img
+          src="https://itviec.com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
+          className="w-7/12 sm:w-10/12 md:w-8/12"
+          alt="Employer"
+        />
       </div>
 
-      <div className="min-h-screen flex items-center justify-center bg-blue-50">
+      <div className="-full lg:w-1/2 flex items-center justify-center bg-blue-50 p-6">
         <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
           <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
             Đăng Ký
@@ -61,7 +65,8 @@ function SignUp() {
           </p>
         </div>
       </div>
-    </>
+    </div>
+    // </>
   );
 }
 

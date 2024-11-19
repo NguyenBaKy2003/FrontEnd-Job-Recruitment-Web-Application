@@ -67,28 +67,28 @@ function Findjob() {
 
           <div className="flex w-full gap-3 justify-between flex-row ">
             <select className=" w-1/4 outline-none " name="filter1">
-              <option value="">Select Option 1</option>
+              <option value="">Tất cả địa điểm</option>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
               <option value="option4">Option 4</option>
             </select>
             <select className="w-1/4 outline-none " name="filter2">
-              <option value="">Select Option 2</option>
+              <option value="">Tất cả cấp bậc</option>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
               <option value="option4">Option 4</option>
             </select>
             <select className="w-1/4 outline-none " name="filter3">
-              <option value="">Select Option 3</option>
+              <option value="">Tất cả các loại công ty</option>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
               <option value="option4">Option 4</option>
             </select>
             <select className="w-1/4  outline-none  " name="filter4">
-              <option value="">Select Option 4</option>
+              <option value="">Tất cả các loại hợp đồng</option>
               <option value="option1">Option 1</option>
               <option value="option2">Option 2</option>
               <option value="option3">Option 3</option>
