@@ -52,15 +52,15 @@ function Findjob() {
       <div className="  content-baseline py-16 m-auto px-3 text-gray-600  md:px-16 xl:px-64  bg-orange-300 ">
         <h1 className=" text-3xl text-black/100 mb-5 font-medium ">Tìm Kiếm</h1>
         <form action="" className="flex  flex-col gap-6">
-          <div className="w-full rounded-xl flex">
+          <div className="w-full gap-3  flex">
             <input
               type="text"
-              className="w-full max-sm:text-sm  max-sm:px-3 p-4 outline-none"
+              className="w-full rounded-xl max-sm:text-sm  max-sm:px-3 p-4 outline-none"
               placeholder="Tìm kiếm theo các Kỹ Năng, Vị Trí, Công Ty..."
               name=""
               id=""
             />
-            <button className="w-2/6 bg-orange-500 text-white font-bold py-3  max-sm:text-sm  max-sm:px-1  rounded-r-md hover:bg-orange-600 ">
+            <button className="w-2/6 bg-orange-500 rounded-xl text-white font-bold py-3  max-sm:text-sm  max-sm:px-1  rounded-r-md hover:bg-orange-600 ">
               Tìm kiếm
             </button>
           </div>
@@ -104,7 +104,7 @@ function Findjob() {
           </div>
         </form>
       </div>
-      <div className="p-4 my-12">
+      <div className="p-4 container my-12 mx-auto">
         <h2 className="text-3xl font-bold text-center mb-6">
           <span> {jobs.length}</span> <span>Công việc mới Nổi Bật</span>
         </h2>

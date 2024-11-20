@@ -27,7 +27,7 @@ function CompanyAll() {
     },
   ];
   return (
-    <div className="py-10 px-3">
+    <div className="py-10 container mx-auto px-3">
       <h2 className="text-3xl font-bold text-center mb-6">
         Các Công Ty Tuyển Dụng Nổi Bật
       </h2>

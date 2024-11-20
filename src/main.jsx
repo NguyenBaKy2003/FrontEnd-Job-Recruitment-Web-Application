@@ -20,6 +20,7 @@ import Support from "./component/Support/Support";
 import Contact from "./component/Contact/Contact";
 import CompanyDetail from "./component/Company/CompanyDetail";
 import JobDetail from "./component/FindJob/JobDetail";
+import About from "./component/About/About";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,7 +34,7 @@ const router = createBrowserRouter(
       <Route
         path="/company/:companyId"
         element={<CompanyDetail></CompanyDetail>}></Route>
-
+      <Route path="/about" element={<About></About>}></Route>
       <Route path="/support" element={<Support></Support>}></Route>
       <Route path="/signup" element={<SignUp></SignUp>}></Route>
       <Route path="/login" element={<Login></Login>}></Route>
