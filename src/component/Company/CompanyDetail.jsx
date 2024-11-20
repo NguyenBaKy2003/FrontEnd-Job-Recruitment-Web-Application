@@ -2,7 +2,8 @@
 import { useParams } from "react-router-dom";
 
 const CompanyDetail = () => {
-  const { companyId } = useParams(); // Lấy ID công ty từ URL
+  const { companyId } = useParams();
+  // Lấy ID công ty từ URL
 
   // Giả lập dữ liệu chi tiết công ty
   const companies = [
