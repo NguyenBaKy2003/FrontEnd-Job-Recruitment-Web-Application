@@ -1,23 +1,23 @@
 // import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Footer from "./component/Footer/Footer.jsx";
-import Header from "./component/Header/Header.jsx";
-import Home from "./component/Home/Home.jsx";
+import FooterEm from "./pages/FooterEm.jsx";
+import HeaderEm from "./pages/HeaderEm.jsx";
+import HomeEm from "./pages/HomeEm.jsx";
 // import HeaderEmployes from "./pages/Employers/HeaderEmployes.jsx";
 
-function Layout() {
+function LayoutEmployes() {
   const location = useLocation();
 
   return (
     <div className="">
-      <Header></Header>
+      <HeaderEm></HeaderEm>
       <main>
         <Outlet></Outlet>
-        {location.pathname === "/" && <Home></Home>}
+        {location.pathname === "/" && <HomeEm />}
       </main>
-      <Footer></Footer>
+      <FooterEm></FooterEm>
     </div>
   );
 }
 
-export default Layout;
+export default LayoutEmployes;
