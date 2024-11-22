@@ -4,12 +4,12 @@ function Footer() {
   return (
     <footer className="bg-white  border-y">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
+        <div className="md:flex  md:justify-between">
           <div className="mb-6 md:mb-0">
-            <Link to="/" className="flex items-center">
+            <Link to="/" className="flex   items-center">
               <img
-                src="https://alexharkness.com/wp-content/uploads/2020/06/logo-2.png"
-                className="mr-3 h-16"
+                src="https://api.logo.com/api/v2/images?logo=lg_lYJ7atQQFci30xZlBo&format=webp&width=2000&height=1500&fit=contain&quality=100&margins=500&u=2024-11-22T11%3A02%3A05.864Z"
+                className="mr-3 h-28 "
                 alt="Logo"
               />
             </Link>

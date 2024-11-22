@@ -79,8 +79,8 @@ function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col md:flex-row items-center">
           <div className="text-center md:text-left md:w-1/2">
             <h1 className="text-3xl sm:text-5xl font-bold text-gray-800 leading-tight">
-              Find the most exciting <br />
-              <span className="text-blue-600">startup jobs</span>
+              Tìm công việc phù hợp nhất với bạn <br />
+              <span className="text-blue-600 ">Bắt đầu thôi!</span>
             </h1>
           </div>
           <div className="mt-8 md:mt-0 md:w-1/2 flex justify-center">
@@ -94,7 +94,7 @@ function Home() {
 
         {/* Search Bar */}
         <div className="relative mb-12 mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <div className="bg-white shadow-lg rounded-md flex">
+          <div className="bg-white shadow-lg rounded-md flex  ">
             <input
               type="text"
               placeholder="Job Title or keyword"

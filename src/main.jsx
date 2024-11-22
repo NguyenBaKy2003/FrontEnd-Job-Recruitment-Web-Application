@@ -6,7 +6,6 @@ import Home from "./component/Home/Home";
 import "./index.css"; // Import Tailwind CSS tại đây
 import Layout from "./Layout";
 
-// import User from "./component/User/User";
 import About from "./component/About/About";
 import Company from "./component/Company/CompanyAll";
 import CompanyDetail from "./component/Company/CompanyDetail";
