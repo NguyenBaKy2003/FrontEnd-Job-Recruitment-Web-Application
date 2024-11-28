@@ -1,6 +1,35 @@
 // import React from "react";
-
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import ChoiseService from "../Service/ChoiseService";
 function HomeEm() {
+  const [fullName, setFullName] = useState("");
+  const [workTitle, setWorkTitle] = useState("");
+  const [workEmail, setWorkEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [companyLocation, setCompanyLocation] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [skills, setSkills] = useState("");
+  const [yearsOfExperience, setYearsOfExperience] = useState("");
+  const [isAgreed, setIsAgreed] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+    console.log({
+      fullName,
+      workTitle,
+      workEmail,
+      phoneNumber,
+      companyName,
+      companyLocation,
+      websiteUrl,
+      skills,
+      yearsOfExperience,
+      isAgreed,
+    });
+  };
   return (
     <main>
       <div className="flex gap-6 flex-wrapflex flex-col lg:flex-row min-h-screen">
@@ -19,12 +48,236 @@ function HomeEm() {
             With in-depth understanding in the IT sector and specialized skills,
             we can help you reach and hire the best IT candidates.
           </h3>
-          <a href="/" className=" w-full">
+          <a href="#contact" className=" w-full">
             <button className="w-full text-white p-3 text-2xl md:w-2/5 bg-red-500 rounded-3xl">
               Contact Now
             </button>
           </a>
         </div>
+      </div>
+      <div className="bg-red-900 min-h-screen flex justify-center items-center py-10">
+        <div className="bg-white w-full max-w-2xl p-8 rounded-lg shadow-lg">
+          <h1 className="text-3xl font-bold text-center text-red-500 mb-6">
+            Let’s find your IT Talents
+          </h1>
+          <p className="text-center text-gray-600 mb-4">
+            Leave your contact so our Customer Love team can support you.
+          </p>
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Contact Information */}
+            <div>
+              <label
+                htmlFor="fullName"
+                className="block text-sm font-semibold text-gray-600">
+                Full name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your full name"
+              />
+            </div>
+
+            <div className="flex space-x-4">
+              <div className="w-1/2">
+                <label
+                  htmlFor="workTitle"
+                  className="block text-sm font-semibold text-gray-600">
+                  Work title <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="workTitle"
+                  name="workTitle"
+                  value={workTitle}
+                  onChange={(e) => setWorkTitle(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your work title"
+                />
+              </div>
+              <div className="w-1/2">
+                <label
+                  htmlFor="phoneNumber"
+                  className="block text-sm font-semibold text-gray-600">
+                  Phone number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor="workEmail"
+                className="block text-sm font-semibold text-gray-600">
+                Work email <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="workEmail"
+                name="workEmail"
+                value={workEmail}
+                onChange={(e) => setWorkEmail(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your work email"
+              />
+            </div>
+
+            {/* Company Information */}
+            <div>
+              <label
+                htmlFor="companyName"
+                className="block text-sm font-semibold text-gray-600">
+                Company name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="companyName"
+                name="companyName"
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your company name"
+              />
+            </div>
+
+            <div className="flex space-x-4">
+              <div className="w-1/2">
+                <label
+                  htmlFor="companyLocation"
+                  className="block text-sm font-semibold text-gray-600">
+                  Company location
+                </label>
+                <input
+                  type="text"
+                  id="companyLocation"
+                  name="companyLocation"
+                  value={companyLocation}
+                  onChange={(e) => setCompanyLocation(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter company location"
+                />
+              </div>
+              <div className="w-1/2">
+                <label
+                  htmlFor="websiteUrl"
+                  className="block text-sm font-semibold text-gray-600">
+                  Website URL
+                </label>
+                <input
+                  type="url"
+                  id="websiteUrl"
+                  name="websiteUrl"
+                  value={websiteUrl}
+                  onChange={(e) => setWebsiteUrl(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter website URL"
+                />
+              </div>
+            </div>
+
+            {/* Skills and Experience */}
+            <div>
+              <label
+                htmlFor="skills"
+                className="block text-sm font-semibold text-gray-600">
+                Skills <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="skills"
+                name="skills"
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your skills (comma separated)"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="yearsOfExperience"
+                className="block text-sm font-semibold text-gray-600">
+                Years of Experience <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                id="yearsOfExperience"
+                name="yearsOfExperience"
+                value={yearsOfExperience}
+                onChange={(e) => setYearsOfExperience(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter years of experience"
+              />
+            </div>
+
+            {/* Terms and Conditions */}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="agree"
+                name="agree"
+                checked={isAgreed}
+                onChange={() => setIsAgreed(!isAgreed)}
+                required
+                className="mr-2"
+              />
+              <label htmlFor="agree" className="text-sm text-gray-600">
+                I have read and agree to{" "}
+                <Link to="/" className="text-blue-500">
+                  Terms & Conditions
+                </Link>{" "}
+                and{" "}
+                <Link to="/" className="text-blue-500">
+                  Privacy Policy
+                </Link>
+                .
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <div className="mt-6">
+              <button
+                type="submit"
+                className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none">
+                Contact me
+              </button>
+            </div>
+          </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Already have an Employer account?{" "}
+              <Link
+                to="/employes/loginEm"
+                className="text-blue-500 hover:underline">
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="">
+        <ChoiseService></ChoiseService>
       </div>
     </main>
   );

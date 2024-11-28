@@ -1,9 +1,9 @@
 const people = [
   {
-    name: "Leslie Alexander",
+    name: "Nguyen Ba Ky",
     role: "Co-Founder / CEO",
     imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+      "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/344542573_1016776169700186_59734981782926054_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=apXILMRFJS8Q7kNvgGwgmXC&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=AmmtbNjCGHfy6gWxGV6FvYd&oh=00_AYCKe39B1sBqYE9AoGMoydeypUT-a_2cnXbZBQ-na9CbMQ&oe=674E3E88",
   },
 ];
 

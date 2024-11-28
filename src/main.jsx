@@ -18,6 +18,7 @@ import Support from "./component/Support/Support";
 import LayoutEmployes from "./LayoutEmployes";
 import LoginEm from "./pages/LoginEm/LoginEm";
 import SignupEm from "./pages/SignUpEm/SignUpEm";
+import Payment from "./pages/Payment/Payment";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/employes" element={<LayoutEmployes />}>
           <Route path="loginEm" element={<LoginEm />} />
           <Route path="signupEm" element={<SignupEm />} />
+          <Route path="checkout" element={<Payment></Payment>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

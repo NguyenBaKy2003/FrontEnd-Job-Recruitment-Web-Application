@@ -51,7 +51,7 @@ Với mong muốn đem đến cho thị trường những sản phẩm - dịch 
       mission:
         "Chúng tôi mong muốn trở thành tập đoàn đa ngành hàng đầu ở Việt Nam và quốc tế.",
       coreValues: "Sáng tạo, trách nhiệm, bền vững.",
-      logo: "https://th.bing.com/th/id/OIP.YoRFkWJUuc2WMubY7hEXZAHaD2?rs=1&pid=ImgDetMain",
+      logo: "https://th.bing.com/th/id/R.3dba36ee18ea9a3491117ebc60799014?rik=vGUimhiKV%2fTvVQ&riu=http%3a%2f%2fashui.com%2fawards%2fwp-content%2fuploads%2f2015%2f08%2fVingroup-1120x630.jpg&ehk=zHxGfLz8Vuk3caLKxc3anG1NJ56drSa9%2fdR5Vf4Fcik%3d&risl=&pid=ImgRaw&r=0",
       founded: 1993,
       employees: 50000,
       industries: ["Bất động sản", "Công nghệ", "Y tế"],
@@ -76,7 +76,7 @@ Với mong muốn đem đến cho thị trường những sản phẩm - dịch 
       mission:
         "Tiki cam kết mang lại sự hài lòng tối đa cho khách hàng thông qua các sản phẩm chính hãng và dịch vụ tận tâm.",
       coreValues: "Khách hàng là trọng tâm, đổi mới, sáng tạo.",
-      logo: "https://upload.wikimedia.org/wikipedia/commons/9/94/Tiki_Logo_2021.png",
+      logo: "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
       founded: 2010,
       employees: 5000,
       industries: ["Thương mại điện tử", "Logistics", "Tiêu dùng"],
@@ -89,13 +89,10 @@ Với mong muốn đem đến cho thị trường những sản phẩm - dịch 
         "Cơ hội tham gia các hoạt động ngoại khóa, teambuilding.",
       ],
     },
-    // Các công ty khác...
   ];
 
-  // Tìm công ty theo ID
   const company = companies.find((c) => c.id === companyId);
 
-  // Xử lý trường hợp công ty không tồn tại
   if (!company) {
     return (
       <div className="text-center mt-20">

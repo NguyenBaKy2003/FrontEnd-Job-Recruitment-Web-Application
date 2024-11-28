@@ -8,42 +8,42 @@ function Findjob() {
   const jobs = [
     {
       id: 1,
-      title: "Backend Engineer (Java/Kotlin/Spring)",
-      company: "NAVER VIETNAM",
+      title: "Frontend Developer (ReactJS)",
+      company: "Tiki Corporation",
       companyImg:
-        "https://th.bing.com/th/id/OIP.9xlg6KvPhMu4A86cgf8AhAAAAA?rs=1&pid=ImgDetMain",
+        "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
       location: "Ho Chi Minh",
-      tags: ["Spring", "Kotlin", "Java"],
-      postedTime: "Posted 2 hours ago",
+      tags: ["ReactJS", "JavaScript", "UI/UX"],
+      postedTime: "Posted 3 hours ago",
     },
     {
       id: 2,
-      title: "Middle/Senior Java Developer",
-      company: "MB Ageas Life",
-      location: "Ha Noi",
+      title: "Fullstack Developer",
+      company: "FPT Software",
+      location: "Da Nang",
       companyImg:
-        "https://th.bing.com/th/id/R.f66d5e0336baea4212a7a2d475ec2dda?rik=kUn1ej5rHMEo5Q&pid=ImgRaw&r=0",
-      tags: ["Java", "Database", "Spring"],
-      postedTime: "Posted 6 hours ago",
+        "https://th.bing.com/th/id/OIP.mLTCQL88yAT8z5EiSsyWswHaFQ?rs=1&pid=ImgDetMain",
+      tags: ["Node.js", "ReactJS", "Microservices"],
+      postedTime: "Posted 5 hours ago",
     },
     {
       id: 3,
-      title: "Senior Java Engineer",
-      company: "Global Fashion Group",
-      location: "Ho Chi Minh",
+      title: "Senior Backend Developer",
+      company: "Vingroup",
+      location: "Ha Noi",
       companyImg:
-        "https://d53bpfpeyyyn7.cloudfront.net/Pictures/1024x536/P/web/o/w/p/gfgfinal_266483.jpg",
-      tags: ["Java", "SQL", "Spring"],
+        "https://th.bing.com/th/id/R.3dba36ee18ea9a3491117ebc60799014?rik=vGUimhiKV%2fTvVQ&riu=http%3a%2f%2fashui.com%2fawards%2fwp-content%2fuploads%2f2015%2f08%2fVingroup-1120x630.jpg&ehk=zHxGfLz8Vuk3caLKxc3anG1NJ56drSa9%2fdR5Vf4Fcik%3d&risl=&pid=ImgRaw&r=0",
+      tags: ["Java", "Spring Boot", "MySQL"],
       postedTime: "Posted 7 hours ago",
     },
     {
       id: 4,
-      title: "Senior Java Developer",
-      company: "Dai-ichi Life Vietnam",
+      title: "Mobile App Developer",
+      company: "Tiki Corporation",
       location: "Ho Chi Minh",
       companyImg:
-        "https://th.bing.com/th/id/OIP.whjkwGST8X_OVblReI4n6QHaHa?rs=1&pid=ImgDetMain",
-      tags: ["Java", "MVC", "J2EE"],
+        "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
+      tags: ["Flutter", "iOS", "Android"],
       postedTime: "Posted 9 hours ago",
     },
   ];
@@ -68,31 +68,27 @@ function Findjob() {
           <div className="flex w-full gap-3 justify-between flex-row ">
             <select className=" w-1/4 outline-none " name="filter1">
               <option value="">Tất cả địa điểm</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-              <option value="option4">Option 4</option>
+              <option value="HCM">Ho Chi Minh</option>
+              <option value="HN">Ha Noi</option>
+              <option value="DN">Da Nang</option>
             </select>
             <select className="w-1/4 outline-none " name="filter2">
               <option value="">Tất cả cấp bậc</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-              <option value="option4">Option 4</option>
+              <option value="junior">Junior</option>
+              <option value="mid">Middle</option>
+              <option value="senior">Senior</option>
             </select>
             <select className="w-1/4 outline-none " name="filter3">
               <option value="">Tất cả các loại công ty</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-              <option value="option4">Option 4</option>
+              <option value="corporation">Corporation</option>
+              <option value="startup">Startup</option>
+              <option value="ngo">NGO</option>
             </select>
             <select className="w-1/4  outline-none  " name="filter4">
               <option value="">Tất cả các loại hợp đồng</option>
-              <option value="option1">Option 1</option>
-              <option value="option2">Option 2</option>
-              <option value="option3">Option 3</option>
-              <option value="option4">Option 4</option>
+              <option value="fulltime">Full-time</option>
+              <option value="parttime">Part-time</option>
+              <option value="freelance">Freelance</option>
             </select>
 
             <button
