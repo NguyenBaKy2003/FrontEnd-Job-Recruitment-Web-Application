@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Home from "./component/Home/Home";
-import "./index.css"; // Import Tailwind CSS tại đây
+import "./index.css"; // Import Tailwind CSS here
 import Layout from "./Layout";
 
 import About from "./component/About/About";
@@ -16,6 +16,8 @@ import Login from "./component/Login/Login";
 import SignUp from "./component/SignUp/SignUp";
 import Support from "./component/Support/Support";
 import LayoutEmployes from "./LayoutEmployes";
+import LoginEm from "./pages/LoginEm/LoginEm";
+import SignupEm from "./pages/SignUpEm/SignUpEm";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -35,7 +37,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/login" element={<Login />}></Route>
         </Route>
 
-        <Route path="/employes" element={<LayoutEmployes />}></Route>
+        {/* Nested routes under /employes */}
+        <Route path="/employes" element={<LayoutEmployes />}>
+          <Route path="loginEm" element={<LoginEm />} />
+          <Route path="signupEm" element={<SignupEm />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -12,15 +12,15 @@ function HomeEm() {
           />
         </div>
         <div className="p-4 md:pl-9  md:order-1 lg:w-1/2 gap-4 flex flex-col justify-center items-center w-100">
-          <h1 className="text-4xl ">
+          <h1 className="text-4xl font-serif ">
             Hire the best IT Professionals in Vietnam with TLJob
           </h1>
-          <h3 className="text-2xl">
+          <h3 className="text-2xl font-serif">
             With in-depth understanding in the IT sector and specialized skills,
             we can help you reach and hire the best IT candidates.
           </h3>
           <a href="/" className=" w-full">
-            <button className="w-full text-white p-3 text-2xl md:w-2/5 bg-orange-500">
+            <button className="w-full text-white p-3 text-2xl md:w-2/5 bg-red-500 rounded-3xl">
               Contact Now
             </button>
           </a>

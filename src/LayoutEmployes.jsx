@@ -1,8 +1,9 @@
 // import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./component/Footer/Footer.jsx";
-import HeaderEm from "./pages/HeaderEm.jsx";
-import HomeEm from "./pages/HomeEm.jsx";
+import HeaderEm from "./pages/Employers/HeaderEm.jsx";
+import HomeEm from "./pages/Employers/HomeEm.jsx";
+
 // import HeaderEmployes from "./pages/Employers/HeaderEmployes.jsx";
 
 function LayoutEmployes() {
