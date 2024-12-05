@@ -1,41 +1,84 @@
-// import React from "react";
-import { NavLink, Link } from "react-router-dom";
-function HeaderEm() {
-  return (
-    <header className=" shadow sticky z-50  top-0">
-      <nav className="bg-white border-gray-200 px-4 lg:px-6 py-2.5">
-        <div className="flex flex-nowrap justify-between max-md:justify-between items-center mx-auto max-w-screen-xl">
-          <Link className="flex md:flex  max-sm:size-2/5 items-center" to="/">
-            <img
-              src="https://api.logo.com/api/v2/images?logo=lg_lYJ7atQQFci30xZlBo&format=webp&width=2000&height=1500&fit=contain&quality=100&margins=500&u=2024-11-22T11%3A02%3A05.864Z"
-              className="mr-3 h-14"
-              alt="Logo"
-            />
-            <NavLink
-              to="/employes"
-              className="max-sm:text-sm max-sm:px-3  max-sm:py-2 max-sm:flex
-           decoration-inherit text-red-600 hover:text-red-800 focus:ring-4 focus:ring-organe-300  font-medium rounded-lg text-md px-2 lg:px-5 py-2 lg:py-2.5 underline  mr-2 focus:outline-none">
-              For Employes
-            </NavLink>
-          </Link>
-          <div className="flex items-center lg:order-2">
-            <Link
-              to="signupEm"
-              className="  max-sm:text-sm max-sm:px-3   max-sm:py-2
-          bg-red-400 text-white  hover:bg-red-500 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none ">
-              Đăng Ký
-            </Link>
-            <Link
-              to="loginEm"
-              className="text-white max-sm:text-sm  max-sm:px-3  max-sm:py-2 max-sm:flex
-          bg-red-500  hover:bg-red-600 focus:ring-4 focus:ring-organe-300  font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 focus:outline-none  ">
-              Đăng Nhập
-            </Link>
-          </div>
-        </div>
-      </nav>
-    </header>
-  );
-}
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
-export default HeaderEm;
+const Header = () => {
+  const [currentSection, setCurrentSection] = useState("Trang chủ");
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // Trạng thái đăng nhập
+
+  // Hàm xử lý đăng xuất (Ví dụ: khi nhấn nút Đăng xuất)
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setCurrentSection("Trang chủ");
+  };
+
+  return (
+    <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
+      {/* Logo và Tiêu đề */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+        <h1 className="text-gray-800 font-bold text-xl text-center sm:text-left">
+          {currentSection}
+        </h1>
+        <p className="text-sm text-gray-500 sm:block hidden">
+          Nhà tuyển dụng / {currentSection}
+        </p>
+      </div>
+
+      {/* Tìm kiếm và Nút */}
+      <div className="flex items-center space-x-4 mt-4 sm:mt-0">
+        {/* Nếu chưa đăng nhập, hiển thị nút Đăng ký và Đăng nhập */}
+        {!isLoggedIn ? (
+          <>
+            <input
+              type="text"
+              placeholder="Tìm kiếm..."
+              className="px-4 py-2 border rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none w-full sm:w-auto"
+            />
+            <Link to="/employes/payment">
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => setCurrentSection("Nâng cấp gói")}>
+                Nâng cấp gói
+              </button>
+            </Link>
+            <div className="flex space-x-2">
+              <Link to="/employes/signupEm">
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  onClick={() => setCurrentSection("Đăng ký")}>
+                  Đăng ký
+                </button>
+              </Link>
+              <Link to="/employes/loginem">
+                <button
+                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                  onClick={() => setCurrentSection("Đăng nhập")}>
+                  Đăng nhập
+                </button>
+              </Link>
+            </div>
+          </>
+        ) : (
+          // Nếu đã đăng nhập, hiển thị logo và thông tin nhà tuyển dụng, cùng nút đăng xuất
+          <div>
+            <div className="flex items-center space-x-4">
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                onClick={handleLogout}>
+                Đăng xuất
+              </button>
+              <Link to="/employes/payment">
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                  onClick={() => setCurrentSection("Nâng cấp gói")}>
+                  Nâng cấp gói
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Header;

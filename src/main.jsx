@@ -10,17 +10,21 @@ import About from "./component/About/About";
 import Company from "./component/Company/CompanyAll";
 import CompanyDetail from "./component/Company/CompanyDetail";
 import Contact from "./component/Contact/Contact";
+import ApplyNow from "./component/FindJob/ApplyNow";
 import FindJob from "./component/FindJob/Findjob";
 import JobDetail from "./component/FindJob/JobDetail";
 import Login from "./component/Login/Login";
 import SignUp from "./component/SignUp/SignUp";
 import Support from "./component/Support/Support";
 import LayoutEmployes from "./LayoutEmployes";
-import LoginEm from "./pages/LoginEm/LoginEm";
-import SignupEm from "./pages/SignUpEm/SignUpEm";
-import Payment from "./pages/Payment/Payment";
-import ApplyNow from "./component/FindJob/ApplyNow";
+import JobList from "./pages/Joblist/Joblist";
 
+import CreateJob from "./pages/CreateJob/CreateJob";
+import LoginEm from "./pages/LoginEm/LoginEm";
+import PackagePayment from "./pages/Payment/PackagePayment";
+import PaymentPage from "./pages/Payment/Payment";
+import RecruiterProfile from "./pages/Profile/Profile";
+import SignupEm from "./pages/SignUpEm/SignUpEm";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -43,9 +47,20 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
         {/* Nested routes under /employes */}
         <Route path="/employes" element={<LayoutEmployes />}>
-          <Route path="loginEm" element={<LoginEm />} />
-          <Route path="signupEm" element={<SignupEm />} />
-          <Route path="checkout" element={<Payment></Payment>}></Route>
+          <Route path="jobs" element={<JobList></JobList>}></Route>
+          <Route path="createjob" element={<CreateJob></CreateJob>}></Route>
+          <Route
+            path="profile"
+            element={<RecruiterProfile></RecruiterProfile>}></Route>
+
+          <Route
+            path="payment"
+            element={<PackagePayment></PackagePayment>}></Route>
+          <Route
+            path="payment/:id"
+            element={<PaymentPage></PaymentPage>}></Route>
+          <Route path="loginem" element={<LoginEm></LoginEm>}></Route>
+          <Route path="signupEm" element={<SignupEm></SignupEm>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>
