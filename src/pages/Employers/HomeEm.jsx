@@ -1,7 +1,7 @@
 // import React from "react";
 import StatsCard from "../StatsCard/StatsCard";
 
-const Home = () => {
+const HomeEm = () => {
   const stats = [
     { label: "Total Job Post", value: "4", icon: "📋", growth: "0%" },
     { label: "Views", value: "2,300", icon: "👁️", growth: "+3%" },
@@ -32,4 +32,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomeEm;

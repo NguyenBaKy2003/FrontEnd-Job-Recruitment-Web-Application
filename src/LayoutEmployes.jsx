@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./pages/Employers/FooterEm";
 import Header from "./pages/Employers/HeaderEm.jsx";
-import Home from "./pages/Employers/HomeEm.jsx";
+import HomeEm from "./pages/Employers/HomeEm.jsx";
 import Sidebar from "./pages/SliderBar/Sliderbar.jsx"; // Import Sidebar
 
 function LayOut() {
@@ -18,7 +18,7 @@ function LayOut() {
 
         <div className="flex-1 flex flex-col">
           <main className="flex-1 p-6">
-            {location.pathname === "/employes" ? <Home /> : <Outlet />}{" "}
+            {location.pathname === "/homeEm" ? <HomeEm /> : <Outlet />}{" "}
             {/* Main Content */}
           </main>
         </div>
