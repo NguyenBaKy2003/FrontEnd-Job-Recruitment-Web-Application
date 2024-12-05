@@ -3,7 +3,7 @@ const people = [
     name: "Nguyen Ba Ky",
     role: "Co-Founder / CEO",
     imageUrl:
-      "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-6/344542573_1016776169700186_59734981782926054_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=apXILMRFJS8Q7kNvgGwgmXC&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&_nc_gid=AmmtbNjCGHfy6gWxGV6FvYd&oh=00_AYCKe39B1sBqYE9AoGMoydeypUT-a_2cnXbZBQ-na9CbMQ&oe=674E3E88",
+      "https://scontent.fhan14-4.fna.fbcdn.net/v/t39.30808-1/344542573_1016776169700186_59734981782926054_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=jGanNVFrBxIQ7kNvgEyC35v&_nc_zt=24&_nc_ht=scontent.fhan14-4.fna&_nc_gid=AiUgm9wCwZSWqHE3Yh6tHkr&oh=00_AYA4nnyuPefG8Ov75zIpLv8e0-TPm8M1EtesEnjg1fKTHg&oe=675790A6",
   },
 ];
 
@@ -29,7 +29,7 @@ export default function About() {
                 <img
                   alt=""
                   src={person.imageUrl}
-                  className="size-16 rounded-full"
+                  className="size-44 rounded-full"
                 />
                 <div>
                   <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">
