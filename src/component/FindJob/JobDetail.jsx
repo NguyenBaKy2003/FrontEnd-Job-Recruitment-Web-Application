@@ -1,13 +1,13 @@
 // import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
 const JobDetail = () => {
   const { jobId } = useParams(); // Get jobId from URL params
-  const navigate = useNavigate(); // Get navigate function
-
-  const handleJobSelection = (job) => {
-    localStorage.setItem("appliedJob", JSON.stringify(job));
-    navigate("/apply-now"); // Use navigate to redirect
-  };
+  // const navigate = useNavigate(); // Get navigate function
+  // const handleJobSelection = (job) => {
+  //   localStorage.setItem("appliedJob", JSON.stringify(job));
+  //   navigate("/apply-now"); // Use navigate to redirect
+  // };
   const companies = [
     {
       id: "1",
@@ -289,11 +289,11 @@ const JobDetail = () => {
               ))}
             </div>
           </div>
-          <button
-            onClick={() => handleJobSelection(job)}
-            className="bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold">
-            Apply now
-          </button>
+          <Link to={`/findjob/${jobId}/applynow`}>
+            <button className="bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold">
+              Apply now
+            </button>
+          </Link>
         </div>
         <p className="text-gray-500 text-sm mt-2">{job.salary}</p>
       </div>

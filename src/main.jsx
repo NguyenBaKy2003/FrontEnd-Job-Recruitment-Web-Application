@@ -34,7 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="home" element={<Home />}></Route>
           <Route path="/findjob" element={<FindJob />}></Route>
           <Route path="/findjob/:jobId" element={<JobDetail />}></Route>
-          <Route path="/findjob/:jobId/apply" element={<ApplyNow />}></Route>
+          <Route path="/findjob/:jobId/applynow" element={<ApplyNow />}></Route>
 
           <Route path="/contact" element={<Contact />}></Route>
 
