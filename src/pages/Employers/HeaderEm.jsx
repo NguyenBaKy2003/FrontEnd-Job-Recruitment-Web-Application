@@ -60,12 +60,7 @@ const Header = () => {
         ) : (
           // Nếu đã đăng nhập, hiển thị logo và thông tin nhà tuyển dụng, cùng nút đăng xuất
           <div>
-            <div className="flex items-center space-x-4">
-              <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                onClick={handleLogout}>
-                Đăng xuất
-              </button>
+            <div className="flex max-w-screen-sm items-center space-x-4">
               <Link to="/employes/payment">
                 <button
                   className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
@@ -73,6 +68,11 @@ const Header = () => {
                   Nâng cấp gói
                 </button>
               </Link>
+              <button
+                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                onClick={handleLogout}>
+                Đăng xuất
+              </button>
             </div>
           </div>
         )}

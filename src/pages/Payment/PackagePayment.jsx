@@ -59,20 +59,22 @@ const PackagePayment = () => {
                   ? "border-2 border-red-500"
                   : "border"
               } p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all`}>
-              <h2 className="text-xl font-semibold text-center text-gray-700">
-                {plan.name}
-              </h2>
-              <p className="text-center text-gray-600 mt-2">
-                {plan.price} for {plan.duration}
-              </p>
-              <p className="text-center text-gray-600 mt-2">
-                <strong>{plan.jobListings}</strong> Job Listings Available
-              </p>
-              <ul className="list-disc pl-5 mt-4 text-gray-600">
-                {plan.features.map((feature, index) => (
-                  <li key={index}>{feature}</li>
-                ))}
-              </ul>
+              <div className="lg:h-3/4">
+                <h2 className="text-xl font-semibold text-center text-gray-700">
+                  {plan.name}
+                </h2>
+                <p className="text-center text-gray-600 mt-2">
+                  {plan.price} for {plan.duration}
+                </p>
+                <p className="text-center text-gray-600 mt-2">
+                  <strong>{plan.jobListings}</strong> Job Listings Available
+                </p>
+                <ul className="list-disc pl-5 mt-4 text-gray-600">
+                  {plan.features.map((feature, index) => (
+                    <li key={index}>{feature}</li>
+                  ))}
+                </ul>
+              </div>
               <div className="mt-6">
                 <button
                   onClick={() => handlePlanSelection(plan.id)}

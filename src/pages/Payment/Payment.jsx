@@ -120,7 +120,7 @@ const PaymentPage = () => {
           <div className="mt-6">
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 focus:outline-none">
+              className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none">
               Pay Now
             </button>
           </div>

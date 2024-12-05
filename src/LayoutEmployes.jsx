@@ -10,8 +10,12 @@ function LayOut() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header /> {/* Header */}
-      <div className="flex flex-row flex-1">
-        <Sidebar /> {/* Sidebar */}
+      <div className="flex flex-1 flex-col md:flex-row">
+        {/* Sidebar visible on medium (md) screens and larger */}
+        <div className="md:block ">
+          <Sidebar />
+        </div>
+
         <div className="flex-1 flex flex-col">
           <main className="flex-1 p-6">
             {location.pathname === "/employes" ? <Home /> : <Outlet />}{" "}
