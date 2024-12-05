@@ -31,11 +31,11 @@ const Header = () => {
             <input
               type="text"
               placeholder="Tìm kiếm..."
-              className="px-4 py-2 border rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none w-full sm:w-auto"
+              className="px-4 py-2 border hidden lg:block rounded-lg focus:ring focus:ring-indigo-300 focus:outline-none w-full sm:w-auto"
             />
             <Link to="/employes/payment">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 max-md:text-sm max-md:py-2  hover:bg-red-600 text-white px-4 py-2 rounded-lg"
                 onClick={() => setCurrentSection("Nâng cấp gói")}>
                 Nâng cấp gói
               </button>
@@ -43,14 +43,14 @@ const Header = () => {
             <div className="flex space-x-2">
               <Link to="/employes/signupEm">
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-blue-500 max-md:text-sm max-md:py-2  hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
                   onClick={() => setCurrentSection("Đăng ký")}>
                   Đăng ký
                 </button>
               </Link>
               <Link to="/employes/loginem">
                 <button
-                  className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                  className="bg-green-500 max-md:text-sm max-md:py-2  hover:bg-green-600 text-white px-4 py-2 rounded-lg"
                   onClick={() => setCurrentSection("Đăng nhập")}>
                   Đăng nhập
                 </button>

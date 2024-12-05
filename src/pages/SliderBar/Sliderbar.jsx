@@ -14,7 +14,7 @@ const Sidebar = () => {
       <div className="text-xl font-bold text-red-600">TLJob</div>
 
       {/* Menu Items */}
-      <div className="space-y-2   max-md:space-y-0 max-md:space-x-1 max-md:justify-between max-md:flex max-md:flex-row max-md:w-screen ">
+      <div className="space-y-2  max-md:flex-wrap max-md:space-y-0 max-md:space-x-1 max-md:justify-between max-md:flex max-md:flex-row max-md:w-screen ">
         {menuItems.map((item, index) => (
           <NavLink
             key={index}

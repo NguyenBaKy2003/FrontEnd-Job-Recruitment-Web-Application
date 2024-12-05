@@ -1,7 +1,8 @@
-// import React from "react";
+import { useState } from "react";
 
 const JobList = () => {
-  const jobs = [
+  // State to hold the list of jobs
+  const [jobs, setJobs] = useState([
     {
       id: 1,
       title: "Frontend Developer",
@@ -34,7 +35,12 @@ const JobList = () => {
       salary: "$2000 - $2500",
       postedTime: "3 ngày trước",
     },
-  ];
+  ]);
+
+  // Function to handle job deletion
+  const handleDelete = (jobId) => {
+    setJobs(jobs.filter((job) => job.id !== jobId));
+  };
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
@@ -55,8 +61,12 @@ const JobList = () => {
               </p>
               <p className="text-sm text-gray-500">Mức lương: {job.salary}</p>
             </div>
-            <div>
-              <p className="text-sm text-gray-400">{job.postedTime}</p>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => handleDelete(job.id)}
+                className="text-red-500 hover:text-red-700 text-sm">
+                Delete
+              </button>
             </div>
           </li>
         ))}

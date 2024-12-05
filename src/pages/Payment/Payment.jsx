@@ -32,11 +32,13 @@ const PaymentPage = () => {
         <div className="mb-6">
           {selectedPlan ? (
             <>
-              <p className="text-lg text-gray-700">Plan: {selectedPlan.name}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-lg font-bold text-gray-700">
+                Plan: {selectedPlan.name}
+              </p>
+              <p className="text-sm font-bold text-gray-600">
                 Price: {selectedPlan.price}
               </p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm font-bold text-gray-600">
                 Duration: {selectedPlan.duration}
               </p>
             </>
