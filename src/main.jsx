@@ -19,6 +19,7 @@ import LayoutEmployes from "./LayoutEmployes";
 import LoginEm from "./pages/LoginEm/LoginEm";
 import SignupEm from "./pages/SignUpEm/SignUpEm";
 import Payment from "./pages/Payment/Payment";
+import ApplyNow from "./component/FindJob/ApplyNow";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -28,6 +29,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="home" element={<Home />}></Route>
           <Route path="/findjob" element={<FindJob />}></Route>
           <Route path="/findjob/:jobId" element={<JobDetail />}></Route>
+          <Route path="/findjob/:jobId/apply" element={<ApplyNow />}></Route>
+
           <Route path="/contact" element={<Contact />}></Route>
 
           <Route path="/company" element={<Company />}></Route>

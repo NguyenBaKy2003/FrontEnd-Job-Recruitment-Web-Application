@@ -1,8 +1,13 @@
 // import React from "react";
-import { useParams } from "react-router-dom";
-
+import { useNavigate, useParams } from "react-router-dom";
 const JobDetail = () => {
-  const { jobId } = useParams(); // Lấy jobId từ URL params
+  const { jobId } = useParams(); // Get jobId from URL params
+  const navigate = useNavigate(); // Get navigate function
+
+  const handleJobSelection = (job) => {
+    localStorage.setItem("appliedJob", JSON.stringify(job));
+    navigate("/apply-now"); // Use navigate to redirect
+  };
   const companies = [
     {
       id: "1",
@@ -230,6 +235,7 @@ const JobDetail = () => {
         },
       ],
     },
+
     // Add other company objects here
   ];
 
@@ -250,9 +256,9 @@ const JobDetail = () => {
       },
     }))
   );
+  const job = jobsWithCompany.find((job) => job.id === jobId);
 
   // Find the specific job by jobId
-  const job = jobsWithCompany.find((job) => job.id === jobId);
 
   if (!job) {
     return <div>Job not found</div>; // Trường hợp jobId không tồn tại
@@ -283,7 +289,9 @@ const JobDetail = () => {
               ))}
             </div>
           </div>
-          <button className="bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold">
+          <button
+            onClick={() => handleJobSelection(job)}
+            className="bg-red-500 text-white px-6 py-2 rounded-lg text-sm font-semibold">
             Apply now
           </button>
         </div>

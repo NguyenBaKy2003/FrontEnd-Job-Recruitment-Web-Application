@@ -1,5 +1,4 @@
 // import React from "react";
-import { Link } from "react-router-dom";
 function SignUp() {
   return (
     // <>
@@ -13,56 +12,95 @@ function SignUp() {
       </div>
 
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-blue-50 p-6">
-        <div className="bg-white shadow-md rounded-lg p-8 w-full max-w-md">
-          <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
-            Đăng Ký
-          </h2>
-          <form>
-            <div className="mb-4">
-              <label htmlFor="name" className="block text-gray-700">
-                Họ và tên
-              </label>
-              <input
-                type="text"
-                id="name"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="Nhập họ và tên"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="email" className="block text-gray-700">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="Nhập email"
-              />
-            </div>
-            <div className="mb-4">
-              <label htmlFor="password" className="block text-gray-700">
-                Mật khẩu
-              </label>
-              <input
-                type="password"
-                id="password"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="Nhập mật khẩu"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600">
-              Đăng Ký
-            </button>
-          </form>
-          <p className="text-center text-gray-600 mt-4">
-            Đã có tài khoản?{" "}
-            <Link to="/login" className="text-orange-500 hover:underline">
-              Đăng nhập
-            </Link>
-          </p>
+        <div className="min-h-screen flex justify-center items-center bg-blue-50">
+          <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+            <h1 className="text-2xl font-semibold text-center mb-8">TLJob</h1>
+
+            <form>
+              {/* Tài khoản Section */}
+              <div className="mb-6">
+                <h2 className="text-lg font-semibold mb-4">Tài khoản</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Tên đăng nhập (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                  <input
+                    type="email"
+                    placeholder="Email (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Mật khẩu (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                  <input
+                    type="password"
+                    placeholder="Xác nhận mật khẩu (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                </div>
+              </div>
+
+              {/* Thông tin ứng viên Section */}
+              <div className="mb-6">
+                <h2 className="text-lg font-semibold mb-4">
+                  Thông tin ứng viên
+                </h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Họ (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Tên (*)"
+                    className="p-3 border rounded-md w-full"
+                  />
+                  <textarea
+                    placeholder="Kinh nghiệm (*)"
+                    className="p-3 border rounded-md w-full col-span-2"
+                    rows="3"></textarea>
+                  <textarea
+                    placeholder="Học vấn (*)"
+                    className="p-3 border rounded-md w-full col-span-2"
+                    rows="3"></textarea>
+                  <div className="col-span-2">
+                    <label className="block mb-2">Kĩ năng (*)</label>
+                    <select className="p-3 border rounded-md w-full">
+                      <option>Công nghệ thông tin</option>
+                      <option>Java</option>
+                      <option>JavaScript</option>
+                      <option>ReactJS</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Terms and Submit */}
+              <div className="mb-6 text-sm">
+                <p>
+                  Tôi đã đọc và đồng ý với{" "}
+                  <a href="/" className="text-blue-500 underline">
+                    Điều khoản dịch vụ
+                  </a>{" "}
+                  và{" "}
+                  <a href="/" className="text-blue-500 underline">
+                    Chính sách bảo mật
+                  </a>{" "}
+                  của TLJob
+                </p>
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition">
+                Đăng ký
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
