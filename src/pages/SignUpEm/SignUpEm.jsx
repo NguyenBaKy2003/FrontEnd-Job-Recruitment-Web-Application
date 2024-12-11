@@ -1,11 +1,13 @@
 import { useState } from "react";
 
-function SignupEm() {
+function SignupEmployer() {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
+    companyName: "",
+    jobTitle: "",
     firstname: "",
     lastname: "",
     phone: "",
@@ -50,7 +52,7 @@ function SignupEm() {
     try {
       // Send data to the API
       const response = await fetch(
-        "http://localhost:3001/api/v1/auth/register",
+        "http://localhost:3001/api/auth/register", // Adjust the API endpoint as needed
         {
           method: "POST",
           headers: {
@@ -60,8 +62,10 @@ function SignupEm() {
             username: formData.username,
             email: formData.email,
             password: formData.password,
-            firstname: formData.firstname,
-            lastname: formData.lastname,
+            companyName: formData.companyName, // Send the company name
+            jobTitle: formData.jobTitle, // Send the job title
+            firstname: formData.firstname, // Send first name
+            lastname: formData.lastname, // Send last name
             phone: formData.phone, // Send the phone number
             address: formData.address, // Send the address
           }),
@@ -78,16 +82,18 @@ function SignupEm() {
           email: "",
           password: "",
           confirmPassword: "",
+          companyName: "",
+          jobTitle: "",
           firstname: "",
           lastname: "",
-          phone: "", // Reset phone number field
-          address: "", // Reset address field
+          phone: "",
+          address: "",
         });
       } else {
         setError(data.error || "Đăng ký thất bại!"); // Show error from server
       }
     } catch (err) {
-      setError("Đã xảy ra lỗi khi kết nối với máy chủ."); // Connection error
+      setError("Đã xảy ra lỗi khi kết nối với máy chủ.");
       console.error(err);
     } finally {
       setLoading(false); // Stop loading
@@ -117,7 +123,9 @@ function SignupEm() {
           <form onSubmit={handleSubmit}>
             {/* Account Section */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Tài khoản</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                Thông tin tài khoản
+              </h2>
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -158,9 +166,36 @@ function SignupEm() {
               </div>
             </div>
 
-            {/* Candidate Info Section */}
+            {/* Employer Info Section */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Thông tin ứng viên</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                Thông tin nhà tuyển dụng
+              </h2>
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  placeholder="Tên công ty (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="text"
+                  name="jobTitle"
+                  value={formData.jobTitle}
+                  onChange={handleChange}
+                  placeholder="Chức danh (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Personal Info Section */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Thông tin cá nhân</h2>
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -232,4 +267,4 @@ function SignupEm() {
   );
 }
 
-export default SignupEm;
+export default SignupEmployer;
