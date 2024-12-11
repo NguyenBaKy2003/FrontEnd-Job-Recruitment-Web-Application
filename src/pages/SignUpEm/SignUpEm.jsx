@@ -1,31 +1,101 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"; // Ensure Link is properly imported
 
-const SignupEm = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+function SignupEm() {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstname: "",
+    lastname: "",
+    phone: "",
+    address: "",
+  });
 
-  const handleSubmit = (e) => {
+  const [message, setMessage] = useState(""); // Success message
+  const [error, setError] = useState(""); // Error message
+  const [loading, setLoading] = useState(false); // Loading state
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
 
-    // Check if password and confirm password match
-    if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+    // Check if passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError("Mật khẩu và xác nhận mật khẩu không khớp!");
+      setLoading(false);
       return;
     }
 
-    // Handle sign-up logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // You can proceed to call an API to register the user here
+    // Basic email and phone validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.email)) {
+      setError("Email không hợp lệ!");
+      setLoading(false);
+      return;
+    }
+
+    const phoneRegex = /^[0-9]{10,12}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      setError("Số điện thoại không hợp lệ!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Send data to the API
+      const response = await fetch(
+        "http://localhost:3001/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            email: formData.email,
+            password: formData.password,
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            phone: formData.phone, // Send the phone number
+            address: formData.address, // Send the address
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage("Đăng ký thành công!"); // Success message
+        setError("");
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          firstname: "",
+          lastname: "",
+          phone: "", // Reset phone number field
+          address: "", // Reset address field
+        });
+      } else {
+        setError(data.error || "Đăng ký thất bại!"); // Show error from server
+      }
+    } catch (err) {
+      setError("Đã xảy ra lỗi khi kết nối với máy chủ."); // Connection error
+      console.error(err);
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
-      {/* Left section with image */}
       <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-50">
         <img
           src="https://itviec.com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
@@ -34,109 +104,132 @@ const SignupEm = () => {
         />
       </div>
 
-      {/* Right section with sign-up form */}
-      <div className="w-full lg:w-1/2 min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
-          <h1 className="text-3xl font-bold text-center text-red-500 mb-6">
-            Sign Up for TLJob
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-blue-50 p-6">
+        <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
+          <h1 className="text-3xl text-red-500 font-semibold text-center mb-8">
+            TLJob
           </h1>
 
-          {/* Sign Up Form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-gray-600">
-                Email
-              </label>
+          {/* Show success or error message */}
+          {error && <p className="text-red-500 mb-4">{error}</p>}
+          {message && <p className="text-green-500 mb-4">{message}</p>}
+
+          <form onSubmit={handleSubmit}>
+            {/* Account Section */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Tài khoản</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  placeholder="Tên đăng nhập (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Email (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Mật khẩu (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Xác nhận mật khẩu (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Candidate Info Section */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Thông tin ứng viên</h2>
+              <div className="grid grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="firstname"
+                  value={formData.firstname}
+                  onChange={handleChange}
+                  placeholder="Họ (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="text"
+                  name="lastname"
+                  value={formData.lastname}
+                  onChange={handleChange}
+                  placeholder="Tên (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Phone and Address Section */}
+            <div className="mb-6">
               <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Số điện thoại (*)"
+                className="p-3 border rounded-md w-full"
                 required
-                className="w-full mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your email"
+              />
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                placeholder="Địa chỉ (*)"
+                className="p-3 border rounded-md w-full mt-4"
+                required
               />
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-gray-600">
-                Password
-              </label>
-              <div className="relative mt-2">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-2 text-gray-600">
-                  {showPassword ? "Hide" : "Show"}
-                </button>
-              </div>
+            {/* Terms and Submit Button */}
+            <div className="mb-6 text-sm">
+              <p>
+                Tôi đã đọc và đồng ý với{" "}
+                <a href="/" className="text-blue-500 underline">
+                  Điều khoản dịch vụ
+                </a>{" "}
+                và{" "}
+                <a href="/" className="text-blue-500 underline">
+                  Chính sách bảo mật
+                </a>{" "}
+                của TLJob
+              </p>
             </div>
-
-            <div>
-              <label
-                htmlFor="confirmPassword"
-                className="block text-sm font-semibold text-gray-600">
-                Confirm Password
-              </label>
-              <div className="relative mt-2">
-                <input
-                  type={showConfirmPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Confirm your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-2 text-gray-600">
-                  {showConfirmPassword ? "Hide" : "Show"}
-                </button>
-              </div>
-            </div>
-
-            <div className="flex justify-between items-center">
-              <button
-                type="submit"
-                className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none">
-                Sign Up
-              </button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-red-600 text-white py-3 rounded-md hover:bg-red-700 transition"
+              disabled={loading}>
+              {loading ? "Đang xử lý..." : "Đăng ký"}
+            </button>
           </form>
-
-          {/* Sign In Link */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Already have an account?{" "}
-              <Link
-                to="/employes/loginEm"
-                className="text-blue-500 hover:underline">
-                Sign in now!
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default SignupEm;

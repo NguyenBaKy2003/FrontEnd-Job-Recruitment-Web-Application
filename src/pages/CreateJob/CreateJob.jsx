@@ -1,13 +1,60 @@
-// import React from "react";
+import { useState } from "react";
+import axios from "axios";
 
 const CreateJob = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    requirements: "",
+    benefits: "",
+    deadline: "",
+    location: "",
+    salary: "",
+    workingMethod: "",
+    category: "",
+    position: "",
+    skills: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Make API request to create job
+      const response = await axios.post(
+        "http://localhost:3001/api/v1/jobs/addjob",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // If you're using authentication
+          },
+        }
+      );
+
+      console.log("Job created successfully:", response.data);
+      alert("Job posted successfully!");
+    } catch (error) {
+      console.error("Error creating job:", error);
+      alert("Failed to post the job.");
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
         Tạo công việc của nhà tuyển dụng
       </h2>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Tiêu đề */}
         <div className="mb-4">
           <label
@@ -18,6 +65,9 @@ const CreateJob = () => {
           <input
             type="text"
             id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
             placeholder="Nhập tiêu đề tin tuyển dụng"
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
@@ -32,6 +82,9 @@ const CreateJob = () => {
           </label>
           <textarea
             id="description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
             placeholder="Nhập mô tả cho tin tuyển dụng"
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             rows="3"></textarea>
@@ -46,6 +99,9 @@ const CreateJob = () => {
           </label>
           <textarea
             id="requirements"
+            name="requirements"
+            value={formData.requirements}
+            onChange={handleChange}
             placeholder="Nhập yêu cầu tuyển dụng"
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             rows="3"></textarea>
@@ -60,6 +116,9 @@ const CreateJob = () => {
           </label>
           <textarea
             id="benefits"
+            name="benefits"
+            value={formData.benefits}
+            onChange={handleChange}
             placeholder="Nhập quyền lợi cho ứng viên"
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             rows="3"></textarea>
@@ -75,6 +134,9 @@ const CreateJob = () => {
           <input
             type="date"
             id="deadline"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
           />
         </div>
@@ -88,11 +150,14 @@ const CreateJob = () => {
           </label>
           <select
             id="location"
+            name="location"
+            value={formData.location}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Chọn tỉnh/thành phố</option>
-            <option>Hà Nội</option>
-            <option>TP. Hồ Chí Minh</option>
-            <option>Đà Nẵng</option>
+            <option value="">Chọn tỉnh/thành phố</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
           </select>
         </div>
 
@@ -105,26 +170,32 @@ const CreateJob = () => {
           </label>
           <select
             id="salary"
+            name="salary"
+            value={formData.salary}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Dưới 10 triệu</option>
-            <option>10 - 20 triệu</option>
-            <option>20 - 30 triệu</option>
+            <option value="Dưới 10 triệu">Dưới 10 triệu</option>
+            <option value="10 - 20 triệu">10 - 20 triệu</option>
+            <option value="20 - 30 triệu">20 - 30 triệu</option>
           </select>
         </div>
 
         {/* Phương thức làm việc */}
         <div className="mb-4">
           <label
-            htmlFor="working-method"
+            htmlFor="workingMethod"
             className="block text-sm font-medium text-gray-700">
             Phương thức làm việc
           </label>
           <select
-            id="working-method"
+            id="workingMethod"
+            name="workingMethod"
+            value={formData.workingMethod}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Full time</option>
-            <option>Part time</option>
-            <option>Remote</option>
+            <option value="Full time">Full time</option>
+            <option value="Part time">Part time</option>
+            <option value="Remote">Remote</option>
           </select>
         </div>
 
@@ -137,10 +208,13 @@ const CreateJob = () => {
           </label>
           <select
             id="category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Công nghệ thông tin</option>
-            <option>Marketing</option>
-            <option>Thiết kế</option>
+            <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Thiết kế">Thiết kế</option>
           </select>
         </div>
 
@@ -153,10 +227,13 @@ const CreateJob = () => {
           </label>
           <select
             id="position"
+            name="position"
+            value={formData.position}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Back-end</option>
-            <option>Front-end</option>
-            <option>Full-stack</option>
+            <option value="Back-end">Back-end</option>
+            <option value="Front-end">Front-end</option>
+            <option value="Full-stack">Full-stack</option>
           </select>
         </div>
 
@@ -169,10 +246,13 @@ const CreateJob = () => {
           </label>
           <select
             id="skills"
+            name="skills"
+            value={formData.skills}
+            onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <option>Java</option>
-            <option>Python</option>
-            <option>ReactJS</option>
+            <option value="Java">Java</option>
+            <option value="Python">Python</option>
+            <option value="ReactJS">ReactJS</option>
           </select>
         </div>
 

@@ -9,7 +9,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64  bg-white shadow-md p-4 flex flex-col space-y-4 md:flex-col md:h-full md:space-y-2 max-md:flex  max-md:flex-row    max-md:items-center  max-md:w-auto max-md:justify-between   max-md:space-x-2 ">
+    <div className="w-64  bg-white shadow-md p-4 flex flex-col space-y-4 md:flex-col h-full md:space-y-2 max-md:flex  max-md:flex-row    max-md:items-center  max-md:w-auto max-md:justify-between   max-md:space-x-2 ">
       {/* Logo or Brand */}
       <div className="text-xl font-bold text-red-600">TLJob</div>
 
