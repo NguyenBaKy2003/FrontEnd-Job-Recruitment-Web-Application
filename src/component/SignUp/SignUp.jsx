@@ -10,7 +10,7 @@ function SignUp() {
     lastname: "",
     experience: "",
     education: "",
-    skill: "",
+    skill: [],
     phone: "",
 
     address: "", // Added address field
@@ -192,23 +192,29 @@ function SignUp() {
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     Kỹ năng (*)
                   </label>
-                  <input
-                    type="text"
-                    name="skill"
-                    value={formData.skill}
+                  <select
+                    name="skills"
+                    value={formData.skills}
                     onChange={handleChange}
-                    placeholder="Nhập kỹ năng"
                     className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required
-                  />
+                    required>
+                    <option value="">Chọn kỹ năng</option>
+                    <option value="Công nghệ thông tin">
+                      Công nghệ thông tin
+                    </option>
+                    <option value="Java">Java</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="ReactJS">ReactJS</option>
+                  </select>
                 </div>
+
                 <div className="col-span-2">
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     Địa chỉ (*)
                   </label>
                   <input
                     type="text"
-                    name="skill"
+                    name="address"
                     value={formData.address}
                     onChange={handleChange}
                     placeholder="Nhập địa chỉ (*)"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,6 +74,75 @@ function Header() {
           {/* ... (previous navigation code) ... */}
 
           {/* Buttons - Conditional Rendering */}
+
+          <div
+            className=" hidden  justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
+            id="mobile-menu-2">
+            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+              <li>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Trang Chủ
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/findjob"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Tìm Việc
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/company"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Công Ty
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/contact"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Liên Hệ
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/support"
+                  className={({ isActive }) =>
+                    `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
+                  ${isActive ? "text-orange-700" : "text-gray-7000"}
+                  lg:hover:bg-transparent
+                  lg:border-0 hover:text-orange-700`
+                  }>
+                  Trợ Giúp
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+
           <div className="flex order-2 items-center lg:order-2">
             {/* If the user is not logged in, show "For Employees", "Đăng Ký", and "Đăng Nhập" */}
             {!isLoggedIn && (
@@ -109,6 +178,70 @@ function Header() {
               </div>
             )}
           </div>
+        </div>
+        <div
+          className={`fixed top-0 order-1 left-0 h-full bg-white shadow-lg z-40 w-64 transform transition-transform duration-300 ease-in-out ${
+            menuOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:hidden`}>
+          <button
+            onClick={toggleMenu}
+            className="absolute top-4 right-4 text-gray-700 p-2 focus:outline-none">
+            <svg
+              className="w-6 h-6"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          <ul className="mt-10 space-y-4 px-6">
+            <li>
+              <NavLink
+                to="/"
+                className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+                onClick={toggleMenu}>
+                Trang Chủ
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/findjob"
+                className="block text-gray-700 text-lg font-medium hover:text-orange-700"
+                onClick={toggleMenu}>
+                Tìm Việc
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/company"
+                className="block text-gray-700 text-lg font-medium hover:text-orange-700"
+                onClick={toggleMenu}>
+                Công Ty
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/contact"
+                className="block text-gray-700 text-lg font-medium hover:text-orange-700"
+                onClick={toggleMenu}>
+                Liên Hệ
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/support"
+                className="block text-gray-700 text-lg font-medium hover:text-orange-700"
+                onClick={toggleMenu}>
+                Trợ Giúp
+              </NavLink>
+            </li>
+          </ul>
         </div>
       </nav>
     </header>
