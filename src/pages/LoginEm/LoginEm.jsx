@@ -1,17 +1,55 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const LoginEm = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // State for loading
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/employes");
+    }
+  }, [navigate]);
+
+  const login = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    const data = { username, password };
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/api/auth/login",
+        data
+      );
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", response.data.username);
+        setSuccess("Login successful!");
+        setTimeout(() => {
+          navigate("/employes");
+          window.location.reload();
+        }, 500);
+      } else {
+        setError("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      setError("An error occurred. Please try again.");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleSignIn = () => {
@@ -41,17 +79,23 @@ const LoginEm = () => {
           in relation to your privacy information.
         </p>
 
+        {/* Display Error or Success Message */}
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
+        {success && (
+          <div className="text-green-500 text-center mb-4">{success}</div>
+        )}
+
         {/* Sign In Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={login} className="space-y-4">
           {/* Google Sign-in */}
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full bg-red-500 text-white py-2 rounded-lg flex items-center justify-center space-x-2 hover:bg-red-600 focus:outline-none">
+            className="w-full bg-red-500 text-white py-2 rounded-lg flex items-center justify-center space-x-2 hover:bg-red-600 focus:outline-none"
+            disabled={loading}>
             {loading ? (
               <div className="flex items-center justify-center space-x-2">
-                <span className="loader"></span>{" "}
-                {/* You can add a simple loading spinner here */}
+                <span className="animate-spin h-5 w-5 border-4 border-white border-t-transparent rounded-full"></span>
                 <span>Signing in with Google...</span>
               </div>
             ) : (
@@ -59,7 +103,7 @@ const LoginEm = () => {
                 <img
                   src="https://searchengineland.com/figz/wp-content/seloads/2015/09/google-g-logo-2015-1920.png"
                   alt="Google"
-                  className="w-1/6 rounded-full"
+                  className="w-5 h-5"
                 />
                 <span>Sign In with Google</span>
               </>
@@ -72,25 +116,26 @@ const LoginEm = () => {
             <hr className="w-full border-gray-300" />
           </div>
 
-          {/* Email and Password Fields */}
+          {/* Username Input */}
           <div>
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-sm font-semibold text-gray-600">
-              Email
+              Username
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
               className="w-full mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
+              placeholder="Enter your username"
             />
           </div>
 
+          {/* Password Input */}
           <div>
             <label
               htmlFor="password"
@@ -111,19 +156,19 @@ const LoginEm = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2 text-gray-600">
+                className="absolute right-3 top-2 text-gray-600 focus:outline-none">
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <button
-              type="submit"
-              className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none">
-              Sign In with Email
-            </button>
-          </div>
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 focus:outline-none"
+            disabled={loading}>
+            {loading ? "Signing In..." : "Sign In"}
+          </button>
         </form>
 
         {/* Forgot Password */}
@@ -138,7 +183,7 @@ const LoginEm = () => {
         {/* Sign Up Link */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Do not have an account?{" "}
+            Dont have an account?{" "}
             <Link
               to="/employes/signupEm"
               className="text-blue-500 hover:underline">

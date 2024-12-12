@@ -1,19 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
   const [currentSection, setCurrentSection] = useState("Trang chủ");
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // Trạng thái đăng nhập
 
-  // Hàm xử lý đăng xuất (Ví dụ: khi nhấn nút Đăng xuất)
+  // Check login status on component mount
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const storedUsername = localStorage.getItem("username");
+
+    if (token) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername || "");
+    }
+  }, []);
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   const handleLogout = () => {
+    // Remove token and username from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+
+    // Update state
     setIsLoggedIn(false);
-    setCurrentSection("Trang chủ");
+    setUsername("");
+
+    // Redirect to login page
+    window.location.href = "/login";
   };
 
   return (
     <div className="flex justify-between items-center bg-white p-4 rounded-lg shadow-md">
-      {/* Logo và Tiêu đề */}
+      {/* Logo and Title */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
         <h1 className="text-gray-800 font-bold text-xl text-center sm:text-left">
           {currentSection}
@@ -23,10 +47,10 @@ const Header = () => {
         </p>
       </div>
 
-      {/* Tìm kiếm và Nút */}
-      <div className="flex items-center space-x-4 mt-4 sm:mt-0">
-        {/* Nếu chưa đăng nhập, hiển thị nút Đăng ký và Đăng nhập */}
-        {!isLoggedIn ? (
+      {/* Right Section */}
+      <div className="flex items-center space-x-4">
+        {/* Not Logged In */}
+        {!isLoggedIn && (
           <>
             <input
               type="text"
@@ -35,50 +59,49 @@ const Header = () => {
             />
             <Link to="/employes/payment">
               <button
-                className="bg-red-500 max-md:text-sm max-md:py-2  hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 max-md:text-sm max-md:py-2 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
                 onClick={() => setCurrentSection("Nâng cấp gói")}>
                 Nâng cấp gói
               </button>
             </Link>
-            <div className="flex space-x-2">
-              <Link to="/employes/signupEm">
-                <button
-                  className="bg-blue-500 max-md:text-sm max-md:py-2  hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-                  onClick={() => setCurrentSection("Đăng ký")}>
-                  Đăng ký
-                </button>
-              </Link>
-              <Link to="/employes/loginem">
-                <button
-                  className="bg-green-500 max-md:text-sm max-md:py-2  hover:bg-green-600 text-white px-4 py-2 rounded-lg"
-                  onClick={() => setCurrentSection("Đăng nhập")}>
-                  Đăng nhập
-                </button>
-              </Link>
-            </div>
+            <Link to="/employes/signupEm">
+              <button
+                className="bg-blue-500 max-md:text-sm max-md:py-2 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => setCurrentSection("Đăng ký")}>
+                Đăng ký
+              </button>
+            </Link>
+            <Link to="/employes/loginem">
+              <button
+                className="bg-green-500 max-md:text-sm max-md:py-2 hover:bg-green-600 text-white px-4 py-2 rounded-lg"
+                onClick={() => setCurrentSection("Đăng nhập")}>
+                Đăng nhập
+              </button>
+            </Link>
           </>
-        ) : (
-          // Nếu đã đăng nhập, hiển thị logo và thông tin nhà tuyển dụng, cùng nút đăng xuất
-          <div>
-            <div className="flex max-w-screen-sm items-center space-x-4">
-              <Link to="/employes/payment">
-                <button
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                  onClick={() => setCurrentSection("Nâng cấp gói")}>
-                  Nâng cấp gói
-                </button>
-              </Link>
+        )}
+
+        {/* Logged In */}
+        {isLoggedIn && (
+          <div className="flex items-center space-x-4">
+            <span className="text-gray-700">Xin chào, {username}</span>
+            <Link to="/employes/payment">
               <button
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                onClick={handleLogout}>
-                Đăng xuất
+                onClick={() => setCurrentSection("Nâng cấp gói")}>
+                Nâng cấp gói
               </button>
-            </div>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+              Đăng Xuất
+            </button>
           </div>
         )}
       </div>
     </div>
   );
-};
+}
 
 export default Header;
