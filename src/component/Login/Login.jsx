@@ -26,7 +26,7 @@ function Login() {
     const data = { username: username, password: password };
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/v1/auth/login",
+        "http://localhost:3001/api/auth/login",
         data
       );
 

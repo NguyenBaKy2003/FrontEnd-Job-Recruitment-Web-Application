@@ -11,13 +11,27 @@ const CreateJob = () => {
     location: "",
     salary: "",
     type: "",
-    category: { code: "", name: "" }, // Adjusted to be an object
+    category: { code: "", name: "" },
     position: "",
-    skills: "", // Consider changing this to an array if you want multiple skills
+    skills: [], // Changed to an array
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [existingJobs, setExistingJobs] = useState([]); // Define existingJobs
+
+  // Fetch existing jobs from API or database
+  const fetchExistingJobs = async () => {
+    try {
+      const response = await axios.get("http://localhost:3001/api/jobs");
+      setExistingJobs(response.data);
+    } catch (error) {
+      console.error("Error fetching existing jobs:", error);
+    }
+  };
+
+  // Call fetchExistingJobs when the component mounts
+  fetchExistingJobs();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,7 +40,13 @@ const CreateJob = () => {
     if (name === "category") {
       setFormData((prevData) => ({
         ...prevData,
-        category: { ...prevData.category, name: value }, // Assuming value is the category name
+        category: { code: value, name: value }, // Update both code and name
+      }));
+    } else if (name === "skills") {
+      // Handle skills as an array
+      setFormData((prevData) => ({
+        ...prevData,
+        skills: [value], // Update skills array
       }));
     } else {
       setFormData((prevData) => ({
@@ -64,7 +84,7 @@ const CreateJob = () => {
       !formData.type ||
       !formData.category.name ||
       !formData.position ||
-      !formData.skills
+      !formData.skills.length
     ) {
       setError("Vui lòng điền tất cả các trường bắt buộc.");
       setLoading(false);
@@ -99,7 +119,7 @@ const CreateJob = () => {
         type: "",
         category: { code: "", name: "" },
         position: "",
-        skills: "",
+        skills: [],
       });
     } catch (error) {
       console.error("Error creating job:", error);
@@ -149,7 +169,7 @@ const CreateJob = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Nhập mô tả cho tin tuyển dụng"
-            className="mt-1 block w-full p-3 border border gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             rows="3"
             required></textarea>
         </div>
@@ -263,7 +283,6 @@ const CreateJob = () => {
           </select>
         </div>
         {/* Danh mục */}
-
         <div className="mb-4">
           <label
             htmlFor="category"
@@ -273,7 +292,7 @@ const CreateJob = () => {
           <select
             id="category"
             name="category"
-            value={formData.category.name} // Accessing the name property
+            value={formData.category.name}
             onChange={handleChange}
             className="mt-1 block w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
             required>
@@ -329,8 +348,7 @@ const CreateJob = () => {
           className={`w-full bg-red-600 text-white py-3 rounded-md hover:bg-red-700 transition ${
             loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
-          disabled={loading} // Disable button while loading
-        >
+          disabled={loading}>
           {loading ? "Đang tạo..." : "TẠO TIN"}
         </button>
       </form>
