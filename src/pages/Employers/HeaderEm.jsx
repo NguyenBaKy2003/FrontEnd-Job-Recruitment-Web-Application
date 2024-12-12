@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [currentSection, setCurrentSection] = useState("Trang chủ");
@@ -17,10 +16,6 @@ function Header() {
       setUsername(storedUsername || "");
     }
   }, []);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
 
   const handleLogout = () => {
     // Remove token and username from localStorage
