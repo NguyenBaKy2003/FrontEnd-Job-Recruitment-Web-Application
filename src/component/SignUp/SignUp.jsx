@@ -10,8 +10,10 @@ function SignUp() {
     lastname: "",
     experience: "",
     education: "",
-    skills: "",
-    phone: "", // Added phone number
+    skill: "",
+    phone: "",
+
+    address: "", // Added address field
   });
 
   const [message, setMessage] = useState(""); // Success message
@@ -47,11 +49,11 @@ function SignUp() {
           password: formData.password,
           firstname: formData.firstname,
           lastname: formData.lastname,
-          phone: formData.phone, // Send the phone number
-          address: "default-address", // Modify if user inputs this
+          phone: formData.phone,
+          address: formData.address || "Not provided",
           experience: formData.experience,
           education: formData.education,
-          skills: formData.skills,
+          skill: formData.skill,
         }),
       });
 
@@ -69,7 +71,7 @@ function SignUp() {
           lastname: "",
           experience: "",
           education: "",
-          skills: "",
+          skill: "",
           phone: "", // Reset phone number field
         });
 
@@ -187,27 +189,41 @@ function SignUp() {
                   rows="3"
                   required></textarea>
                 <div className="col-span-2">
-                  <label className="block mb-2">Kĩ năng (*)</label>
-                  <select
-                    name="skills"
-                    value={formData.skills}
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    Kỹ năng (*)
+                  </label>
+                  <input
+                    type="text"
+                    name="skill"
+                    value={formData.skill}
                     onChange={handleChange}
-                    className="p-3 border rounded-md w-full"
-                    required>
-                    <option value="">Chọn kỹ năng</option>
-                    <option value="Công nghệ thông tin">
-                      Công nghệ thông tin
-                    </option>
-                    <option value="Java">Java</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="ReactJS">ReactJS</option>
-                  </select>
+                    placeholder="Nhập kỹ năng"
+                    className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block mb-2 text-sm font-medium text-gray-700">
+                    Địa chỉ (*)
+                  </label>
+                  <input
+                    type="text"
+                    name="skill"
+                    value={formData.address}
+                    onChange={handleChange}
+                    placeholder="Nhập địa chỉ (*)"
+                    className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                    required
+                  />
                 </div>
               </div>
             </div>
 
             {/* Phone Section */}
             <div className="mb-6">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
+                Số điện thoại (*)
+              </label>
               <input
                 type="text"
                 name="phone"

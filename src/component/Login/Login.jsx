@@ -14,7 +14,7 @@ function Login() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/home");
+      // navigate("/");
     }
   }, [navigate]);
 
@@ -33,6 +33,7 @@ function Login() {
       // Check if the response contains a token
       if (response.data.token) {
         localStorage.setItem("token", response.data.token); // Store token in localStorage
+        localStorage.setItem("username", response.data.username); // Store username in localStorage
         navigate("/home"); // Navigate to the home page after login
       } else {
         setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
