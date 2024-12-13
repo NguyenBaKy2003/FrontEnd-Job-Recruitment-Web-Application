@@ -27,7 +27,7 @@ function Header() {
     setUsername("");
 
     // Redirect to login page
-    window.location.href = "/login";
+    window.location.href = "/employes/loginem";
   };
 
   return (

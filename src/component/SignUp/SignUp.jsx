@@ -12,7 +12,9 @@ function SignUp() {
     education: "",
     skill: [],
     phone: "",
-
+    create_by: "User",
+    role_id: 1,
+    status: "active",
     address: "", // Added address field
   });
 
@@ -44,16 +46,19 @@ function SignUp() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: formData.username,
+          userName: formData.username, // Match backend naming
           email: formData.email,
           password: formData.password,
-          firstname: formData.firstname,
-          lastname: formData.lastname,
+          firstName: formData.firstname, // Match backend naming
+          lastName: formData.lastname, // Match backend naming
           phone: formData.phone,
           address: formData.address || "Not provided",
           experience: formData.experience,
           education: formData.education,
           skill: formData.skill,
+          create_by: formData.create_by,
+          role_id: formData.role_id,
+          status: formData.status,
         }),
       });
 

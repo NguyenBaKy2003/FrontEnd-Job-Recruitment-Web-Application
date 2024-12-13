@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -25,7 +25,7 @@ function Login() {
     setSuccess("");
     setError("");
 
-    const data = { username, password };
+    const data = { userName: userName, password }; // Đảm bảo sử dụng đúng tên trường
     try {
       const response = await axios.post(
         "http://localhost:3001/api/auth/login",
@@ -34,17 +34,24 @@ function Login() {
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", response.data.username);
+        localStorage.setItem("userName", response.data.userName);
         setSuccess("Đăng nhập thành công!");
         setTimeout(() => {
           navigate("/home");
           window.location.reload();
-        }, 500); // Navigate after 2 seconds
+        }, 500); // Navigate after 0.5 seconds
       } else {
         setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       }
     } catch (error) {
-      setError("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      // Kiểm tra lỗi từ server
+      if (error.response && error.response.data) {
+        setError(
+          error.response.data.error || "Đã có lỗi xảy ra. Vui lòng thử lại."
+        );
+      } else {
+        setError("Đã có lỗi xảy ra. Vui lòng thử lại.");
+      }
       console.log(error);
     } finally {
       setLoading(false);
@@ -69,14 +76,14 @@ function Login() {
 
         <form onSubmit={login}>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-gray-700">
+            <label htmlFor="userName" className="block text-gray-700">
               Tên đăng nhập
             </label>
             <input
               type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="userName"
+              value={userName}
+              onChange={(e) => setuserName(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Nhập tên đăng nhập"
               required
@@ -87,15 +94,24 @@ function Login() {
             <label htmlFor="password" className="block text-gray-700">
               Mật khẩu
             </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-              placeholder="Nhập mật khẩu"
-              required
-            />
+            <div className="relative mt-2">
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2 text-gray-600 focus:outline-none">
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
           </div>
 
           <button

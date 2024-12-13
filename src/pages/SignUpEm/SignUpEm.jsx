@@ -2,16 +2,19 @@ import { useState } from "react";
 
 function SignupEmployer() {
   const [formData, setFormData] = useState({
-    username: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
     companyName: "",
     jobTitle: "",
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     phone: "",
     address: "",
+    role_id: 2,
+    status: "active",
+    create_by: "Employer",
   });
 
   const [message, setMessage] = useState(""); // Success message
@@ -59,15 +62,18 @@ function SignupEmployer() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: formData.username,
+            userName: formData.userName,
             email: formData.email,
             password: formData.password,
             companyName: formData.companyName, // Send the company name
             jobTitle: formData.jobTitle, // Send the job title
-            firstname: formData.firstname, // Send first name
-            lastname: formData.lastname, // Send last name
+            firstName: formData.firstName, // Send first name
+            lastName: formData.lastName, // Send last name
             phone: formData.phone, // Send the phone number
             address: formData.address, // Send the address
+            create_by: formData.create_by,
+            role_id: formData.role_id,
+            status: formData.status,
           }),
         }
       );
@@ -78,14 +84,14 @@ function SignupEmployer() {
         setMessage("Đăng ký thành công!"); // Success message
         setError("");
         setFormData({
-          username: "",
+          userName: "",
           email: "",
           password: "",
           confirmPassword: "",
           companyName: "",
           jobTitle: "",
-          firstname: "",
-          lastname: "",
+          firstName: "",
+          lastName: "",
           phone: "",
           address: "",
         });
@@ -129,8 +135,8 @@ function SignupEmployer() {
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
-                  name="username"
-                  value={formData.username}
+                  name="userName"
+                  value={formData.userName}
                   onChange={handleChange}
                   placeholder="Tên đăng nhập (*)"
                   className="p-3 border rounded-md w-full"
@@ -199,8 +205,8 @@ function SignupEmployer() {
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
-                  name="firstname"
-                  value={formData.firstname}
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
                   placeholder="Họ (*)"
                   className="p-3 border rounded-md w-full"
@@ -208,8 +214,8 @@ function SignupEmployer() {
                 />
                 <input
                   type="text"
-                  name="lastname"
-                  value={formData.lastname}
+                  name="lastName"
+                  value={formData.lastName}
                   onChange={handleChange}
                   placeholder="Tên (*)"
                   className="p-3 border rounded-md w-full"

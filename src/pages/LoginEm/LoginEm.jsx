@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginEm = () => {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -25,8 +25,10 @@ const LoginEm = () => {
     setLoading(true);
     setError("");
     setSuccess("");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
 
-    const data = { username, password };
+    const data = { userName, password };
     try {
       const response = await axios.post(
         "http://localhost:3001/api/auth/login",
@@ -127,7 +129,7 @@ const LoginEm = () => {
               type="text"
               id="username"
               name="username"
-              value={username}
+              value={userName}
               onChange={(e) => setUsername(e.target.value)}
               required
               className="w-full mt-2 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
