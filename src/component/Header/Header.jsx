@@ -9,11 +9,11 @@ function Header() {
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
+    const storedUserName = localStorage.getItem("userName");
 
     if (token) {
       setIsLoggedIn(true);
-      setUsername(storedUsername || "");
+      setUsername(storedUserName || "");
     }
   }, []);
 

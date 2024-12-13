@@ -28,7 +28,7 @@ function Login() {
     const data = { userName: userName, password }; // Đảm bảo sử dụng đúng tên trường
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        "http://localhost:3001/api/auth/login/user",
         data
       );
 

@@ -31,7 +31,7 @@ const LoginEm = () => {
     const data = { userName, password };
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/auth/login",
+        "http://localhost:3001/api/auth/login/employer",
         data
       );
 
