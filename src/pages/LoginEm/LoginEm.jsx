@@ -41,8 +41,8 @@ const LoginEm = () => {
 
         // Store token and user data in localStorage
         localStorage.setItem("token", token);
-        localStorage.setItem("employer", JSON.stringify(employer)); // Store user object as a JSON string
-
+        // localStorage.setItem("employer", JSON.stringify(employer)); // Store user object as a JSON string
+        localStorage.setItem("employerId", employer.id);
         setSuccess("Login successful!");
         setTimeout(() => {
           navigate("/employes");

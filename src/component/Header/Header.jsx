@@ -1,43 +1,69 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import axios from "axios"; // Import axios for making API requests
 
 function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); // Mobile menu state
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Dropdown menu state
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [userData, setUserData] = useState(null); // State to store user data
+  const [loading, setLoading] = useState(false);
 
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
+    const userId = localStorage.getItem("userId");
 
-    if (token && user) {
-      try {
-        const parsedUser = JSON.parse(user); // Parse user data
-        setIsLoggedIn(true);
-        setUsername(parsedUser.userName || ""); // Extract username
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage", error);
-      }
+    if (token && userId) {
+      setIsLoggedIn(true);
+      fetchUserData(userId);
     }
   }, []);
+
+  // Fetch user data from the API
+  const fetchUserData = async (userId) => {
+    setLoading(true); // Set loading state
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/users/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token in the request headers
+          },
+        }
+      );
+      const data = response.data;
+
+      // Assuming the API response has a field 'userName', update the state
+      setUsername(data.userName || "");
+      setUserData(data); // Store the full user data in state
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setIsLoggedIn(false); // Set logged in status to false if there's an error
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+    setDropdownOpen(false); // Close dropdown when mobile menu is opened
   };
 
   const handleLogout = () => {
-    // Remove token and username from localStorage
+    // Remove token and userId from localStorage
     localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("userId");
 
     // Update state
     setIsLoggedIn(false);
     setUsername("");
+    setUserData(null); // Clear user data state
 
     // Optional: Redirect to login page
     window.location.href = "/login";
   };
-
   return (
     <header className="shadow sticky z-50 top-0 bg-white">
       <nav className="border-gray-200 px-4 lg:px-6 py-2.5">
@@ -74,23 +100,17 @@ function Header() {
             </button>
           </div>
 
-          {/* Rest of the previous mobile and desktop navigation remains the same */}
-          {/* ... (previous navigation code) ... */}
-
-          {/* Buttons - Conditional Rendering */}
-
-          <div
-            className=" hidden  justify-between items-center w-full lg:flex lg:w-auto lg:order-1"
-            id="mobile-menu-2">
+          {/* Navigation Links */}
+          <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
+                    ${isActive ? "text-orange-700" : "text-gray-700"}
+                    lg:hover:bg-transparent
+                    lg:border-0 hover:text-orange-700`
                   }>
                   Trang Chủ
                 </NavLink>
@@ -100,9 +120,9 @@ function Header() {
                   to="/findjob"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
+                    ${isActive ? "text-orange-700" : "text-gray-700"}
+                    lg:hover:bg-transparent
+                    lg:border-0 hover:text-orange-700`
                   }>
                   Tìm Việc
                 </NavLink>
@@ -112,9 +132,9 @@ function Header() {
                   to="/company"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
+                    ${isActive ? "text-orange-700" : "text-gray-700"}
+                    lg:hover:bg-transparent
+                    lg:border-0 hover:text-orange-700`
                   }>
                   Công Ty
                 </NavLink>
@@ -124,22 +144,21 @@ function Header() {
                   to="/contact"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
+                    ${isActive ? "text-orange-700" : "text-gray-700"}
+                    lg:hover:bg-transparent
+                    lg:border-0 hover:text-orange-700`
                   }>
                   Liên Hệ
                 </NavLink>
               </li>
-
               <li>
                 <NavLink
                   to="/support"
                   className={({ isActive }) =>
                     `block pr-4 pl-3 duration-200 border-b border-gray-100 hover:bg-gray-50
-                  ${isActive ? "text-orange-700" : "text-gray-7000"}
-                  lg:hover:bg-transparent
-                  lg:border-0 hover:text-orange-700`
+                    ${isActive ? "text-orange-700" : "text-gray-700"}
+                    lg:hover:bg-transparent
+                    lg:border-0 hover:text-orange-700`
                   }>
                   Trợ Giúp
                 </NavLink>
@@ -154,8 +173,8 @@ function Header() {
                 <Link
                   to="/employes"
                   className="max-sm:text-sm max-sm:px-3 max-sm:py-2 max-sm:flex
-                   decoration-inherit text-orange-600 hover:text-orange-800 focus:ring-4 focus:ring-organe-300 font-medium rounded-lg text-md px-2 lg:px-5 py-2 lg:py-2.5 underline mr-2 focus:outline-none">
-                  For Employes
+                   decoration-inherit text-orange-600 hover:text-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-md px-2 lg:px-5 py-2 lg:py-2.5 underline mr-2 focus:outline-none">
+                  For Employees
                 </Link>
                 <Link
                   to="/signup"
@@ -172,13 +191,33 @@ function Header() {
 
             {/* If the user is logged in, show username and Logout */}
             {isLoggedIn && (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700 mr-2">Xin chào, {username}</span>
-                <button
-                  onClick={handleLogout}
-                  className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
+              <div
+                className="relative flex items-center space-x-4"
+                onClick={() => {
+                  setDropdownOpen(true);
+                  setMenuOpen(false); // Close mobile menu when dropdown is opened
+                }}
+                onDoubleClick={() => setDropdownOpen(false)}>
+                <span className="text-gray-700 cursor-pointer mr-2">
+                  Xin chào, {username}
+                </span>
+                {/* <button className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
                   Đăng Xuất
-                </button>
+                </button> */}
+                {dropdownOpen && (
+                  <div className="absolute   right-0 mt-36 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <NavLink
+                      to="/profile"
+                      className="block  px-4 py-2 text-gray-700 hover:bg-orange-600 hover:text-white ">
+                      Hồ Sơ
+                    </NavLink>
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-left text-gray-700 hover:text-white hover:bg-orange-600">
+                      Đăng Xuất
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios"; // Make sure to install axios if you haven't already
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -9,23 +10,39 @@ function Header() {
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const employer = localStorage.getItem("employer");
+    const employerId = localStorage.getItem("employerId"); // Assuming you store employer ID in localStorage
 
-    if (token && employer) {
-      try {
-        const parsedUser = JSON.parse(employer); // Parse user data
-        setIsLoggedIn(true);
-        setUsername(parsedUser.userName || ""); // Extract username
-      } catch (error) {
-        console.error("Failed to parse user data from localStorage", error);
-      }
+    if (token && employerId) {
+      // Fetch user data from the API
+      const fetchUserData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3001/api/users/user/${employerId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Include the token in the request headers
+              },
+            }
+          );
+
+          if (response.data) {
+            setIsLoggedIn(true);
+            setUsername(response.data.userName || ""); // Extract username
+          }
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+          setIsLoggedIn(false); // Set logged in status to false if there's an error
+        }
+      };
+
+      fetchUserData();
     }
   }, []);
 
   const handleLogout = () => {
     // Remove token and user data from localStorage
     localStorage.removeItem("token");
-    localStorage.removeItem("employer");
+    localStorage.removeItem("employerId"); // Remove employer ID
 
     // Update state
     setIsLoggedIn(false);
@@ -87,7 +104,7 @@ function Header() {
             <span className="text-gray-700">Xin chào, {username}</span>
             <Link to="/employes/payment">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                className="bg-red-500 hover:bg-red-600 text-white px- 4 py-2 rounded-lg"
                 onClick={() => setCurrentSection("Nâng cấp gói")}>
                 Nâng cấp gói
               </button>
