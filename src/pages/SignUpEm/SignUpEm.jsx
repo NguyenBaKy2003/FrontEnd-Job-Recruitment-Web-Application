@@ -12,7 +12,7 @@ function SignupEmployer() {
     lastName: "",
     phone: "",
     address: "",
-    role_id: 2,
+    role_id: 1,
     status: "active",
     create_by: "Employer",
   });
