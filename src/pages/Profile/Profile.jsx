@@ -130,7 +130,7 @@ const RecruiterProfile = () => {
               <a
                 href={profile.website || "#"}
                 className="text-blue-500 hover:underline">
-                {profile.website || "https://locfuho.com"}
+                {profile.website || "https://kyfuho.com"}
               </a>
             </p>
             <p>
