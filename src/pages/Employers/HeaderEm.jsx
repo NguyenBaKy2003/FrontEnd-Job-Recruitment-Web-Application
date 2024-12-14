@@ -101,17 +101,19 @@ function Header() {
         {/* Logged In */}
         {isLoggedIn && (
           <div className="flex items-center space-x-4">
-            <span className="text-gray-700">Xin chào, {username}</span>
+            <span className="text-gray-700 font-semibold">
+              Xin chào, {username}
+            </span>
             <Link to="/employes/payment">
               <button
-                className="bg-red-500 hover:bg-red-600 text-white px- 4 py-2 rounded-lg"
+                className="bg-red-500 max-md:text-sm max-md:py-2 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
                 onClick={() => setCurrentSection("Nâng cấp gói")}>
                 Nâng cấp gói
               </button>
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
+              className="bg-red-600 max-md:text-sm max-md:py-2 hover:bg-red-700 text-white px-4 py-2 rounded-lg">
               Đăng Xuất
             </button>
           </div>

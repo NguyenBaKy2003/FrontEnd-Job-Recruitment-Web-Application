@@ -26,7 +26,7 @@ function Header() {
     setLoading(true); // Set loading state
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/users/user/${userId}`,
+        `http://localhost:3001/api/users/user/${userId}}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token in the request headers
@@ -198,7 +198,7 @@ function Header() {
                   setMenuOpen(false); // Close mobile menu when dropdown is opened
                 }}
                 onDoubleClick={() => setDropdownOpen(false)}>
-                <span className="text-gray-700 cursor-pointer mr-2">
+                <span className="text-gray-700 cursor-pointer mr-2 font-semibold">
                   Xin chào, {username}
                 </span>
                 {/* <button className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">

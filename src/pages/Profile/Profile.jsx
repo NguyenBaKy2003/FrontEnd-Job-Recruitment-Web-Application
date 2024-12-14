@@ -45,7 +45,8 @@ const RecruiterProfile = () => {
           const { firstName, lastName, email, phone, address, employer } =
             response.data;
           setProfile({
-            avatar: "https://via.placeholder.com/150", // Default avatar
+            avatar:
+              "https://scontent.fvii2-4.fna.fbcdn.net/v/t39.30808-1/344542573_1016776169700186_59734981782926054_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=glxuONPvYGoQ7kNvgEg-RXV&_nc_zt=24&_nc_ht=scontent.fvii2-4.fna&_nc_gid=A-2MCq7piwM9XEic1M1bBq1&oh=00_AYCoLF8T9gwkrd9NwEvLtnVQvkswVvEZZI2TgvF--Xu0Mw&oe=6763DEA6", // Default avatar
             userName: response.data.userName,
             email,
             firstName,

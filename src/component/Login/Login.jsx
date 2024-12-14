@@ -3,16 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Login() {
-  const [userName, setUserName] = useState("");
+  const [userName, setuserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
-
-  // Check if user is already logged in
+  const [showPassword, setShowPassword] = useState(false);
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -24,34 +22,29 @@ function Login() {
     e.preventDefault();
 
     setLoading(true);
-    setError("");
     setSuccess("");
+    setError("");
 
-    const data = { userName, password }; // Use the correct field names
+    const data = { userName: userName, password }; // Ensure using correct field names
     try {
       const response = await axios.post(
         "http://localhost:3001/api/auth/login/user",
         data
       );
 
-      // Check if the response contains a token and userId
       if (response.data.token) {
-        const { token, userId } = response.data; // Assuming userId is returned in the response
-
-        // Store token and user ID in localStorage
-        localStorage.setItem("token", token);
-        localStorage.setItem("userId", userId); // Store userId directly
-
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("userId", response.data.userId); // Store the userId in localStorage
         setSuccess("Đăng nhập thành công!");
         setTimeout(() => {
           navigate("/home");
-          window.location.reload(); // Reload to fetch user data or reset app state
-        }, 500);
+          window.location.reload();
+        }, 500); // Navigate after 0.5 seconds
       } else {
         setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       }
     } catch (error) {
-      // Check for errors from the server
+      // Handle server errors
       if (error.response && error.response.data) {
         setError(
           error.response.data.error || "Đã có lỗi xảy ra. Vui lòng thử lại."
@@ -90,7 +83,7 @@ function Login() {
               type="text"
               id="userName"
               value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => setuserName(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
               placeholder="Nhập tên đăng nhập"
               required
@@ -110,13 +103,13 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Nhập mật khẩu"
+                placeholder="Enter your password"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-2 text-gray-600 focus:outline-none">
-                {showPassword ? "Ẩn" : "Hiện"}
+                {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
