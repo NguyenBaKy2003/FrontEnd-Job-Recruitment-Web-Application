@@ -12,6 +12,7 @@ const LoginEm = () => {
 
   const navigate = useNavigate();
 
+  // Check if user is already logged in
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -25,10 +26,10 @@ const LoginEm = () => {
     setLoading(true);
     setError("");
     setSuccess("");
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.clear(); // Clear all existing localStorage data on login attempt
 
     const data = { userName, password };
+
     try {
       const response = await axios.post(
         "http://localhost:3001/api/auth/login/employer",
@@ -36,19 +37,25 @@ const LoginEm = () => {
       );
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", response.data.username);
+        const { token, employer } = response.data;
+
+        // Store token and user data in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("employer", JSON.stringify(employer)); // Store user object as a JSON string
+
         setSuccess("Login successful!");
         setTimeout(() => {
           navigate("/employes");
-          window.location.reload();
+          window.location.reload(); // Reload to fetch user data or reset app state
         }, 500);
       } else {
         setError("Login failed. Please check your credentials.");
       }
     } catch (error) {
-      setError("An error occurred. Please try again.");
-      console.error(error);
+      setError(
+        error.response?.data?.error || "An error occurred. Please try again."
+      );
+      console.error("Login error:", error);
     } finally {
       setLoading(false);
     }
@@ -81,7 +88,7 @@ const LoginEm = () => {
           in relation to your privacy information.
         </p>
 
-        {/* Display Error or Success Message */}
+        {/* Error or Success Messages */}
         {error && <div className="text-red-500 text-center mb-4">{error}</div>}
         {success && (
           <div className="text-green-500 text-center mb-4">{success}</div>

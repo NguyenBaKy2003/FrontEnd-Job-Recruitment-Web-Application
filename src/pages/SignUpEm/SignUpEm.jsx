@@ -15,6 +15,10 @@ function SignupEmployer() {
     role_id: 1,
     status: "active",
     create_by: "Employer",
+    companyAddress: "",
+    companyIntroduce: "",
+    position: "",
+    service_id: 1, // Default to Free Plan (id=1)
   });
 
   const [message, setMessage] = useState(""); // Success message
@@ -38,7 +42,7 @@ function SignupEmployer() {
     }
 
     // Basic email and phone validation
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setError("Email không hợp lệ!");
       setLoading(false);
@@ -55,7 +59,7 @@ function SignupEmployer() {
     try {
       // Send data to the API
       const response = await fetch(
-        "http://localhost:3001/api/auth/register", // Adjust the API endpoint as needed
+        "http://localhost:3001/api/auth/register/employer", // Adjust the API endpoint as needed
         {
           method: "POST",
           headers: {
@@ -65,12 +69,16 @@ function SignupEmployer() {
             userName: formData.userName,
             email: formData.email,
             password: formData.password,
-            companyName: formData.companyName, // Send the company name
-            jobTitle: formData.jobTitle, // Send the job title
-            firstName: formData.firstName, // Send first name
-            lastName: formData.lastName, // Send last name
-            phone: formData.phone, // Send the phone number
-            address: formData.address, // Send the address
+            companyName: formData.companyName,
+            companyAddress: formData.companyAddress,
+            companyIntroduce: formData.companyIntroduce,
+            jobTitle: formData.jobTitle,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            phone: formData.phone,
+            address: formData.address,
+            position: formData.position,
+            service_id: formData.service_id, // Send the selected service_id
             create_by: formData.create_by,
             role_id: formData.role_id,
             status: formData.status,
@@ -94,6 +102,10 @@ function SignupEmployer() {
           lastName: "",
           phone: "",
           address: "",
+          companyAddress: "",
+          companyIntroduce: "",
+          position: "",
+          service_id: 1, // Default to free plan after submission
         });
       } else {
         setError(data.error || "Đăng ký thất bại!"); // Show error from server
@@ -196,7 +208,39 @@ function SignupEmployer() {
                   className="p-3 border rounded-md w-full"
                   required
                 />
+                <input
+                  type="text"
+                  name="companyAddress"
+                  value={formData.companyAddress}
+                  onChange={handleChange}
+                  placeholder="Địa chỉ công ty (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
+                <input
+                  type="text"
+                  name="companyIntroduce"
+                  value={formData.companyIntroduce}
+                  onChange={handleChange}
+                  placeholder="Giới thiệu công ty (*)"
+                  className="p-3 border rounded-md w-full"
+                  required
+                />
               </div>
+            </div>
+
+            {/* Service Plan Section */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Chọn gói dịch vụ</h2>
+              <select
+                name="service_id"
+                value={formData.service_id}
+                onChange={handleChange}
+                className="p-3 border rounded-md w-full">
+                <option value="1">Gói miễn phí (1 tháng)</option>
+                <option value="2">Gói 1 tháng</option>
+                <option value="3">Gói 3 tháng</option>
+              </select>
             </div>
 
             {/* Personal Info Section */}

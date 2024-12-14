@@ -9,14 +9,18 @@ function Header() {
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const storedUserName = localStorage.getItem("userName");
+    const user = localStorage.getItem("user");
 
-    if (token) {
-      setIsLoggedIn(true);
-      setUsername(storedUserName || "");
+    if (token && user) {
+      try {
+        const parsedUser = JSON.parse(user); // Parse user data
+        setIsLoggedIn(true);
+        setUsername(parsedUser.userName || ""); // Extract username
+      } catch (error) {
+        console.error("Failed to parse user data from localStorage", error);
+      }
     }
   }, []);
-
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -24,7 +28,7 @@ function Header() {
   const handleLogout = () => {
     // Remove token and username from localStorage
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem("user");
 
     // Update state
     setIsLoggedIn(false);

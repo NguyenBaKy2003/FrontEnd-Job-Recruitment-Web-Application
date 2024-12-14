@@ -9,18 +9,23 @@ function Header() {
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const storedUsername = localStorage.getItem("username");
+    const employer = localStorage.getItem("employer");
 
-    if (token) {
-      setIsLoggedIn(true);
-      setUsername(storedUsername || "");
+    if (token && employer) {
+      try {
+        const parsedUser = JSON.parse(employer); // Parse user data
+        setIsLoggedIn(true);
+        setUsername(parsedUser.userName || ""); // Extract username
+      } catch (error) {
+        console.error("Failed to parse user data from localStorage", error);
+      }
     }
   }, []);
 
   const handleLogout = () => {
-    // Remove token and username from localStorage
+    // Remove token and user data from localStorage
     localStorage.removeItem("token");
-    localStorage.removeItem("username");
+    localStorage.removeItem("employer");
 
     // Update state
     setIsLoggedIn(false);

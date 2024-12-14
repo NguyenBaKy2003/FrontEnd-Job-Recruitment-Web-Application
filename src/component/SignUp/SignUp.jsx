@@ -40,27 +40,30 @@ function SignUp() {
 
     try {
       // Send data to the API using fetch
-      const response = await fetch("http://localhost:3001/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userName: formData.username, // Match backend naming
-          email: formData.email,
-          password: formData.password,
-          firstName: formData.firstname, // Match backend naming
-          lastName: formData.lastname, // Match backend naming
-          phone: formData.phone,
-          address: formData.address || "Not provided",
-          experience: formData.experience,
-          education: formData.education,
-          skill: formData.skill,
-          create_by: formData.create_by,
-          role_id: formData.role_id,
-          status: formData.status,
-        }),
-      });
+      const response = await fetch(
+        "http://localhost:3001/api/auth/register/user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userName: formData.username, // Match backend naming
+            email: formData.email,
+            password: formData.password,
+            firstName: formData.firstname, // Match backend naming
+            lastName: formData.lastname, // Match backend naming
+            phone: formData.phone,
+            address: formData.address || "Not provided",
+            experience: formData.experience,
+            education: formData.education,
+            skill: formData.skill,
+            create_by: formData.create_by,
+            role_id: formData.role_id,
+            status: formData.status,
+          }),
+        }
+      );
 
       const data = await response.json();
 

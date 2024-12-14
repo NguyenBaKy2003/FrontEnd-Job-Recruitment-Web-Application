@@ -22,8 +22,9 @@ function Login() {
     e.preventDefault();
 
     setLoading(true);
-    setSuccess("");
     setError("");
+    setSuccess("");
+    localStorage.clear();
 
     const data = { userName: userName, password }; // Đảm bảo sử dụng đúng tên trường
     try {
@@ -33,13 +34,17 @@ function Login() {
       );
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userName", response.data.userName);
-        setSuccess("Đăng nhập thành công!");
+        const { token, user } = response.data;
+
+        // Store token and user data in localStorage
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user)); // Store user object as a JSON string
+
+        setSuccess("Login successful!");
         setTimeout(() => {
           navigate("/home");
-          window.location.reload();
-        }, 500); // Navigate after 0.5 seconds
+          window.location.reload(); // Reload to fetch user data or reset app state
+        }, 500);
       } else {
         setError("Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.");
       }
