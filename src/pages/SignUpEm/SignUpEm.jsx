@@ -6,7 +6,7 @@ function SignupEmployer() {
     email: "",
     password: "",
     confirmPassword: "",
-    companyName: "",
+    company_name: "",
     jobTitle: "",
     firstName: "",
     lastName: "",
@@ -15,10 +15,12 @@ function SignupEmployer() {
     role_id: 1,
     status: "active",
     create_by: "Employer",
-    companyAddress: "",
-    companyIntroduce: "",
+    company_address: "",
+    company_introduce: "",
     position: "",
+    category_id: "",
     service_id: 1, // Default to Free Plan (id=1)
+    name: "", // New field for category name
   });
 
   const [message, setMessage] = useState(""); // Success message
@@ -42,7 +44,7 @@ function SignupEmployer() {
     }
 
     // Basic email and phone validation
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setError("Email không hợp lệ!");
       setLoading(false);
@@ -69,9 +71,9 @@ function SignupEmployer() {
             userName: formData.userName,
             email: formData.email,
             password: formData.password,
-            companyName: formData.companyName,
-            companyAddress: formData.companyAddress,
-            companyIntroduce: formData.companyIntroduce,
+            company_name: formData.company_name,
+            company_address: formData.company_address,
+            company_introduce: formData.company_introduce,
             jobTitle: formData.jobTitle,
             firstName: formData.firstName,
             lastName: formData.lastName,
@@ -82,6 +84,8 @@ function SignupEmployer() {
             create_by: formData.create_by,
             role_id: formData.role_id,
             status: formData.status,
+            name: formData.name, // Include name in the request
+            category_id: formData.category_id,
           }),
         }
       );
@@ -96,16 +100,17 @@ function SignupEmployer() {
           email: "",
           password: "",
           confirmPassword: "",
-          companyName: "",
+          company_name: "",
           jobTitle: "",
           firstName: "",
           lastName: "",
           phone: "",
           address: "",
-          companyAddress: "",
-          companyIntroduce: "",
+          company_address: "",
+          company_introduce: "",
           position: "",
           service_id: 1, // Default to free plan after submission
+          categoryName: "", // Reset categoryName
         });
       } else {
         setError(data.error || "Đăng ký thất bại!"); // Show error from server
@@ -122,7 +127,7 @@ function SignupEmployer() {
     <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-50">
         <img
-          src="https://itviec.com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
+          src="https://itvie          .com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
           className="w-7/12 sm:w-10/12 md:w-8/12"
           alt="Employer"
         />
@@ -192,8 +197,8 @@ function SignupEmployer() {
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
-                  name="companyName"
-                  value={formData.companyName}
+                  name="company_name"
+                  value={formData.company_name}
                   onChange={handleChange}
                   placeholder="Tên công ty (*)"
                   className="p-3 border rounded-md w-full"
@@ -201,8 +206,8 @@ function SignupEmployer() {
                 />
                 <input
                   type="text"
-                  name="jobTitle"
-                  value={formData.jobTitle}
+                  name="position"
+                  value={formData.position && formData.category_id}
                   onChange={handleChange}
                   placeholder="Chức danh (*)"
                   className="p-3 border rounded-md w-full"
@@ -210,8 +215,8 @@ function SignupEmployer() {
                 />
                 <input
                   type="text"
-                  name="companyAddress"
-                  value={formData.companyAddress}
+                  name="company_address"
+                  value={formData.company_address}
                   onChange={handleChange}
                   placeholder="Địa chỉ công ty (*)"
                   className="p-3 border rounded-md w-full"
@@ -219,14 +224,28 @@ function SignupEmployer() {
                 />
                 <input
                   type="text"
-                  name="companyIntroduce"
-                  value={formData.companyIntroduce}
+                  name="company_introduce"
+                  value={formData.company_introduce}
                   onChange={handleChange}
                   placeholder="Giới thiệu công ty (*)"
                   className="p-3 border rounded-md w-full"
                   required
                 />
               </div>
+            </div>
+
+            {/* Category Name Section */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold mb-4">Thông tin danh mục</h2>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Tên danh mục (*)"
+                className="p-3 border rounded-md w-full"
+                required
+              />
             </div>
 
             {/* Service Plan Section */}

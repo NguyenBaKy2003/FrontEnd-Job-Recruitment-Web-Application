@@ -1,36 +1,62 @@
-// import React from "react";
-
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Company from "../Home/Company";
+
 function CompanyAll() {
-  const companies = [
-    {
-      id: 1,
-      name: "Công ty FPT Software",
-      location: "Hà Nội, Việt Nam",
-      jobs: "30 công việc",
-      logo: "https://th.bing.com/th/id/OIP.mLTCQL88yAT8z5EiSsyWswHaFQ?rs=1&pid=ImgDetMain",
-    },
-    {
-      id: 2,
-      name: "Công ty VinGroup",
-      location: "TP. Hồ Chí Minh, Việt Nam",
-      jobs: "50 công việc",
-      logo: "https://th.bing.com/th/id/OIP.YoRFkWJUuc2WMubY7hEXZAHaD2?rs=1&pid=ImgDetMain",
-    },
-    {
-      id: 3,
-      name: "Công ty Tiki",
-      location: "Đà Nẵng, Việt Nam",
-      jobs: "20 công việc",
-      logo: "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
-    },
-  ];
+  const [companies, setCompanies] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/employer/employers"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch companies");
+        }
+        const data = await response.json();
+        setCompanies(data); // Assuming the API returns an array of company objects
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="loader" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500">
+        <p>Error: {error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg">
+          Thử lại
+        </button>
+      </div>
+    );
+  }
+
+  if (companies.length === 0) {
+    return (
+      <div className="text-center text-gray-500">Không có công ty nào.</div>
+    );
+  }
+
   return (
     <div className="py-10 container mx-auto px-3">
-      <h2 className="text-3xl font-bold text-center mb-6">
-        Các Công Ty Tuyển Dụng Nổi Bật
-      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {companies.map((company) => (
           <Link key={company.id} to={`/company/${company.id}`}>

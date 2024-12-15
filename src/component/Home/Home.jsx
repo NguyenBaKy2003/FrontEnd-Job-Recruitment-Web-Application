@@ -1,33 +1,8 @@
 // import React from "react";
-import Findjob from "../FindJob/Findjob";
-import Company from "./Company";
-// import JobCard from "./JobCard";
+import CompanyAll from "../Company/CompanyAll";
+import Findjob from "../FindJob/Findjob"; // import JobCard from "./JobCard";
 
 // Danh sách công ty
-const companies = [
-  {
-    id: 1,
-    name: "Công ty FPT Software",
-    location: "Hà Nội, Việt Nam",
-    jobs: "30 công việc",
-    logo: "https://th.bing.com/th/id/OIP.mLTCQL88yAT8z5EiSsyWswHaFQ?rs=1&pid=ImgDetMain",
-  },
-  {
-    id: 2,
-    name: "Công ty VinGroup",
-    location: "TP. Hồ Chí Minh, Việt Nam",
-    jobs: "50 công việc",
-    logo: "https://th.bing.com/th/id/R.3dba36ee18ea9a3491117ebc60799014?rik=vGUimhiKV%2fTvVQ&riu=http%3a%2f%2fashui.com%2fawards%2fwp-content%2fuploads%2f2015%2f08%2fVingroup-1120x630.jpg&ehk=zHxGfLz8Vuk3caLKxc3anG1NJ56drSa9%2fdR5Vf4Fcik%3d&risl=&pid=ImgRaw&r=0",
-  },
-  {
-    id: 3,
-    name: "Công ty Tiki",
-    location: "Đà Nẵng, Việt Nam",
-    jobs: "20 công việc",
-    logo: "https://www.vietnamworks.com/_next/image?url=https%3A%2F%2Fimages.vietnamworks.com%2Fpictureofcompany%2F3e%2Fcompany-info-cover-picture-url-275978-1692256970.png&w=3840&q=75",
-  },
-];
-
 // Danh sách công việc
 
 function Home() {
@@ -77,10 +52,8 @@ function Home() {
           <h2 className="text-3xl font-bold text-center mb-6">
             Các Công Ty Tuyển Dụng Nổi Bật
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {companies.map((company) => (
-              <Company key={company.id} {...company} />
-            ))}
+          <div className="">
+            <CompanyAll></CompanyAll>
           </div>
         </div>
         {/* Danh sách công việc */}
