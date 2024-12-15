@@ -25,7 +25,7 @@ const PaymentPage = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-center py-10">
       <div className="bg-white w-full max-w-lg p-8 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center text-red-500 mb-6">
-          Payment for {selectedPlan ? selectedPlan.name : "Your Plan"}
+          Payment for {selectedPlan ? selectedPlan.service_name : "Your Plan"}
         </h1>
 
         {/* Plan Summary */}
@@ -33,13 +33,13 @@ const PaymentPage = () => {
           {selectedPlan ? (
             <>
               <p className="text-lg font-bold text-gray-700">
-                Plan: {selectedPlan.name}
+                Plan: {selectedPlan.service_name}
               </p>
               <p className="text-sm font-bold text-gray-600">
-                Price: {selectedPlan.price}
+                Price: {selectedPlan.price}$
               </p>
               <p className="text-sm font-bold text-gray-600">
-                Duration: {selectedPlan.duration}
+                Duration: {selectedPlan.jobPostNumber}
               </p>
             </>
           ) : (

@@ -53,18 +53,24 @@ const JobList = () => {
             key={job.id}
             className="flex items-center justify-between bg-gray-100 p-4 rounded-lg hover:bg-gray-200 transition-colors">
             <div>
-              <h3 className="text-lg font-semibold text-indigo-600">
+              <h3 className="text-lg font-semibold  text-indigo-600">
                 {job.title}
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm  font-semibold text-gray-500">
                 {job.employer} - {job.location}
               </p>
-              <p className="text-sm text-gray-500">Mức lương: {job.salary}</p>
+              <p className="text-sm text-gray-500 font-semibold ">
+                Mức lương: {job.salary}
+              </p>
+              <p className="text-md font-semibold text-gray-500">
+                Hạn chót nộp hồ sơ:{" "}
+                {new Date(job.application_deadline).toLocaleDateString()}
+              </p>
             </div>
             <div className="flex space-x-2">
               <button
                 onClick={() => handleDelete(job.id)}
-                className="text-red-500 hover:text-red-700 text-sm">
+                className=" font-semibold  text-red-500 hover:text-red-700 text-sm">
                 Delete
               </button>
             </div>
