@@ -18,7 +18,7 @@ function SignupEmployer() {
     company_address: "",
     company_introduce: "",
     position: "",
-    category_id: "",
+    category_id: 1,
     service_id: 1, // Default to Free Plan (id=1)
     name: "", // New field for category name
   });
@@ -207,7 +207,7 @@ function SignupEmployer() {
                 <input
                   type="text"
                   name="position"
-                  value={formData.position && formData.category_id}
+                  value={formData.position}
                   onChange={handleChange}
                   placeholder="Chức danh (*)"
                   className="p-3 border rounded-md w-full"

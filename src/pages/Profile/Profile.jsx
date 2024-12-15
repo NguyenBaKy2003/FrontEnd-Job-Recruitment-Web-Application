@@ -31,9 +31,10 @@ const RecruiterProfile = () => {
         setError("No user ID or authorization token found.");
         return;
       }
+
       try {
         const response = await axios.get(
-          `http://localhost:3001/api/users/user/${userID}`,
+          `http://localhost:3001/api/employer/employers/${userID}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the request headers
@@ -41,27 +42,30 @@ const RecruiterProfile = () => {
           }
         );
 
+        // Check if the response contains the necessary data
         if (response.data) {
-          const { firstName, lastName, email, phone, address, employer } =
-            response.data;
+          const employer = response.data; // This is the employer object
+          const user = employer.User; // Access the User object from the employer response
+
+          // Set profile state with default values if necessary
           setProfile({
-            avatar:
-              "https://scontent.fvii2-4.fna.fbcdn.net/v/t39.30808-1/344542573_1016776169700186_59734981782926054_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=102&ccb=1-7&_nc_sid=0ecb9b&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=glxuONPvYGoQ7kNvgEg-RXV&_nc_zt=24&_nc_ht=scontent.fvii2-4.fna&_nc_gid=A-2MCq7piwM9XEic1M1bBq1&oh=00_AYCoLF8T9gwkrd9NwEvLtnVQvkswVvEZZI2TgvF--Xu0Mw&oe=6763DEA6", // Default avatar
-            userName: response.data.userName,
-            email,
-            firstName,
-            lastName,
-            phone,
-            address,
-            company_name: employer.company_name, // Accessing company_name from employer
-            position: employer.position,
-            company_address: employer.company_address,
-            company_introduce: employer.company_introduce,
+            avatar: "https://via.placeholder.com/150", // Default avatar
+            userName: user?.userName || "N/A", // Use optional chaining and default value
+            email: user?.email || "N/A",
+            firstName: user?.firstName || "N/A",
+            lastName: user?.lastName || "N/A",
+            phone: user?.phone || "N/A",
+            address: employer.company_address || "N/A", // Address from the employer response
+            company_name: employer.company_name || "N/A", // Accessing company_name from employer
+            position: employer.position || "N/A",
+            company_address: employer.company_address || "N/A",
+            company_introduce: employer.company_introduce || "N/A",
           });
         } else {
           setError("Profile data not found.");
         }
       } catch (error) {
+        console.error("Error fetching profile:", error); // Log the error details
         setError(
           error.response?.data?.error ||
             "An error occurred while fetching the profile."

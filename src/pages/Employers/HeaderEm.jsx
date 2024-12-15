@@ -17,7 +17,7 @@ function Header() {
       const fetchUserData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:3001/api/users/user/${employerId}`,
+            `http://localhost:3001/api/employer/employers/${employerId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`, // Include the token in the request headers
@@ -27,7 +27,9 @@ function Header() {
 
           if (response.data) {
             setIsLoggedIn(true);
-            setUsername(response.data.userName || ""); // Extract username
+            const employer = response.data; // This is the employer object
+            const user = employer.User; // Accessing the nested User object
+            setUsername(user.userName); // Set the username state from the User object
           }
         } catch (error) {
           console.error("Failed to fetch user data:", error);
