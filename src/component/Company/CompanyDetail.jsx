@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const CompanyDetail = () => {
-  const { companyId } = useParams(); // Lấy tham số companyId từ URL
+  const { companyId } = useParams(); // Get companyId from URL
   const [company, setCompany] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,20 +17,27 @@ const CompanyDetail = () => {
           throw new Error("Failed to fetch company data");
         }
         const data = await response.json();
-        setCompany(data); // Lưu dữ liệu trả về
+        setCompany(data); // Save the fetched data
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false); // Kết thúc trạng thái loading
+        setLoading(false); // End loading state
       }
     };
 
     fetchCompanyData();
-  }, [companyId]); // Thêm companyId vào dependency array để gọi lại khi companyId thay đổi
+  }, [companyId]); // Trigger on companyId change
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!company) return <div>Công ty không tồn tại!</div>;
+  if (!company) return <div>Company not found!</div>;
+
+  // Check if there are jobs
+  const firstJob = company.Jobs && company.Jobs[0] ? company.Jobs[0] : null;
+
+  // Safely access category and benefit, with fallback
+  const categoryName = firstJob?.Category?.name || "No category available";
+  const benefit = firstJob?.benefit || "No benefits available";
 
   return (
     <>
@@ -47,52 +54,35 @@ const CompanyDetail = () => {
 
       <main className="p-6 max-w-screen-xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 w-full">
-          <div className="lg:col-span-9 bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold">Về chúng tôi</h2>
-            <p className="mt-4 text-gray-700">{company.company_introduce}</p>
-
+          <div className="lg:col-span-9 bg-white p-6 rounded-lg shadow-lg">
             <div className="mt-6">
-              <h3 className="text-xl font-medium">Sứ mệnh và Tầm nhìn</h3>
-              <p className="mt-4 text-gray-700">{company.mission}</p>
+              <h2 className="text-2xl font-semibold">About Us</h2>
+              <p className="mt-4 text-gray-700">{company.company_introduce}</p>
             </div>
             <div className="mt-6">
-              <h3 className="text-xl font-medium">Giá trị cốt lõi</h3>
-              <p className="mt-4 text-gray-700">{company.coreValues}</p>
+              <h2 className="text-2xl font-semibold">Category</h2>
+              <p className="mt-4 text-gray-700">{categoryName}</p>
             </div>
-            {/* <h3 className="text-xl font-semibold mt-6">Chế độ đãi ngộ</h3>
-            <ul className="mt-4 list-disc pl-6">
-              {company.benefits.map((benefit, index) => (
-                <li key={index} className="text-gray-700">
-                  {benefit}
-                </li>
-              ))}
-            </ul> */}
-            {/* <h3 className="text-xl font-medium mt-6">Vị trí đang tuyển</h3>
-            <ul className="mt-4 list-disc pl-6">
-              {company.jobs.map((job) => (
-                <li key={job.id} className="text-gray-700">
-                  {job.title}
-                </li>
-              ))}
-            </ul> */}
+            <div className="mt-6">
+              <h2 className="text-2xl font-semibold">Benefits</h2>
+              <p className="mt-4 text-gray-700">{benefit}</p>
+            </div>
+            {company.Jobs.length === 0 && (
+              <div className="mt-6 text-gray-600">
+                <p>No jobs available for this company.</p>
+              </div>
+            )}
           </div>
 
-          <div className="lg:col-span-3 flex  flex-col gap-5 ">
+          <div className="lg:col-span-3 flex flex-col gap-5">
             <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-semibold">Thông tin chung</h2>
+              <h2 className="text-2xl font-semibold">General Information</h2>
               <ul className="mt-4 space-y-3">
                 <li>
-                  <strong>Năm thành lập:</strong> {company.founded}
+                  <strong>Founded Year:</strong> {company.founded}
                 </li>
-                {/* <li>
-                  <strong>Số lượng nhân viên:</strong>{" "}
-                  {company.employees.toLocaleString()}
-                </li> */}
-                {/* <li>
-                  <strong>Lĩnh vực:</strong> {company.industries.join(", ")}
-                </li> */}
                 <li>
-                  <strong>Trang web:</strong>{" "}
+                  <strong>Website:</strong>{" "}
                   <a
                     href={company.website}
                     target="_blank"
@@ -104,7 +94,8 @@ const CompanyDetail = () => {
               </ul>
             </div>
             <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
-              <h3 className="text-2xl font-semibold">Địa Chỉ</h3>
+              <h3 className="text-2xl font-semibold">Address</h3>
+              <p>{company.company_address}</p>
             </div>
           </div>
         </div>

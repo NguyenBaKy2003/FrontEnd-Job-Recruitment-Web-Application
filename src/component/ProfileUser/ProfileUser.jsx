@@ -11,7 +11,7 @@ const ProfileUser = () => {
     education: "",
     skills: [], // Ensure this is an array
     phone: "",
-    create_by: "User ",
+    create_by: "User",
     role_id: 2,
     status: "active",
     address: "",

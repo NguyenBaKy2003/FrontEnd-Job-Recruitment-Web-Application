@@ -14,18 +14,32 @@ const CreateJob = () => {
     type: "",
     employer_id: Number(localStorage.getItem("employerId")) || 1, // Convert to number
     category_id: 1, // Default to "Công nghệ thông tin"
-    position: "",
+    position: "", // Initialize position
     skill_id: [], // Initialize as an empty array
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [positions, setPositions] = useState([]); // State to hold positions
 
   useEffect(() => {
     // Check if employer_id is not in localStorage and handle redirection or error message if needed
     if (!formData.employer_id) {
       setError("Vui lòng đăng nhập để tạo công việc.");
     }
+
+    // Fetch positions from the API (or use hardcoded values)
+    const fetchPositions = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/positions"); // Adjust the URL as needed
+        setPositions(response.data); // Assuming the API returns an array of positions
+      } catch (err) {
+        console.error("Error fetching positions:", err);
+        setError("Không thể tải danh sách vị trí.");
+      }
+    };
+
+    fetchPositions();
   }, [formData.employer_id]);
 
   const handleChange = (e) => {
@@ -90,6 +104,7 @@ const CreateJob = () => {
       !formData.location ||
       !formData.salary ||
       !formData.type ||
+      !formData.position || // Ensure position is selected
       !formData.skill_id.length
     ) {
       setError(
@@ -128,7 +143,7 @@ const CreateJob = () => {
         salary: "",
         type: "",
         category_id: 1, // Reset to default category
-        position: "",
+        position: "", // Reset position
         skill_id: [], // Reset skills array after submission
         employer_id: Number(localStorage.getItem("employerId")) || 1, // Ensure employer_id is retained
       });
@@ -136,7 +151,7 @@ const CreateJob = () => {
       console.error("Error creating job:", error); // Log the error for debugging
       setError(
         error.response?.data?.error ||
-          "Không thể tạo công việc. V ui lòng thử lại."
+          "Không thể tạo công việc. Vui lòng thử lại."
       );
     } finally {
       setLoading(false);
@@ -313,6 +328,29 @@ const CreateJob = () => {
             <option value="1">Công nghệ thông tin</option>
             <option value="2">Sale</option>
             <option value="3">Marketing</option>
+          </select>
+        </div>
+
+        {/* Vị trí */}
+        <div className="mb-4">
+          <label
+            htmlFor="position"
+            className="block text-sm font-medium text-gray-700 mb-2">
+            Vị trí
+          </label>
+          <select
+            name="position"
+            id="position"
+            value={formData.position}
+            onChange={handleChange}
+            required
+            className="border border-gray-300 rounded-md p-2 w-full">
+            <option value="">Chọn vị trí</option>
+            {positions.map((pos) => (
+              <option key={pos.id} value={pos.name}>
+                {pos.name}
+              </option>
+            ))}
           </select>
         </div>
 

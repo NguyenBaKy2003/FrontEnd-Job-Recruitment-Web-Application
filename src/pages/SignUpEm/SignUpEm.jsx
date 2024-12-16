@@ -1,12 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function SignupEmployer() {
-  // Predefined categories
-  const categories = [
-    { id: 1, name: "Công nghệ thông tin", code: "CNTT" },
-    { id: 2, name: "Sale", code: "SALE" },
-    { id: 3, name: "Marketing", code: "MARKET" },
-  ];
+  // Initialize state for positions and categories
+  const [categories, setCategories] = useState([]);
+  const [positions, setPositions] = useState([]);
 
   const [formData, setFormData] = useState({
     userName: "",
@@ -26,14 +23,39 @@ function SignupEmployer() {
     company_introduce: "",
     position: "",
     service_id: 1, // Default to Free Plan
-    category_id: categories[0].id, // Default category
-    name: categories[0].name, // Default category name
-    code: categories[0].code, // Default category code
+    category_id: "", // Default category
+    name: "", // Default category name
+    code: "", // Default category code
   });
 
   const [message, setMessage] = useState(""); // Success message
   const [error, setError] = useState(""); // Error message
   const [loading, setLoading] = useState(false); // Loading state
+
+  // Fetch categories and positions from the API on component mount
+  useEffect(() => {
+    // Fetch categories
+    fetch("http://localhost:3001/api/category")
+      .then((response) => response.json())
+      .then((data) => {
+        setCategories(data); // Set categories state
+        if (data && data.length > 0) {
+          setFormData((prevData) => ({
+            ...prevData,
+            category_id: data[0].id,
+            name: data[0].name,
+            code: data[0].code,
+          }));
+        }
+      })
+      .catch((err) => setError("Không thể tải danh mục"));
+
+    // Fetch positions
+    fetch("http://localhost:3001/api/positions")
+      .then((response) => response.json())
+      .then((data) => setPositions(data)) // Set positions state
+      .catch((err) => setError("Không thể tải vị trí"));
+  }, []);
 
   // Handle changes in category selection
   const handleCategoryChange = (e) => {
@@ -55,6 +77,18 @@ function SignupEmployer() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handlePositionChange = (e) => {
+    const selectedPosition = positions.find(
+      (position) => position.id === parseInt(e.target.value)
+    );
+    if (selectedPosition) {
+      setFormData((prevData) => ({
+        ...prevData,
+        position: selectedPosition.id,
+      }));
+    }
   };
 
   // Handle form submission
@@ -120,9 +154,9 @@ function SignupEmployer() {
           company_introduce: "",
           position: "",
           service_id: 1,
-          category_id: categories[0].id,
-          name: categories[0].name,
-          code: categories[0].code,
+          category_id: categories[0]?.id || "", // Default category
+          name: categories[0]?.name || "", // Default category name
+          code: categories[0]?.code || "", // Default category code
         });
       } else {
         setError(data.error || "Đăng ký thất bại!");
@@ -216,15 +250,18 @@ function SignupEmployer() {
                   className="p-3 border rounded-md w-full"
                   required
                 />
-                <input
-                  type="text"
+                <select
                   name="position"
                   value={formData.position}
-                  onChange={handleChange}
-                  placeholder="Chức danh (*)"
+                  onChange={handlePositionChange}
                   className="p-3 border rounded-md w-full"
-                  required
-                />
+                  required>
+                  {positions.map((position) => (
+                    <option key={position.id} value={position.name}>
+                      {position.name}
+                    </option>
+                  ))}
+                </select>
                 <input
                   type="text"
                   name="company_address"

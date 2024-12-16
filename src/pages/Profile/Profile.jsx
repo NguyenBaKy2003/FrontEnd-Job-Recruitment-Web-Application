@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import ChangePassword from "./ChangePassWord"; // Import the ChangePassword component
 
 const RecruiterProfile = () => {
-  // State to hold recruiter profile information
   const [profile, setProfile] = useState({
-    avatar: "https://via.placeholder.com/150", // Default avatar
+    avatar: "https://via.placeholder.com/150",
     userName: "",
     email: "",
     firstName: "",
@@ -17,15 +17,14 @@ const RecruiterProfile = () => {
     company_introduce: "",
   });
 
-  // State to toggle between edit and view mode
   const [isEditing, setIsEditing] = useState(false);
-  const [error, setError] = useState(null); // State to hold error messages
+  const [error, setError] = useState(null);
+  const [showChangePassword, setShowChangePassword] = useState(false); // State to control the modal
 
-  // Fetch the profile data from the API on component mount
   useEffect(() => {
     const fetchProfile = async () => {
-      const userID = localStorage.getItem("employerId"); // Get the employer ID from localStorage
-      const token = localStorage.getItem("token"); // Get the token from localStorage
+      const userID = localStorage.getItem("employerId");
+      const token = localStorage.getItem("token");
 
       if (!userID || !token) {
         setError("No user ID or authorization token found.");
@@ -37,26 +36,24 @@ const RecruiterProfile = () => {
           `http://localhost:3001/api/employer/employers/${userID}`,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Include the token in the request headers
+              Authorization: `Bearer ${token}`,
             },
           }
         );
 
-        // Check if the response contains the necessary data
         if (response.data) {
-          const employer = response.data; // This is the employer object
-          const user = employer.User; // Access the User object from the employer response
+          const employer = response.data;
+          const user = employer.User;
 
-          // Set profile state with default values if necessary
           setProfile({
-            avatar: "https://via.placeholder.com/150", // Default avatar
-            userName: user?.userName || "N/A", // Use optional chaining and default value
+            avatar: "https://via.placeholder.com/150",
+            userName: user?.userName || "N/A",
             email: user?.email || "N/A",
             firstName: user?.firstName || "N/A",
             lastName: user?.lastName || "N/A",
             phone: user?.phone || "N/A",
-            address: employer.company_address || "N/A", // Address from the employer response
-            company_name: employer.company_name || "N/A", // Accessing company_name from employer
+            address: employer.company_address || "N/A",
+            company_name: employer.company_name || "N/A",
             position: employer.position || "N/A",
             company_address: employer.company_address || "N/A",
             company_introduce: employer.company_introduce || "N/A",
@@ -65,7 +62,7 @@ const RecruiterProfile = () => {
           setError("Profile data not found.");
         }
       } catch (error) {
-        console.error("Error fetching profile:", error); // Log the error details
+        console.error("Error fetching profile:", error);
         setError(
           error.response?.data?.error ||
             "An error occurred while fetching the profile."
@@ -76,15 +73,39 @@ const RecruiterProfile = () => {
     fetchProfile();
   }, []);
 
-  // Function to handle updating profile
-  const handleUpdateProfile = () => {
-    // Save the updated profile data to localStorage
-    localStorage.setItem("employer", JSON.stringify(profile));
-    alert("Profile updated successfully!");
-    setIsEditing(false); // Exit edit mode after saving
+  const handleUpdateProfile = async () => {
+    const userID = localStorage.getItem("employerId");
+    const token = localStorage.getItem("token");
+
+    if (!userID || !token) {
+      setError("No user ID or authorization token found.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `http://localhost:3001/api/employer/employers/${userID}`,
+        profile,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Profile updated successfully!");
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setError(
+        error.response?.data?.error ||
+          "An error occurred while updating the profile."
+      );
+    }
   };
 
-  // Handle input change to update the profile in state
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({
@@ -93,21 +114,21 @@ const RecruiterProfile = () => {
     }));
   };
 
-  // Render error messages or the profile
+  const toggleChangePasswordModal = () => {
+    setShowChangePassword((prev) => !prev);
+  };
+
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
   return (
     <div className="container mx-auto py-10 px-4">
-      {/* Header */}
       <header className="bg-white rounded-lg shadow-lg mb-6 p-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Thông tin cá nhân</h1>
       </header>
 
-      {/* Profile */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Avatar and Contact */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <div className="flex flex-col items-center">
             <img
@@ -156,7 +177,6 @@ const RecruiterProfile = () => {
           </div>
         </div>
 
-        {/* Detailed Information */}
         <div className="col-span-2 bg-white p-6 rounded-lg shadow-lg">
           <div className="space-y-4">
             <p>
@@ -246,13 +266,26 @@ const RecruiterProfile = () => {
               )}
             </p>
           </div>
-          <button
-            onClick={isEditing ? handleUpdateProfile : () => setIsEditing(true)}
-            className="mt-6 bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600">
-            {isEditing ? "Save Changes" : "Edit Profile"}
-          </button>
+          <div className="flex mt-6">
+            <button
+              onClick={
+                isEditing ? handleUpdateProfile : () => setIsEditing(true)
+              }
+              className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2">
+              {isEditing ? "Save Changes" : "Edit Profile"}
+            </button>
+            <button
+              onClick={toggleChangePasswordModal}
+              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
+              Change Password
+            </button>
+          </div>
         </div>
       </div>
+
+      {showChangePassword && (
+        <ChangePassword onClose={toggleChangePasswordModal} />
+      )}
     </div>
   );
 };
