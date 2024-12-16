@@ -1,4 +1,4 @@
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const CompanyDetail = () => {
@@ -90,11 +90,11 @@ const CompanyDetail = () => {
                       <li
                         key={job.id}
                         className="border p-4 rounded-lg shadow-sm">
-                        <NavLink
+                        <Link
                           to={`/findjob/${job.id}`} // Use relative path for routing
                           className="text-xl font-bold hover:underline">
                           {job.title}
-                        </NavLink>
+                        </Link>
                         <p className="text-gray-600">{job.description}</p>
                         <p className="text-gray-500">
                           Location: {job.location}
