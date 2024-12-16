@@ -13,7 +13,7 @@ const CreateJob = () => {
     salary: "",
     type: "",
     employer_id: Number(localStorage.getItem("employerId")) || 1, // Convert to number
-    category_id: 2, // Assuming a default category ID
+    category_id: 1, // Default to "Công nghệ thông tin"
     position: "",
     skill_id: [], // Initialize as an empty array
   });
@@ -47,6 +47,31 @@ const CreateJob = () => {
       setFormData((prev) => ({
         ...prev,
         [name]: value,
+      }));
+
+      // Update category_id if the field is changed
+      if (name === "field") {
+        setFormData((prev) => ({
+          ...prev,
+          category_id: Number(value), // Update category_id based on selected field
+        }));
+      }
+    }
+  };
+
+  const handleSkillChange = (e) => {
+    const { value, checked } = e.target;
+
+    // Update skill_id array based on checkbox selection
+    if (checked) {
+      setFormData((prev) => ({
+        ...prev,
+        skill_id: [...prev.skill_id, Number(value)], // Add selected skill
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        skill_id: prev.skill_id.filter((id) => id !== Number(value)), // Remove unselected skill
       }));
     }
   };
@@ -102,7 +127,7 @@ const CreateJob = () => {
         location: "",
         salary: "",
         type: "",
-        category_id: 2,
+        category_id: 1, // Reset to default category
         position: "",
         skill_id: [], // Reset skills array after submission
         employer_id: Number(localStorage.getItem("employerId")) || 1, // Ensure employer_id is retained
@@ -111,7 +136,7 @@ const CreateJob = () => {
       console.error("Error creating job:", error); // Log the error for debugging
       setError(
         error.response?.data?.error ||
-          "Không thể tạo công việc. Vui lòng thử lại."
+          "Không thể tạo công việc. V ui lòng thử lại."
       );
     } finally {
       setLoading(false);
@@ -271,24 +296,69 @@ const CreateJob = () => {
           </select>
         </div>
 
-        {/* Kỹ năng */}
+        {/* Linh vực */}
         <div className="mb-4">
           <label
-            htmlFor="skill_id"
+            htmlFor="field"
             className="block text-sm font-medium text-gray-700 mb-2">
-            Kỹ năng
+            Linh vực
           </label>
           <select
-            name="skill_id"
-            id="skill_id"
-            multiple
+            name="field"
+            id="field"
             onChange={handleChange}
+            required
             className="border border-gray-300 rounded-md p-2 w-full">
-            <option value="1">Kỹ năng 1</option>
-            <option value="2">Kỹ năng 2</option>
-            <option value="3">Kỹ năng 3</option>
-            <option value="4">Kỹ năng 4</option>
+            <option value="">Chọn linh vực</option>
+            <option value="1">Công nghệ thông tin</option>
+            <option value="2">Sale</option>
+            <option value="3">Marketing</option>
           </select>
+        </div>
+
+        {/* Kỹ năng */}
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Kỹ năng
+          </label>
+          <div className="flex flex-col">
+            <label>
+              <input
+                type="checkbox"
+                value="1"
+                checked={formData.skill_id.includes(1)}
+                onChange={handleSkillChange}
+              />
+              ReactJS
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="2"
+                checked={formData.skill_id.includes(2)}
+                onChange={handleSkillChange}
+              />
+              JavaScript
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="3"
+                checked={formData.skill_id.includes(3)}
+                onChange={handleSkillChange}
+              />
+              Kỹ năng 3
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value="4"
+                checked={formData.skill_id.includes(4)}
+                onChange={handleSkillChange}
+              />
+              Kỹ năng 4
+            </label>
+          </div>
         </div>
 
         <button

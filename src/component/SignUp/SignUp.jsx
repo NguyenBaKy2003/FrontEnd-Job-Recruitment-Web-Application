@@ -12,7 +12,7 @@ function SignUp() {
     education: "",
     skill: [],
     phone: "",
-    create_by: "User",
+    create_by: "User  ",
     role_id: 2,
     status: "active",
     address: "", // Added address field
@@ -21,12 +21,41 @@ function SignUp() {
   const [message, setMessage] = useState(""); // Success message
   const [error, setError] = useState(""); // Error message
   const [loading, setLoading] = useState(false); // Loading state
-
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value, checked } = e.target;
 
+    if (name === "skill") {
+      // If checkbox is checked, add the skill and its category
+      if (checked) {
+        const skillData = [
+          { name: "Công nghệ thông tin", category_id: 1 },
+          { name: "Java", category_id: 1 },
+          { name: "JavaScript", category_id: 1 },
+          { name: "ReactJS", category_id: 1 },
+          { name: "NodeJS", category_id: 1 },
+          { name: "Marketing", category_id: 3 },
+          { name: "Sales", category_id: 4 },
+        ];
+
+        const selectedSkill = skillData.find((skill) => skill.name === value);
+
+        if (selectedSkill) {
+          setFormData((prevState) => ({
+            ...prevState,
+            skill: [...prevState.skill, selectedSkill],
+          }));
+        }
+      } else {
+        // If checkbox is unchecked, remove the skill from the formData
+        setFormData((prevState) => ({
+          ...prevState,
+          skill: prevState.skill.filter((item) => item.name !== value),
+        }));
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -48,16 +77,16 @@ function SignUp() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userName: formData.username, // Match backend naming
+            userName: formData.username,
             email: formData.email,
             password: formData.password,
-            firstName: formData.firstname, // Match backend naming
-            lastName: formData.lastname, // Match backend naming
+            firstName: formData.firstname,
+            lastName: formData.lastname,
             phone: formData.phone,
             address: formData.address || "Not provided",
             experience: formData.experience,
             education: formData.education,
-            skill: formData.skill,
+            skill: formData.skill, // Send the entire skill object with category_id
             create_by: formData.create_by,
             role_id: formData.role_id,
             status: formData.status,
@@ -68,7 +97,7 @@ function SignUp() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Đăng ký thành công!"); // Success message
+        setMessage("Đăng ký thành công!");
         setError("");
         setFormData({
           username: "",
@@ -79,10 +108,10 @@ function SignUp() {
           lastname: "",
           experience: "",
           education: "",
-          skill: "",
-          phone: "", // Reset phone number field
+          skill: [], // Reset skills
+          phone: "",
+          address: "", // Reset address
         });
-
         // Clear message after 5 seconds
         setTimeout(() => setMessage(""), 5000);
       } else {
@@ -95,7 +124,6 @@ function SignUp() {
       setLoading(false); // Stop loading
     }
   };
-
   return (
     <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-50">
@@ -196,26 +224,63 @@ function SignUp() {
                   className="p-3 border rounded-md w-full col-span-2"
                   rows="3"
                   required></textarea>
+
+                {/* Skill */}
                 <div className="col-span-2">
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     Kỹ năng (*)
                   </label>
-                  <select
-                    name="skills"
-                    value={formData.skills}
-                    onChange={handleChange}
-                    className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                    required>
-                    <option value="">Chọn kỹ năng</option>
-                    <option value="Công nghệ thông tin">
-                      Công nghệ thông tin
-                    </option>
-                    <option value="Java">Java</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="ReactJS">ReactJS</option>
-                  </select>
+                  <div className="space-y-2">
+                    {[
+                      { name: "Công nghệ thông tin", category_id: 1 },
+                      { name: "Java", category_id: 1 },
+                      { name: "JavaScript", category_id: 1 },
+                      { name: "ReactJS", category_id: 1 },
+                      { name: "NodeJS", category_id: 1 },
+                      { name: "Marketing", category_id: 3 },
+                      { name: "Sales", category_id: 4 },
+                    ].map(({ name, category_id }) => (
+                      <div key={name} className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id={name}
+                          value={name}
+                          checked={formData.skill.some(
+                            (item) => item.skill === name
+                          )}
+                          onChange={(e) => {
+                            const { checked } = e.target;
+                            if (checked) {
+                              // Add skill with category_id
+                              setFormData((prevState) => ({
+                                ...prevState,
+                                skill: [
+                                  ...prevState.skill,
+                                  { skill: name, category_id },
+                                ],
+                              }));
+                            } else {
+                              // Remove skill
+                              setFormData((prevState) => ({
+                                ...prevState,
+                                skill: prevState.skill.filter(
+                                  (item) => item.skill !== name
+                                ),
+                              }));
+                            }
+                          }}
+                          name="skill"
+                          className="mr-2"
+                        />
+                        <label
+                          htmlFor={name}
+                          className="text-sm font-medium text-gray-700">
+                          {name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
                 <div className="col-span-2">
                   <label className="block mb-2 text-sm font-medium text-gray-700">
                     Địa chỉ (*)

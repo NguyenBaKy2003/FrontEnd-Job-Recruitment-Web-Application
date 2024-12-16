@@ -1,6 +1,13 @@
 import { useState } from "react";
 
 function SignupEmployer() {
+  // Predefined categories
+  const categories = [
+    { id: 1, name: "Công nghệ thông tin", code: "CNTT" },
+    { id: 2, name: "Sale", code: "SALE" },
+    { id: 3, name: "Marketing", code: "MARKET" },
+  ];
+
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -18,32 +25,51 @@ function SignupEmployer() {
     company_address: "",
     company_introduce: "",
     position: "",
-    category_id: 1,
-    service_id: 1, // Default to Free Plan (id=1)
-    name: "", // New field for category name
+    service_id: 1, // Default to Free Plan
+    category_id: categories[0].id, // Default category
+    name: categories[0].name, // Default category name
+    code: categories[0].code, // Default category code
   });
 
   const [message, setMessage] = useState(""); // Success message
   const [error, setError] = useState(""); // Error message
   const [loading, setLoading] = useState(false); // Loading state
 
+  // Handle changes in category selection
+  const handleCategoryChange = (e) => {
+    const selectedCategory = categories.find(
+      (category) => category.id === parseInt(e.target.value)
+    );
+
+    if (selectedCategory) {
+      setFormData((prevData) => ({
+        ...prevData,
+        category_id: selectedCategory.id,
+        name: selectedCategory.name,
+        code: selectedCategory.code,
+      }));
+    }
+  };
+
+  // Handle changes for other inputs
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true);
 
-    // Check if passwords match
+    // Validate passwords
     if (formData.password !== formData.confirmPassword) {
       setError("Mật khẩu và xác nhận mật khẩu không khớp!");
       setLoading(false);
       return;
     }
 
-    // Basic email and phone validation
+    // Validate email
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(formData.email)) {
       setError("Email không hợp lệ!");
@@ -51,6 +77,7 @@ function SignupEmployer() {
       return;
     }
 
+    // Validate phone
     const phoneRegex = /^[0-9]{10,12}$/;
     if (!phoneRegex.test(formData.phone)) {
       setError("Số điện thoại không hợp lệ!");
@@ -59,33 +86,15 @@ function SignupEmployer() {
     }
 
     try {
-      // Send data to the API
       const response = await fetch(
-        "http://localhost:3001/api/auth/register/employer", // Adjust the API endpoint as needed
+        "http://localhost:3001/api/auth/register/employer",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            userName: formData.userName,
-            email: formData.email,
-            password: formData.password,
-            company_name: formData.company_name,
-            company_address: formData.company_address,
-            company_introduce: formData.company_introduce,
-            jobTitle: formData.jobTitle,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            phone: formData.phone,
-            address: formData.address,
-            position: formData.position,
-            service_id: formData.service_id, // Send the selected service_id
-            create_by: formData.create_by,
-            role_id: formData.role_id,
-            status: formData.status,
-            name: formData.name, // Include name in the request
-            category_id: formData.category_id,
+            ...formData, // This includes category_id, name, and code
           }),
         }
       );
@@ -93,8 +102,9 @@ function SignupEmployer() {
       const data = await response.json();
 
       if (response.ok) {
-        setMessage("Đăng ký thành công!"); // Success message
+        setMessage("Đăng ký thành công!");
         setError("");
+        // Reset form data after successful registration
         setFormData({
           userName: "",
           email: "",
@@ -109,17 +119,19 @@ function SignupEmployer() {
           company_address: "",
           company_introduce: "",
           position: "",
-          service_id: 1, // Default to free plan after submission
-          categoryName: "", // Reset categoryName
+          service_id: 1,
+          category_id: categories[0].id,
+          name: categories[0].name,
+          code: categories[0].code,
         });
       } else {
-        setError(data.error || "Đăng ký thất bại!"); // Show error from server
+        setError(data.error || "Đăng ký thất bại!");
       }
     } catch (err) {
       setError("Đã xảy ra lỗi khi kết nối với máy chủ.");
       console.error(err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -127,7 +139,7 @@ function SignupEmployer() {
     <div className="flex flex-col lg:flex-row min-h-screen">
       <div className="w-full lg:w-1/2 flex justify-center items-center bg-gray-50">
         <img
-          src="https://itvie          .com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
+          src="https://itviec.com/assets/employer_landing/hire-the-best-it-15-95d4b6df6293a405cd77c094b8c7eb5dcc99cf8711f5b47751c841cfa51023a0.png"
           className="w-7/12 sm:w-10/12 md:w-8/12"
           alt="Employer"
         />
@@ -236,15 +248,26 @@ function SignupEmployer() {
 
             {/* Category Name Section */}
             <div className="mb-6">
-              <h2 className="text-lg font-semibold mb-4">Thông tin danh mục</h2>
+              <h2 className="text-lg font-semibold mb-4">Chọn danh mục</h2>
+              <select
+                name="category_id"
+                value={formData.category_id}
+                onChange={handleCategoryChange}
+                className="p-3 border rounded-md w-full">
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
+
               <input
                 type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Tên danh mục (*)"
-                className="p-3 border rounded-md w-full"
-                required
+                name="code"
+                value={formData.code}
+                placeholder="Mã danh mục (Tự động tạo)"
+                className="p-3 border rounded-md w-full mt-4"
+                readOnly
               />
             </div>
 

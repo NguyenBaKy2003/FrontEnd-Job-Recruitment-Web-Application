@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 const JobList = () => {
   // State to hold the list of jobs and loading state
   const [jobs, setJobs] = useState([]);
@@ -53,24 +52,43 @@ const JobList = () => {
             key={job.id}
             className="flex items-center justify-between bg-gray-100 p-4 rounded-lg hover:bg-gray-200 transition-colors">
             <div>
-              <h3 className="text-lg font-semibold  text-indigo-600">
+              <h3 className="text-lg font-semibold text-indigo-600">
                 {job.title}
               </h3>
-              <p className="text-sm  font-semibold text-gray-500">
+              <p className="text-sm font-semibold text-gray-500">
                 {job.employer} - {job.location}
               </p>
-              <p className="text-sm text-gray-500 font-semibold ">
+              <p className="text-sm text-gray-500 font-semibold">
                 Mức lương: {job.salary}
               </p>
               <p className="text-md font-semibold text-gray-500">
                 Hạn chót nộp hồ sơ:{" "}
                 {new Date(job.application_deadline).toLocaleDateString()}
               </p>
+              {/* Display category name */}
+              <p className="text-sm font-semibold text-gray-600">
+                Danh mục: {job.category || "Chưa có danh mục"}
+              </p>
+              {/* Display skills */}
+              <div className="mt-2">
+                <span className="font-semibold text-gray-600">Kỹ năng: </span>
+                {job.skillNames && job.skillNames.length > 0 ? (
+                  job.skillNames.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-blue-100 text-blue-600 text-xs font-semibold mr-1 px-2.5 py-0.5 rounded">
+                      {skill}
+                    </span>
+                  ))
+                ) : (
+                  <span className="text-gray-400">Không có kỹ năng</span>
+                )}
+              </div>
             </div>
             <div className="flex space-x-2">
               <button
                 onClick={() => handleDelete(job.id)}
-                className=" font-semibold  text-red-500 hover:text-red-700 text-sm">
+                className="font-semibold text-red-500 hover:text-red-700 text-sm">
                 Delete
               </button>
             </div>

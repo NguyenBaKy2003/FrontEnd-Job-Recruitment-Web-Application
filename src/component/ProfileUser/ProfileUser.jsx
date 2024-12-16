@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const ProfileUser = () => {
-  // State to hold user profile information
   const [profile, setProfile] = useState({
     userName: "",
     email: "",
@@ -10,7 +9,7 @@ const ProfileUser = () => {
     lastName: "",
     experience: "",
     education: "",
-    skill: [], // Ensure this is initialized as an empty array
+    skills: [], // Ensure this is an array
     phone: "",
     create_by: "User ",
     role_id: 2,
@@ -18,67 +17,84 @@ const ProfileUser = () => {
     address: "",
   });
 
-  // State to toggle between edit and view mode
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(""); // Error state
 
-  // Fetch the profile data from the API on component mount
   useEffect(() => {
-    const userId = localStorage.getItem("userId"); // Get userId from localStorage
+    const userId = localStorage.getItem("userId");
     if (userId) {
       fetchUserProfile(userId);
     }
   }, []);
 
-  // Function to fetch user profile data
   const fetchUserProfile = async (userId) => {
+    setLoading(true); // Start loading
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3001/api/users/user/${userId}`, // Use userId to fetch profile
+        `http://localhost:3001/api/users/user/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Include the token for authentication
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-
-      // Set the profile state with the fetched data
-      setProfile(response.data);
+      // Map the API response to the profile state
+      setProfile({
+        userName: response.data.userName,
+        email: response.data.email,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        experience: response.data.experience,
+        education: response.data.education,
+        skills: response.data.skills || [], // Ensure skills is an array
+        phone: response.data.phone,
+        address: response.data.address,
+      });
+      setError(""); // Clear any previous errors
     } catch (error) {
       console.error("Error fetching user profile:", error);
-      alert("An error occurred while fetching the profile. Please try again.");
+      setError(
+        "An error occurred while fetching the profile. Please try again."
+      );
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
-  // Function to handle updating the profile
   const handleUpdateProfile = async () => {
+    setLoading(true); // Start loading
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3001/api/users/user/${profile.userName}`, // The API endpoint for updating the user data
-        profile, // The updated profile data
+        `http://localhost:3001/api/users/user/${profile.userName}`,
+        profile,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Including the token for authentication
+            Authorization: `Bearer ${token}`,
           },
         }
       );
 
-      // If the update is successful, save the updated profile in localStorage
       if (response.data) {
-        localStorage.setItem("userProfile", JSON.stringify(response.data)); // Update localStorage with the new data
+        localStorage.setItem("userProfile", JSON.stringify(response.data));
         alert("Profile updated successfully!");
-        setIsEditing(false); // Exit edit mode after saving
+        setIsEditing(false);
+        setError(""); // Clear any previous errors
       } else {
-        alert("Something went wrong. Please try again.");
+        setError("Something went wrong. Please try again.");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert("An error occurred while updating the profile. Please try again.");
+      setError(
+        "An error occurred while updating the profile. Please try again."
+      );
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
-  // Handle input change to update the profile in state
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({
@@ -87,30 +103,27 @@ const ProfileUser = () => {
     }));
   };
 
-  // Handle adding/removing skills
   const handleSkillChange = (e) => {
     const { value } = e.target;
     setProfile((prevProfile) => ({
       ...prevProfile,
-      skill: value.split(",").map((skill) => skill.trim()),
+      skills: value.split(",").map((skill) => skill.trim()),
     }));
   };
 
   return (
     <div className="container mx-auto py-10 px-4">
-      {/* Header */}
+      {loading && <p>Loading...</p>} {/* Loading indicator */}
+      {error && <p className="text-red-500">{error}</p>} {/* Error message */}
       <header className="bg-white rounded-lg shadow-lg mb-6 p-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Thông tin người dùng</h1>
       </header>
-
-      {/* Profile */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Avatar và Liên hệ */}
+      <div className="grid grid-cols-1 lg:grid -cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <div className="flex flex-col items-center">
             <img
               src={`https://scontent.fvii2-4.fna.fbcdn.net/v/t39.30808-6/344542573_1016776169700186_59734981782926054_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeHE3pzgZ09WIumVk2SaUlzW8AfSrMmpN6nwB9Ksyak3qRO3GRAQCJN5k0u9DAbLgHWd1mkLGJGTGZQ8xITqFMmC&_nc_ohc=glxuONPvYGoQ7kNvgEg-RXV&_nc_zt=23&_nc_ht=scontent.fvii2-4.fna&_nc_gid=AZDMc-cGe0uS9ooeE2tioMl&oh=00_AYDf-hi1OJg2v9JR8ZFocggASMj5dtc8Qzejloq9jHp0WA&oe=67638EC8`}
-              alt=" Avatar"
+              alt="Avatar"
               className="w-24 h-24 rounded-full mb-4"
             />
             <h2 className="text-xl font-semibold">
@@ -153,7 +166,6 @@ const ProfileUser = () => {
             </p>
           </div>
         </div>
-        {/* Thông tin chi tiết */}
         <div className="col-span-2 bg-white p-6 rounded-lg shadow-lg">
           <div className="space-y-4">
             <p>
@@ -178,7 +190,7 @@ const ProfileUser = () => {
                   name="email"
                   value={profile.email || ""}
                   onChange={handleInputChange}
-                  className="border p-2 rounded w-full"
+                  className="border p-2 rounded w-full "
                 />
               ) : (
                 <span>{profile.email || "johndoe@example.com"}</span>
@@ -250,7 +262,9 @@ const ProfileUser = () => {
                   type="text"
                   name="skills"
                   value={
-                    Array.isArray(profile.skill) ? profile.skill.join(", ") : ""
+                    Array.isArray(profile.skills)
+                      ? profile.skills.join(", ")
+                      : ""
                   }
                   onChange={handleSkillChange}
                   className="border p-2 rounded w-full"
@@ -258,8 +272,8 @@ const ProfileUser = () => {
                 />
               ) : (
                 <span>
-                  {Array.isArray(profile.skill)
-                    ? profile.skill.join(", ")
+                  {Array.isArray(profile.skills)
+                    ? profile.skills.join(", ")
                     : "JavaScript, React, Node.js"}
                 </span>
               )}
