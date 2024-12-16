@@ -346,8 +346,8 @@ const CreateJob = () => {
             className="border border-gray-300 rounded-md p-2 w-full">
             <option value="">Chọn linh vực</option>
             <option value="1">Công nghệ thông tin</option>
-            <option value="2">Sale</option>
-            <option value="3">Marketing</option>
+            <option value="3">Sale</option>
+            <option value="2">Marketing</option>
           </select>
         </div>
 

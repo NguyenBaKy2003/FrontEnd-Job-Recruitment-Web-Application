@@ -11,10 +11,17 @@ function Home() {
 
   // State to hold the job data
   const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]); // State for filtered jobs
   const [jobLoading, setJobLoading] = useState(true);
   const [jobError, setJobError] = useState(null);
 
-  // Fetch companies from the API when the component mounts
+  // State for search filters
+  const [filters, setFilters] = useState({
+    search: "", // Combined search term for both job title and job code
+    location: "",
+  });
+
+  // Fetch companies and jobs when the component mounts
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
@@ -27,7 +34,7 @@ function Home() {
         setError("Failed to fetch companies. Please try again later.");
         console.error("Error fetching companies:", err);
       } finally {
-        setLoading(false); // Set loading to false once the API call is complete
+        setLoading(false);
       }
     };
 
@@ -38,11 +45,12 @@ function Home() {
           "http://localhost:3001/api/jobs/jobsall"
         );
         setJobs(response.data); // Set jobs data in the state
+        setFilteredJobs(response.data); // Initially display all jobs
       } catch (err) {
         setJobError("Failed to fetch jobs. Please try again later.");
         console.error("Error fetching jobs:", err);
       } finally {
-        setJobLoading(false); // Set loading to false once the API call is complete
+        setJobLoading(false);
       }
     };
 
@@ -58,10 +66,40 @@ function Home() {
     return <div>{error || jobError}</div>;
   }
 
+  // Handle filter input change
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Perform the search based on job title, job code, and location
+  const handleSearch = () => {
+    const filtered = jobs.filter((job) => {
+      const searchTerm = filters.search.toLowerCase();
+      const matchTitle =
+        !searchTerm || job.title.toLowerCase().includes(searchTerm);
+      const matchCode =
+        !searchTerm || job.code.code.toLowerCase().includes(searchTerm); // Match job code with search term
+      const matchLocation =
+        !filters.location ||
+        job.location.toLowerCase().includes(filters.location.toLowerCase());
+
+      return (matchTitle || matchCode) && matchLocation;
+    });
+
+    setFilteredJobs(filtered); // Update the filtered jobs state
+  };
+
+  // Clear filters and show all jobs
+  const clearFilters = () => {
+    setFilters({ search: "", location: "" });
+    setFilteredJobs(jobs); // Reset to show all jobs
+  };
+
   // Show only the first 6 companies
   const displayedCompanies = companies.slice(0, 6);
-  // Limit to the first 6 jobs
-  const displayedJobs = jobs.slice(0, 6);
+  // Limit to the first 6 filtered jobs
+  const displayedJobs = filteredJobs.slice(0, 6);
 
   return (
     <div>
@@ -89,22 +127,35 @@ function Home() {
             <div className="bg-white shadow-lg rounded-md flex">
               <input
                 type="text"
-                placeholder="Job Title or keyword"
-                className="w-1/2 px-4 py-3 border-r border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                name="search"
+                placeholder="Job Title or Job Code"
+                value={filters.search}
+                onChange={handleFilterChange}
+                className="w-2/3 px-4 py-3 border-r border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="text"
-                placeholder="Location BD"
+                name="location"
+                placeholder="Location"
+                value={filters.location}
+                onChange={handleFilterChange}
                 className="w-1/3 px-4 py-3 border-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button className="w-1/6 bg-orange-500 text-white font-bold py-3 rounded-r-md hover:bg-orange-600">
+              <button
+                className="w-1/6 bg-orange-500 text-white font-bold py-3 rounded-r-md hover:bg-orange-600"
+                onClick={handleSearch}>
                 Find Job
+              </button>
+              <button
+                className="ml-2 px-4 py-3 bg-gray-500 text-white rounded hover:bg-gray-600"
+                onClick={clearFilters}>
+                Clear
               </button>
             </div>
           </div>
         </div>
 
-        {/* Danh sách công ty */}
+        {/* Company List */}
         <div className="py-10 px-3">
           <h2 className="text-3xl font-bold text-center mb-6">
             Các Công Ty Tuyển Dụng Nổi Bật
@@ -116,7 +167,7 @@ function Home() {
           </div>
         </div>
 
-        {/* Danh sách công việc */}
+        {/* Job List */}
         <div className="py-10 px-3">
           <h2 className="text-3xl font-bold text-center mb-6">
             Các Công Việc Mới Nổi Bật

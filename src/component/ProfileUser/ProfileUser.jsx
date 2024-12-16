@@ -11,9 +11,6 @@ const ProfileUser = () => {
     education: "",
     skills: [], // Ensure this is an array
     phone: "",
-    create_by: "User",
-    role_id: 2,
-    status: "active",
     address: "",
   });
 
@@ -22,35 +19,36 @@ const ProfileUser = () => {
   const [error, setError] = useState(""); // Error state
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
-    if (userId) {
-      fetchUserProfile(userId);
+    const applicantId = localStorage.getItem("applicant_id");
+    if (applicantId) {
+      fetchUserProfile(applicantId);
     }
   }, []);
 
-  const fetchUserProfile = async (userId) => {
+  const fetchUserProfile = async (applicantId) => {
     setLoading(true); // Start loading
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:3001/api/users/user/${userId}`,
+        `http://localhost:3001/api/applicant/applicants/${applicantId}`, // Adjusted to use the correct endpoint
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+
       // Map the API response to the profile state
       setProfile({
-        userName: response.data.userName,
-        email: response.data.email,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
+        userName: response.data.User.userName, // Access user data
+        email: response.data.User.email,
+        firstName: response.data.User.firstName,
+        lastName: response.data.User.lastName,
         experience: response.data.experience,
         education: response.data.education,
-        skills: response.data.skills || [], // Ensure skills is an array
-        phone: response.data.phone,
-        address: response.data.address,
+        skills: response.data.Skills.map((skill) => skill.name) || [], // Ensure skills is an array
+        phone: response.data.phone || "", // Assuming phone is part of the response
+        address: response.data.address || "", // Assuming address is part of the response
       });
       setError(""); // Clear any previous errors
     } catch (error) {
@@ -67,9 +65,20 @@ const ProfileUser = () => {
     setLoading(true); // Start loading
     try {
       const token = localStorage.getItem("token");
+      const applicantId = localStorage.getItem("applicant_id"); // Get the applicant ID
       const response = await axios.put(
-        `http://localhost:3001/api/users/user/${profile.userName}`,
-        profile,
+        `http://localhost:3001/api/applicant/applicants/${applicantId}`, // Adjusted to use the correct endpoint
+        {
+          userName: profile.userName,
+          email: profile.email,
+          firstName: profile.firstName,
+          lastName: profile.lastName,
+          experience: profile.experience,
+          education: profile.education,
+          skills: profile.skills.map((skill) => ({ name: skill })), // Format skills for the API
+          phone: profile.phone,
+          address: profile.address,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -78,7 +87,6 @@ const ProfileUser = () => {
       );
 
       if (response.data) {
-        localStorage.setItem("userProfile", JSON.stringify(response.data));
         alert("Profile updated successfully!");
         setIsEditing(false);
         setError(""); // Clear any previous errors
@@ -118,7 +126,7 @@ const ProfileUser = () => {
       <header className="bg-white rounded-lg shadow-lg mb-6 p-6 flex justify-between items-center">
         <h1 className="text-2xl font-bold">Thông tin người dùng</h1>
       </header>
-      <div className="grid grid-cols-1 lg:grid -cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <div className="flex flex-col items-center">
             <img

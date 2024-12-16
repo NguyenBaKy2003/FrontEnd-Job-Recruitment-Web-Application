@@ -10,7 +10,6 @@ import About from "./component/About/About";
 import Company from "./component/Company/CompanyAll";
 import CompanyDetail from "./component/Company/CompanyDetail";
 import Contact from "./component/Contact/Contact";
-import ApplyNow from "./component/FindJob/ApplyNow";
 import FindJob from "./component/FindJob/Findjob";
 import JobDetail from "./component/FindJob/JobDetail";
 import Login from "./component/Login/Login";
@@ -35,7 +34,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="home" element={<Home />}></Route>
           <Route path="/findjob" element={<FindJob />}></Route>
           <Route path="/findjob/:jobId" element={<JobDetail />}></Route>
-          <Route path="/findjob/:jobId/applynow" element={<ApplyNow />}></Route>
 
           <Route path="/contact" element={<Contact />}></Route>
 

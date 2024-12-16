@@ -55,24 +55,24 @@ const CompanyDetail = () => {
 
       <main className="p-6 max-w-screen-xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 w-full">
-          <div className="lg:col-span-9 bg-white p-6 rounded-lg shadow-lg">
+          <div className="lg:col-span-9 bg-white p-6  h-max rounded-lg shadow-lg">
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold">About Us</h2>
+              <h2 className="text-2xl font-semibold">Giới Thiệu </h2>
               <p className="mt-4 text-gray-700">{company.company_introduce}</p>
             </div>
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold">Category</h2>
+              <h2 className="text-2xl font-semibold">Thể Loại Công Ty</h2>
               <p className="mt-4 text-gray-700">{categoryName}</p>
             </div>
             <div className="mt-6">
-              <h2 className="text-2xl font-semibold">Benefits</h2>
+              <h2 className="text-2xl font-semibold">Quyền Lợi</h2>
               <p className="mt-4 text-gray-700">{benefit}</p>
             </div>
           </div>
 
           <div className="lg:col-span-3 flex flex-col gap-5">
             <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
-              <h3 className="text-2xl font-semibold">Address</h3>
+              <h3 className="text-2xl font-semibold">Địa Chỉ</h3>
               <p>{company.company_address}</p>
             </div>
             <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
@@ -82,9 +82,7 @@ const CompanyDetail = () => {
                 </div>
               ) : (
                 <div className="mt-6">
-                  <h2 className="text-2xl font-semibold">
-                    Current Job Openings
-                  </h2>
+                  <h2 className="text-2xl font-semibold">Công Việc Đang Có</h2>
                   <ul className="mt-4 space-y-4">
                     {jobs.map((job) => (
                       <li
@@ -97,15 +95,17 @@ const CompanyDetail = () => {
                         </Link>
                         <p className="text-gray-600">{job.description}</p>
                         <p className="text-gray-500">
-                          Location: {job.location}
+                          Địa Điểm: {job.location}
                         </p>
                         <p className="text-gray-500">
-                          Salary: Salary:{" "}
+                          Mức Lương:{" "}
                           {new Intl.NumberFormat().format(job.salary)} VND
                         </p>
-                        <p className="text-gray-500">Type: {job.type}</p>
                         <p className="text-gray-500">
-                          Application Deadline:{" "}
+                          Hình Thức Làm Việc: {job.type}
+                        </p>
+                        <p className="text-gray-500">
+                          Hạn Ứng Tuyển:{" "}
                           {new Date(
                             job.application_deadline
                           ).toLocaleDateString()}

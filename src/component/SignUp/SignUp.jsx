@@ -12,7 +12,7 @@ function SignUp() {
     education: "",
     skill: [],
     phone: "",
-    create_by: "User  ",
+    create_by: "User",
     role_id: 2,
     status: "active",
     address: "", // Added address field

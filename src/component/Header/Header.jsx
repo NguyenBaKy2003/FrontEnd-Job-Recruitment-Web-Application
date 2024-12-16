@@ -13,7 +13,7 @@ function Header() {
   // Check login status on component mount
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const userId = localStorage.getItem("userId");
+    const userId = localStorage.getItem("applicant_id");
 
     if (token && userId) {
       setIsLoggedIn(true);

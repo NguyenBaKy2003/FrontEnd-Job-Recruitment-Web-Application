@@ -34,7 +34,7 @@ function Login() {
 
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("userId", response.data.userId); // Store the userId in localStorage
+        localStorage.setItem("applicant_id", response.data.applicant_id); // Store the userId in localStorage
         setSuccess("Đăng nhập thành công!");
         setTimeout(() => {
           navigate("/home");

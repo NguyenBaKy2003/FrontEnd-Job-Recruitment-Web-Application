@@ -9,6 +9,7 @@ const JobCard = ({
   location,
   category,
   skillNames,
+  type,
   create_at,
   salary,
   application_deadline,
@@ -58,22 +59,27 @@ const JobCard = ({
 
         {/* Category */}
         <p className="text-gray-500 mt-2">
-          Category:{" "}
+          Lĩnh Vực:{" "}
           <span className="text-gray-800 font-medium">
             {category || "Category not specified"}
+          </span>
+        </p>
+        <p className="text-gray-500 mt-2">
+          Loại Hợp Đồng:{" "}
+          <span className="text-gray-800 font-medium">
+            {type || "Category not specified"}
           </span>
         </p>
 
         {/* Salary & Deadline */}
         {salary && (
           <p className="text-gray-800 mt-2">
-            Salary: {new Intl.NumberFormat().format(salary)} VND
+            Mức Lương: {new Intl.NumberFormat().format(salary)} VND
           </p>
         )}
         {application_deadline && (
           <p className="text-gray-500 text-sm">
-            Application Deadline:{" "}
-            {new Date(application_deadline).toLocaleDateString()}
+            Hạn Ứng Tuyển: {new Date(application_deadline).toLocaleDateString()}
           </p>
         )}
 
