@@ -59,7 +59,7 @@ const JobList = () => {
                 {job.employer} - {job.location}
               </p>
               <p className="text-sm text-gray-500 font-semibold">
-                Mức lương: {job.salary}
+                Mức lương: {new Intl.NumberFormat().format(job.salary)} VND
               </p>
               <p className="text-md font-semibold text-gray-500">
                 Hạn chót nộp hồ sơ:{" "}

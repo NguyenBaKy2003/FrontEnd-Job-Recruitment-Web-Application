@@ -195,6 +195,7 @@ const CreateJob = () => {
             id="title"
             value={formData.title}
             onChange={handleChange}
+            placeholder="Nhập tiêu đề công việc"
             required
             className="border border-gray-300 rounded-md p-2 w-full"
           />
@@ -212,6 +213,7 @@ const CreateJob = () => {
             id="description"
             value={formData.description}
             onChange={handleChange}
+            placeholder="Nhập mô tả chi tiết công việc"
             required
             className="border border-gray-300 rounded-md p-2 w-full"
           />
@@ -229,23 +231,24 @@ const CreateJob = () => {
             id="requirements"
             value={formData.requirements}
             onChange={handleChange}
+            placeholder="Nhập các yêu cầu công việc"
             required
             className="border border-gray-300 rounded-md p-2 w-full"
           />
         </div>
-
         {/* Lợi ích */}
         <div className="mb-4">
           <label
             htmlFor="benefit"
             className="block text-sm font-medium text-gray-700 mb-2">
-            Lợi ích
+            Quyền lợi
           </label>
           <textarea
             name="benefit"
             id="benefit"
             value={formData.benefit}
             onChange={handleChange}
+            placeholder="Nhập quyền lợi dành cho nhân viên"
             className="border border-gray-300 rounded-md p-2 w-full"
           />
         </div>
@@ -302,6 +305,7 @@ const CreateJob = () => {
             id="salary"
             value={formData.salary}
             onChange={handleChange}
+            placeholder="Nhập mức lương (ví dụ: 1500000)"
             className="border border-gray-300 rounded-md p-2 w-full"
           />
         </div>

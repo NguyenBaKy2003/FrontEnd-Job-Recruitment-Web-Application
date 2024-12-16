@@ -99,7 +99,10 @@ const CompanyDetail = () => {
                         <p className="text-gray-500">
                           Location: {job.location}
                         </p>
-                        <p className="text-gray-500">Salary: {job.salary}</p>
+                        <p className="text-gray-500">
+                          Salary: Salary:{" "}
+                          {new Intl.NumberFormat().format(job.salary)} VND
+                        </p>
                         <p className="text-gray-500">Type: {job.type}</p>
                         <p className="text-gray-500">
                           Application Deadline:{" "}

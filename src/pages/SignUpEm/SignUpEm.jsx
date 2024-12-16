@@ -252,7 +252,7 @@ function SignupEmployer() {
                 />
                 <select
                   name="position"
-                  value={formData.position}
+                  value={formData.position.name}
                   onChange={handlePositionChange}
                   className="p-3 border rounded-md w-full"
                   required>
