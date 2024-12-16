@@ -21,6 +21,7 @@ const CreateJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [positions, setPositions] = useState([]); // State to hold positions
+  const [skills, setSkills] = useState([]); // State to hold skills
 
   useEffect(() => {
     // Check if employer_id is not in localStorage and handle redirection or error message if needed
@@ -28,10 +29,10 @@ const CreateJob = () => {
       setError("Vui lòng đăng nhập để tạo công việc.");
     }
 
-    // Fetch positions from the API (or use hardcoded values)
+    // Fetch positions from the API
     const fetchPositions = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/api/positions"); // Adjust the URL as needed
+        const response = await axios.get("http://localhost:3001/api/positions");
         setPositions(response.data); // Assuming the API returns an array of positions
       } catch (err) {
         console.error("Error fetching positions:", err);
@@ -39,7 +40,19 @@ const CreateJob = () => {
       }
     };
 
+    // Fetch skills from the API
+    const fetchSkills = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/api/skills");
+        setSkills(response.data); // Assuming the API returns an array of skills
+      } catch (err) {
+        console.error("Error fetching skills:", err);
+        setError("Không thể tải danh sách kỹ năng.");
+      }
+    };
+
     fetchPositions();
+    fetchSkills();
   }, [formData.employer_id]);
 
   const handleChange = (e) => {
@@ -262,15 +275,18 @@ const CreateJob = () => {
             className="block text-sm font-medium text-gray-700 mb-2">
             Địa điểm
           </label>
-          <input
-            type="text"
+          <select
             name="location"
             id="location"
             value={formData.location}
             onChange={handleChange}
             required
-            className="border border-gray-300 rounded-md p-2 w-full"
-          />
+            className="border border-gray-300 rounded-md p-2 w-full">
+            <option value="">Chọn địa điểm</option>
+            <option value="Hà Nội">Hà Nội</option>
+            <option value="TP. Hồ Chí Minh">TP. Hồ Chí Minh</option>
+            <option value="Đà Nẵng">Đà Nẵng</option>
+          </select>
         </div>
 
         {/* Lương */}
@@ -360,42 +376,17 @@ const CreateJob = () => {
             Kỹ năng
           </label>
           <div className="flex flex-col">
-            <label>
-              <input
-                type="checkbox"
-                value="1"
-                checked={formData.skill_id.includes(1)}
-                onChange={handleSkillChange}
-              />
-              ReactJS
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="2"
-                checked={formData.skill_id.includes(2)}
-                onChange={handleSkillChange}
-              />
-              JavaScript
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="3"
-                checked={formData.skill_id.includes(3)}
-                onChange={handleSkillChange}
-              />
-              Kỹ năng 3
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="4"
-                checked={formData.skill_id.includes(4)}
-                onChange={handleSkillChange}
-              />
-              Kỹ năng 4
-            </label>
+            {skills.map((skill) => (
+              <label key={skill.id}>
+                <input
+                  type="checkbox"
+                  value={skill.id}
+                  checked={formData.skill_id.includes(skill.id)}
+                  onChange={handleSkillChange}
+                />
+                {skill.name}
+              </label>
+            ))}
           </div>
         </div>
 

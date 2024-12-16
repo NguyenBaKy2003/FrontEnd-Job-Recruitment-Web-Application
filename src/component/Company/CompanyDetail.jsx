@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const CompanyDetail = () => {
@@ -33,9 +33,10 @@ const CompanyDetail = () => {
   if (!company) return <div>Company not found!</div>;
 
   // Check if there are jobs
-  const firstJob = company.Jobs && company.Jobs[0] ? company.Jobs[0] : null;
+  const jobs = company.Jobs || [];
 
   // Safely access category and benefit, with fallback
+  const firstJob = jobs[0] || null;
   const categoryName = firstJob?.Category?.name || "No category available";
   const benefit = firstJob?.benefit || "No benefits available";
 
@@ -67,35 +68,50 @@ const CompanyDetail = () => {
               <h2 className="text-2xl font-semibold">Benefits</h2>
               <p className="mt-4 text-gray-700">{benefit}</p>
             </div>
-            {company.Jobs.length === 0 && (
-              <div className="mt-6 text-gray-600">
-                <p>No jobs available for this company.</p>
-              </div>
-            )}
           </div>
 
           <div className="lg:col-span-3 flex flex-col gap-5">
             <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-semibold">General Information</h2>
-              <ul className="mt-4 space-y-3">
-                <li>
-                  <strong>Founded Year:</strong> {company.founded}
-                </li>
-                <li>
-                  <strong>Website:</strong>{" "}
-                  <a
-                    href={company.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline">
-                    {company.website}
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
               <h3 className="text-2xl font-semibold">Address</h3>
               <p>{company.company_address}</p>
+            </div>
+            <div className="max-h-min bg-gray-50 p-6 rounded-lg shadow-md">
+              {jobs.length === 0 ? (
+                <div className="mt-6 text-gray-600">
+                  <p>No jobs available for this company.</p>
+                </div>
+              ) : (
+                <div className="mt-6">
+                  <h2 className="text-2xl font-semibold">
+                    Current Job Openings
+                  </h2>
+                  <ul className="mt-4 space-y-4">
+                    {jobs.map((job) => (
+                      <li
+                        key={job.id}
+                        className="border p-4 rounded-lg shadow-sm">
+                        <NavLink
+                          to={`/findjob/${job.id}`} // Use relative path for routing
+                          className="text-xl font-bold hover:underline">
+                          {job.title}
+                        </NavLink>
+                        <p className="text-gray-600">{job.description}</p>
+                        <p className="text-gray-500">
+                          Location: {job.location}
+                        </p>
+                        <p className="text-gray-500">Salary: {job.salary}</p>
+                        <p className="text-gray-500">Type: {job.type}</p>
+                        <p className="text-gray-500">
+                          Application Deadline:{" "}
+                          {new Date(
+                            job.application_deadline
+                          ).toLocaleDateString()}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
