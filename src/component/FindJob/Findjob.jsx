@@ -9,7 +9,7 @@ function Findjob() {
   const [error, setError] = useState(null); // Error state
   const [filters, setFilters] = useState({
     location: "",
-    position: "",
+    position: "", // Position search for job title
     type: "",
     code: "",
   }); // Search filters
@@ -36,20 +36,25 @@ function Findjob() {
     fetchAllJobs();
   }, []);
 
-  // Handle search button click
+  // Handle search button click (by position/job title)
   const handleSearch = () => {
-    // Filter jobs based on the filters
     const filteredJobs = allJobs.filter((job) => {
+      const searchTerm = filters.position.trim().toLowerCase(); // Chuyển input về lowercase
+
+      // So khớp tiêu đề công việc (job.title)
+      const matchTitle =
+        !filters.position || job.title.toLowerCase().includes(searchTerm);
+
+      // So khớp các bộ lọc khác
       const matchLocation =
         !filters.location || job.location.includes(filters.location);
-      const matchPosition =
-        !filters.position || job.position.includes(filters.position);
       const matchType = !filters.type || job.type === filters.type;
-      const matchCode = !filters.code || job.code === filters.code; // Fixed comparison for code
-      return matchLocation && matchPosition && matchType && matchCode;
+      const matchCode = !filters.code || job.code === filters.code;
+
+      return matchTitle && matchLocation && matchType && matchCode;
     });
 
-    setJobs(filteredJobs); // Update the filtered jobs list
+    setJobs(filteredJobs); // Cập nhật danh sách công việc đã lọc
   };
 
   // Handle filter change
@@ -86,7 +91,7 @@ function Findjob() {
             <input
               type="text"
               className="w-full rounded-xl max-sm:text-sm max-sm:px-3 p-4 outline-none"
-              placeholder="Tìm kiếm theo các Kỹ Năng, Vị Trí, Công Ty..."
+              placeholder="Tìm kiếm theo vị trí công việc"
               name="position"
               value={filters.position}
               onChange={handleFilterChange}

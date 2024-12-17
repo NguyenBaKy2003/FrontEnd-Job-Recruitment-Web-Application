@@ -79,7 +79,7 @@ function Home() {
       const matchTitle =
         !searchTerm || job.title.toLowerCase().includes(searchTerm);
       const matchCode =
-        !searchTerm || job.code.code.toLowerCase().includes(searchTerm); // Match job code with search term
+        !searchTerm || job.code.toLowerCase().includes(searchTerm); // Match job code with search term
       const matchLocation =
         !filters.location ||
         job.location.toLowerCase().includes(filters.location.toLowerCase());
@@ -147,7 +147,7 @@ function Home() {
                 Find Job
               </button>
               <button
-                className="ml-2 px-4 py-3 bg-gray-500 text-white rounded hover:bg-gray-600"
+                className="ml-2 px-4 py-3 bg-red-500 text-white rounded hover:bg-red-600"
                 onClick={clearFilters}>
                 Clear
               </button>
