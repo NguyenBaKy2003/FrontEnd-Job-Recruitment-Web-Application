@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
-import axios from "axios"; // Import axios for making API requests
+import axios from "axios";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false); // Mobile menu state
@@ -9,6 +9,9 @@ function Header() {
   const [username, setUsername] = useState("");
   const [userData, setUserData] = useState(null); // State to store user data
   const [loading, setLoading] = useState(false);
+
+  // Reference for dropdown menu to detect clicks outside
+  const dropdownRef = useRef(null);
 
   // Check login status on component mount
   useEffect(() => {
@@ -23,47 +26,58 @@ function Header() {
 
   // Fetch user data from the API
   const fetchUserData = async (userId) => {
-    setLoading(true); // Set loading state
+    setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/applicant/applicants/${userId}}`,
+        `http://localhost:3001/api/applicant/applicants/${userId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token in the request headers
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       const data = response.data;
-
-      // Assuming the API response has a field 'userName', update the state
       setUsername(data.User.userName || "");
       setUserData(data); // Store the full user data in state
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setIsLoggedIn(false); // Set logged in status to false if there's an error
+      setIsLoggedIn(false);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
+  // Handle mobile menu toggle
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
     setDropdownOpen(false); // Close dropdown when mobile menu is opened
   };
 
+  // Handle logout
   const handleLogout = () => {
-    // Remove token and userId from localStorage
     localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-
-    // Update state
+    localStorage.removeItem("applicant_id");
     setIsLoggedIn(false);
     setUsername("");
-    setUserData(null); // Clear user data state
-
-    // Optional: Redirect to login page
+    setUserData(null);
     window.location.href = "/login";
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <header className="shadow sticky z-50 top-0 bg-white">
       <nav className="border-gray-200 px-4 lg:px-6 py-2.5">
@@ -190,35 +204,50 @@ function Header() {
             )}
 
             {/* If the user is logged in, show username and Logout */}
-            {isLoggedIn && (
+            {!isLoggedIn ? (
+              <>
+                <Link
+                  to="/employes"
+                  className="text-orange-600 hover:text-orange-800 font-medium rounded-lg text-md px-2 lg:px-5 py-2 lg:py-2.5 mr-2">
+                  For Employees
+                </Link>
+                <Link
+                  to="/signup"
+                  className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
+                  Đăng Ký
+                </Link>
+                <Link
+                  to="/login"
+                  className="text-white bg-orange-600 hover:bg-orange-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
+                  Đăng Nhập
+                </Link>
+              </>
+            ) : (
               <div
                 className="relative flex items-center space-x-4"
-                onClick={() => {
-                  setDropdownOpen(true);
-                  setMenuOpen(false); // Close mobile menu when dropdown is opened
-                }}
-                onDoubleClick={() => setDropdownOpen(false)}>
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                onMouseLeave={() => setDropdownOpen(false)}>
                 <span className="text-gray-700 cursor-pointer mr-2 font-semibold">
                   Xin chào, {username}
                 </span>
-                {/* <button className="text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
-                  Đăng Xuất
-                </button> */}
                 {dropdownOpen && (
-                  <div className="absolute   right-0 mt-36 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                  <div
+                    ref={dropdownRef}
+                    className="absolute right-0 mt-36 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                     <NavLink
                       to="/profile"
-                      className="block  px-4 py-2 text-gray-700 hover:bg-orange-600 hover:text-white ">
+                      className="block px-4 py-2 text-gray-700 hover:bg-orange-600 
+                      font-semibold hover:text-white">
                       Hồ Sơ
                     </NavLink>
                     <NavLink
                       to="/applied-jobs"
-                      className="block  px-4 py-2 text-gray-700 hover:bg-orange-600 hover:text-white">
+                      className="block px-4 py-2 text-gray-700 hover:bg-orange-600 font-semibold hover:text-white">
                       Applied Jobs
                     </NavLink>
                     <button
                       onClick={handleLogout}
-                      className="block w-full px-4 py-2 text-left text-gray-700 hover:text-white hover:bg-orange-600">
+                      className="block w-full px-4 py-2 text-left text-gray-700 font-semibold hover:text-white hover:bg-orange-600">
                       Đăng Xuất
                     </button>
                   </div>

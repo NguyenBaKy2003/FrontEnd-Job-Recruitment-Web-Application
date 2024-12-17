@@ -60,7 +60,7 @@ function AppliedJobs() {
           Bạn chưa ứng tuyển vào công việc nào.
         </p>
       ) : (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {appliedJobs.map((job) => (
             <li
               key={job.id}
