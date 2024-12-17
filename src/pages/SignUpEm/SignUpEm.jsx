@@ -86,7 +86,7 @@ function SignupEmployer() {
     if (selectedPosition) {
       setFormData((prevData) => ({
         ...prevData,
-        position: selectedPosition.id,
+        position: selectedPosition.name,
       }));
     }
   };
@@ -250,18 +250,27 @@ function SignupEmployer() {
                   className="p-3 border rounded-md w-full"
                   required
                 />
-                <select
-                  name="position"
-                  value={formData.position.name}
-                  onChange={handlePositionChange}
-                  className="p-3 border rounded-md w-full"
-                  required>
-                  {positions.map((position) => (
-                    <option key={position.id} value={position.name}>
-                      {position.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="">
+                  <label
+                    htmlFor="position"
+                    className="block text-sm font-medium text-gray-700 ">
+                    Vị trí
+                  </label>
+                  <select
+                    name="position"
+                    id="position"
+                    value={formData.position}
+                    onChange={handleChange}
+                    required
+                    className="border border-gray-300 rounded-md p-2 w-full">
+                    <option value="">Chọn vị trí</option>
+                    {positions.map((pos) => (
+                      <option key={pos.id} value={pos.name}>
+                        {pos.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <input
                   type="text"
                   name="company_address"

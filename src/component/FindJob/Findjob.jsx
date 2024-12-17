@@ -3,18 +3,18 @@ import axios from "axios";
 import JobCard from "../Home/JobCard";
 
 function Findjob() {
-  const [allJobs, setAllJobs] = useState([]); // Danh sách tất cả công việc
-  const [jobs, setJobs] = useState([]); // Danh sách công việc được lọc
-  const [loading, setLoading] = useState(false); // Trạng thái tải
-  const [error, setError] = useState(null); // Trạng thái lỗi
+  const [allJobs, setAllJobs] = useState([]); // All jobs list
+  const [jobs, setJobs] = useState([]); // Filtered jobs list
+  const [loading, setLoading] = useState(false); // Loading state
+  const [error, setError] = useState(null); // Error state
   const [filters, setFilters] = useState({
     location: "",
     position: "",
     type: "",
     code: "",
-  }); // Bộ lọc tìm kiếm
+  }); // Search filters
 
-  // Tải toàn bộ công việc khi component render
+  // Load all jobs on component mount
   useEffect(() => {
     const fetchAllJobs = async () => {
       setLoading(true);
@@ -23,8 +23,8 @@ function Findjob() {
         const response = await axios.get(
           "http://localhost:3001/api/jobs/jobsall"
         );
-        setAllJobs(response.data); // Lưu toàn bộ công việc
-        setJobs(response.data); // Hiển thị toàn bộ công việc ban đầu
+        setAllJobs(response.data); // Save all jobs
+        setJobs(response.data); // Initially display all jobs
       } catch (err) {
         setError("Không thể tải danh sách công việc. Vui lòng thử lại sau.");
         console.error("Error fetching jobs:", err);
@@ -36,29 +36,29 @@ function Findjob() {
     fetchAllJobs();
   }, []);
 
-  // Xử lý khi nhấn nút tìm kiếm
+  // Handle search button click
   const handleSearch = () => {
-    // Lọc công việc dựa trên bộ lọc
+    // Filter jobs based on the filters
     const filteredJobs = allJobs.filter((job) => {
       const matchLocation =
         !filters.location || job.location.includes(filters.location);
       const matchPosition =
         !filters.position || job.position.includes(filters.position);
       const matchType = !filters.type || job.type === filters.type;
-      const matchCode = !filters.code.code || job.code === filters.code;
+      const matchCode = !filters.code || job.code === filters.code; // Fixed comparison for code
       return matchLocation && matchPosition && matchType && matchCode;
     });
 
-    setJobs(filteredJobs); // Cập nhật danh sách công việc được lọc
+    setJobs(filteredJobs); // Update the filtered jobs list
   };
 
-  // Xử lý thay đổi bộ lọc
+  // Handle filter change
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Xóa bỏ lọc
+  // Clear filters
   const clearFilters = () => {
     setFilters({
       location: "",
@@ -66,7 +66,7 @@ function Findjob() {
       type: "",
       code: "",
     });
-    setJobs(allJobs); // Hiển thị lại toàn bộ công việc
+    setJobs(allJobs); // Show all jobs
   };
 
   if (loading) {
@@ -128,7 +128,7 @@ function Findjob() {
               <option value="">Tất cả các loại công ty</option>
               <option value="CNTT">Công Nghệ Thông Tin</option>
               <option value="SALE">Sales</option>
-              <option value="MKT ">Marketing</option>
+              <option value="MKT">Marketing</option>
             </select>
             <button
               type="button"

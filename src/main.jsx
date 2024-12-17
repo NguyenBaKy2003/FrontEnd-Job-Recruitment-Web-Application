@@ -26,6 +26,7 @@ import PackagePayment from "./pages/Payment/PackagePayment";
 import PaymentPage from "./pages/Payment/Payment";
 import RecruiterProfile from "./pages/Profile/Profile";
 import SignupEm from "./pages/SignUpEm/SignUpEm";
+import AppliedJobs from "./component/ApplyJob_List/ApplyJobList";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -44,6 +45,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/profile" element={<ProfileUser />}></Route>
+          <Route
+            path="/applied-jobs"
+            element={<AppliedJobs></AppliedJobs>}></Route>
         </Route>
 
         {/* Nested routes under /employes */}

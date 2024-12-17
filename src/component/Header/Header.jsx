@@ -26,7 +26,7 @@ function Header() {
     setLoading(true); // Set loading state
     try {
       const response = await axios.get(
-        `http://localhost:3001/api/users/user/${userId}}`,
+        `http://localhost:3001/api/applicant/applicants/${userId}}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`, // Include the token in the request headers
@@ -36,7 +36,7 @@ function Header() {
       const data = response.data;
 
       // Assuming the API response has a field 'userName', update the state
-      setUsername(data.userName || "");
+      setUsername(data.User.userName || "");
       setUserData(data); // Store the full user data in state
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -210,6 +210,11 @@ function Header() {
                       to="/profile"
                       className="block  px-4 py-2 text-gray-700 hover:bg-orange-600 hover:text-white ">
                       Hồ Sơ
+                    </NavLink>
+                    <NavLink
+                      to="/applied-jobs"
+                      className="block  px-4 py-2 text-gray-700 hover:bg-orange-600 hover:text-white">
+                      Applied Jobs
                     </NavLink>
                     <button
                       onClick={handleLogout}

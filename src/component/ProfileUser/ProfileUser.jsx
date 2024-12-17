@@ -47,8 +47,8 @@ const ProfileUser = () => {
         experience: response.data.experience,
         education: response.data.education,
         skills: response.data.Skills.map((skill) => skill.name) || [], // Ensure skills is an array
-        phone: response.data.phone || "", // Assuming phone is part of the response
-        address: response.data.address || "", // Assuming address is part of the response
+        phone: response.data.User.phone || "", // Assuming phone is part of the response
+        address: response.data.User.address || "", // Assuming address is part of the response
       });
       setError(""); // Clear any previous errors
     } catch (error) {
