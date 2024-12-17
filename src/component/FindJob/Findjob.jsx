@@ -91,7 +91,7 @@ function Findjob() {
             <input
               type="text"
               className="w-full rounded-xl max-sm:text-sm max-sm:px-3 p-4 outline-none"
-              placeholder="Tìm kiếm theo vị trí công việc"
+              placeholder="Tìm kiếm theo vị trí, công ty, kỹ năng..."
               name="position"
               value={filters.position}
               onChange={handleFilterChange}
