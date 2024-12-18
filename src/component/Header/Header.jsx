@@ -182,26 +182,6 @@ function Header() {
 
           <div className="flex order-2 items-center lg:order-2">
             {/* If the user is not logged in, show "For Employees", "Đăng Ký", and "Đăng Nhập" */}
-            {!isLoggedIn && (
-              <>
-                <Link
-                  to="/employes"
-                  className="max-sm:text-sm max-sm:px-3 max-sm:py-2 max-sm:flex
-                   decoration-inherit text-orange-600 hover:text-orange-800 focus:ring-4 focus:ring-orange-300 font-medium rounded-lg text-md px-2 lg:px-5 py-2 lg:py-2.5 underline mr-2 focus:outline-none">
-                  For Employees
-                </Link>
-                <Link
-                  to="/signup"
-                  className="text-white bg-orange-500 hover:bg-orange-600 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
-                  Đăng Ký
-                </Link>
-                <Link
-                  to="/login"
-                  className="text-white bg-orange-600 hover:bg-orange-700 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 mr-2">
-                  Đăng Nhập
-                </Link>
-              </>
-            )}
 
             {/* If the user is logged in, show username and Logout */}
             {!isLoggedIn ? (

@@ -4,42 +4,61 @@ import axios from "axios";
 
 const HomeEm = () => {
   const [jobCount, setJobCount] = useState(0); // State for job count
+  const [applicantCount, setApplicantCount] = useState(0); // State for applicant count
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(""); // Error state
-  const employerId = Number(localStorage.getItem("employerId")) || 1; // Get employer ID
+  const employerId = Number(localStorage.getItem("employerId")) || null; // Get employer ID
 
   useEffect(() => {
-    // Fetch the job count when component mounts
-    const fetchJobCount = async () => {
+    if (!employerId) {
+      setError("Employer ID not found. Please log in again.");
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
           `http://localhost:3001/api/jobs/jobs?employer_id=${employerId}`
         );
-        // Update the job count from response data
-        setJobCount(response.data.length); // Assuming response.data is an array of jobs
+
+        // Extract job count and total applicant count
+        const jobs = response.data; // Assuming response.data is an array of jobs
+        setJobCount(jobs.length);
+
+        const totalApplicants = jobs.reduce(
+          (count, job) => count + (job.applicantIds?.length || 0),
+          0
+        );
+        setApplicantCount(totalApplicants);
       } catch (err) {
-        console.error("Error fetching job count:", err);
-        setError("Unable to fetch job count. Please try again later.");
+        console.error("Error fetching data:", err);
+        setError("Unable to fetch data. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchJobCount();
+    fetchData();
   }, [employerId]);
 
-  // Stats data with dynamic job count
+  // Stats data with dynamic job count and applicant count
   const stats = [
     {
       label: "Total Job Posts",
       value: loading ? "Loading..." : jobCount,
       icon: "📋",
-      growth: "0%",
+      growth: "0%", // Placeholder for now
     },
-    { label: "Views", value: "2,300", icon: "👁️", growth: "+3%" },
-    { label: "New Clients", value: "3,462", icon: "🧑‍💼", growth: "-2%" },
-    { label: "Sales", value: "$103,430", icon: "💰", growth: "+5%" },
+    { label: "Views", value: "2,300", icon: "👁️", growth: "+3%" }, // Placeholder
+    {
+      label: "Applicants",
+      value: loading ? "Loading..." : applicantCount,
+      icon: "🧑‍💼",
+      growth: "-2%", // Placeholder for now
+    },
+    { label: "Sales", value: "$103,430", icon: "💰", growth: "+5%" }, // Placeholder
   ];
 
   return (
